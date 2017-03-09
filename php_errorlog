@@ -1,0 +1,5 @@
+[16-Dec-2012 12:36:36 UTC] PHP Parse error:  syntax error, unexpected T_VARIABLE in /home/notunbaz/public_html/www.notunbazar.com/app/design/frontend/base/default/template/classified/index.phtml on line 55
+[16-Dec-2012 12:43:44 UTC] PHP Parse error:  syntax error, unexpected T_VARIABLE in /home/notunbaz/public_html/www.notunbazar.com/app/design/frontend/base/default/template/classified/index.phtml on line 55
+[16-Dec-2012 14:23:50 UTC] PHP Parse error:  syntax error, unexpected $end in /home/notunbaz/public_html/www.notunbazar.com/app/design/frontend/base/default/template/classified/index.phtml on line 273
+[16-Dec-2012 14:24:40 UTC] PHP Parse error:  syntax error, unexpected $end in /home/notunbaz/public_html/www.notunbazar.com/app/design/frontend/base/default/template/classified/index.phtml on line 273
+[16-Dec-2012 14:24:43 UTC] PHP Parse error:  syntax error, unexpected $end in /home/notunbaz/public_html/www.notunbazar.com/app/design/frontend/base/default/template/classified/index.phtml on line 273

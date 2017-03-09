@@ -1,0 +1,562 @@
+#RedirectPermanent
+
+#RewriteCond %{QUERY_STRING} =___store=default [NC]
+#RewriteRule ^(.*)$ http://www.notunbazar.com/$1 [L,R=301]
+
+############################################
+## uncomment these lines for CGI mode
+## make sure to specify the correct cgi php binary file name
+## it might be /cgi-bin/php-cgi
+
+#    Action php5-cgi /cgi-bin/php5-cgi
+#    AddHandler php5-cgi .php
+#allow from YOUR_SERVER_IP
+############################################
+## GoDaddy specific options
+
+#   Options -MultiViews
+
+## you might also need to add this line to php.ini
+##     cgi.fix_pathinfo = 1
+## if it still doesn't work, rename php.ini to php5.ini
+
+############################################
+## this line is specific for 1and1 hosting
+
+    #AddType x-mapp-php5 .php
+    #AddHandler x-mapp-php5 .php
+
+############################################
+## default index file
+
+    DirectoryIndex index.php
+
+<IfModule mod_php5.c>
+
+############################################
+## adjust memory limit
+
+#    php_value memory_limit 64M
+ 
+
+############################################
+## disable magic quotes for php request vars
+
+    php_flag magic_quotes_gpc off
+
+############################################
+## disable automatic session start
+## before autoload was initialized
+
+    php_flag session.auto_start off
+
+############################################
+## enable resulting html compression
+
+    #php_flag zlib.output_compression on
+
+###########################################
+# disable user agent verification to not break multiple image upload
+
+    php_flag suhosin.session.cryptua off
+
+###########################################
+# turn off compatibility with PHP4 when dealing with objects
+
+    php_flag zend.ze1_compatibility_mode Off
+
+</IfModule>
+
+<IfModule mod_security.c>
+############################################
+## disable POST processing to not break multiple image upload
+#
+    SecFilterEngine On
+    SecFilterScanPOST On
+</IfModule>
+
+<IfModule mod_deflate.c>
+
+############################################
+## enable apache served files compression
+## http://developer.yahoo.com/performance/rules.html#gzip
+
+    # Insert filter on all content
+    ###SetOutputFilter DEFLATE
+    # Insert filter on selected content types only
+    #AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+
+    # Netscape 4.x has some problems...
+    #BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+    # Netscape 4.06-4.08 have some more problems
+    #BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+    # MSIE masquerades as Netscape, but it is fine
+    #BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+    # Don't compress images
+    #SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+    # Make sure proxies don't deliver the wrong content
+    #Header append Vary User-Agent env=!dont-vary
+
+</IfModule>
+
+<IfModule mod_ssl.c>
+
+############################################
+## make HTTPS env vars available for CGI mode
+
+    SSLOptions StdEnvVars
+
+</IfModule>
+
+<IfModule mod_rewrite.c>
+
+############################################
+## enable rewrites
+
+    Options +FollowSymLinks
+    RewriteEngine on
+
+
+
+
+############################################
+## you can put here your magento root folder
+## path relative to web root
+
+    #RewriteBase /
+
+############################################
+## uncomment next line to enable light API calls processing
+
+#    RewriteRule ^api/([a-z][0-9a-z_]+)/?$ api.php?type=$1 [QSA,L]
+
+############################################
+## rewrite API2 calls to api.php (by now it is REST only)
+
+    RewriteRule ^api/rest api.php?type=rest [QSA,L]
+
+############################################
+## workaround for HTTP authorization
+## in CGI environment
+
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+############################################
+## TRACE and TRACK HTTP methods disabled to prevent XSS attacks
+
+    RewriteCond %{REQUEST_METHOD} ^TRAC[EK]
+    RewriteRule .* - [L,R=405]
+
+############################################
+## redirect for mobile user agents
+
+    #RewriteCond %{REQUEST_URI} !^/mobiledirectoryhere/.*$
+    #RewriteCond %{HTTP_USER_AGENT} "android|blackberry|ipad|iphone|ipod|iemobile|opera mobile|palmos|webos|googlebot-mobile" [NC]
+    #RewriteRule ^(.*)$ /mobiledirectoryhere/ [L,R=302]
+
+
+############################################
+## always send 404 on missing files in these folders
+
+    RewriteCond %{REQUEST_URI} !^/(media|skin|js)/
+
+############################################
+## never rewrite for existing files, directories and links
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-l
+
+############################################
+## rewrite everything else to index.php
+
+    RewriteRule .* index.php [L]
+    redirectMatch 301 ^(.*)\.html $1
+
+</IfModule>
+
+
+############################################
+## Prevent character encoding issues from server overrides
+## If you still have problems, use the second line instead
+
+    AddDefaultCharset Off
+    #AddDefaultCharset UTF-8
+
+<IfModule mod_expires.c>
+
+############################################
+## Add default Expires header
+## http://developer.yahoo.com/performance/rules.html#expires
+
+    ExpiresDefault "access plus 1 year"
+
+</IfModule>
+
+############################################
+## By default allow all access
+
+    Order allow,deny
+    Allow from all
+
+###########################################
+## Deny access to release notes to prevent disclosure of the installed Magento version
+
+    <Files RELEASE_NOTES.txt>
+        order allow,deny
+        deny from all
+    </Files>
+
+############################################
+## If running in cluster environment, uncomment this
+## http://developer.yahoo.com/performance/rules.html#etags
+
+    #FileETag none
+
+########Browser Caching start
+<IfModule mod_deflate.c>
+  #Compress HTML, CSS, JavaScript, Text, XML and fonts
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+  AddOutputFilterByType DEFLATE application/x-font
+  AddOutputFilterByType DEFLATE application/x-font-opentype
+  AddOutputFilterByType DEFLATE application/x-font-otf
+  AddOutputFilterByType DEFLATE application/x-font-truetype
+  AddOutputFilterByType DEFLATE application/x-font-ttf
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE font/opentype
+  AddOutputFilterByType DEFLATE font/otf
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE image/x-icon
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+
+  #Remove browser bugs (only needed for really old browsers)
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  Header append Vary User-Agent
+</IfModule>
+
+<ifModule mod_expires.c>
+     ExpiresActive On
+     ############################################
+     ##Add default Expires header
+     ##http://developer.yahoo.com/performance/rules.html#expires
+     <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+     ExpiresDefault "access plus 1 year"
+     </FilesMatch>
+     </ifModule>
+###########Browser Caching end
+
+
+
+
+
+#######
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css|xml|gz|php|html)$">
+    Header set Connection keep-alive
+    Header append Vary: Accept-Encoding
+  </FilesMatch>
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+    Header set Cache-Control "max-age=290304000, public"
+</FilesMatch>
+<FilesMatch "\.(php)$">
+    Header set Cache-Control "max-age=1296000, public"
+</FilesMatch>
+</IfModule>
+allow from all
+
+
+
+
+#RewriteCond %{QUERY_STRING} =order=position [NC]
+#RewriteRule ^(.*)$ http://www.notunbazar.com/$1 [L,R=301]
+
+#RewriteEngine    On
+#RewriteCond      %{QUERY_STRING}    ^order=position$
+#RewriteRule      (.*)http://www.notunbazar.com/$1?     [R=permanent]
+
+
+ #RewriteCond %{THE_REQUEST} \?order=position\sHTTP [NC]
+#RewriteRule ^ %{REQUEST_URI} [L,R,QSD]
+
+
+Redirect 301 /--230 http://www.notunbazar.com/
+Redirect 301 /me http://www.notunbazar.com/
+Redirect 301 /picture http://www.notunbazar.com/
+Redirect 301 /--247 http://www.notunbazar.com/nil-dumurer-kheya
+Redirect 301 /--238 http://www.notunbazar.com/
+Redirect 301 /--201 http://www.notunbazar.com/
+Redirect 301 /bangladesh-vs-newzealand http://www.notunbazar.com/
+Redirect 301 /best-lost-love-charms-call-27788368653 http://www.notunbazar.com/
+Redirect 301 /profpato http://www.notunbazar.com/
+Redirect 301 /--268 http://www.notunbazar.com/
+Redirect 301 /lostlovespellsx http://www.notunbazar.com/
+Redirect 301 /kala-jadu-vashikarn-spicallist-9672869183 http://www.notunbazar.com/
+Redirect 301 /dr-muyini-kadu-african-ancient-powerful-voodoo-spells-27788368653 http://www.notunbazar.com/
+Redirect 301 /love-marriage-problem-solution-919610112991 http://www.notunbazar.com/
+Redirect 301 /whole-world-famous-astrologer-91-9680460599-at http://www.notunbazar.com/
+Redirect 301 /dr-zaid-abortion-clinic-in-east-london-0736588117 http://www.notunbazar.com/
+Redirect 301 /get-quick-safe-affordable-100-succeful-abortion-pills-for-sale-in-queenstown-0788548356-best-offer http://www.notunbazar.com/
+Redirect 301 /ancestral-voodoo-lost-love-spells-27732234705 http://www.notunbazar.com/
+Redirect 301 /business-problem-solution-91-8107277372-begum-zara-khan http://www.notunbazar.com/
+Redirect 301 /circle-of-protection-27731244274 http://www.notunbazar.com/
+Redirect 301 /serious-offers-loan-between-particular http://www.notunbazar.com/
+Redirect 301 /get-your-lost-lo-ve-back-by-astrologer-call-now-919001901759 http://www.notunbazar.com/
+Redirect 301 /no-1-best-black-magic-herbs-and-wealth-charms-in-johannesburg-27780038395 http://www.notunbazar.com/
+Redirect 301 /no-1-love-spell-caster-and-lost-love-mamacindy-27798419357 http://www.notunbazar.com/
+Redirect 301 /get-your-love-back-by-hypnotism-91-8107596476 http://www.notunbazar.com/
+Redirect 301 /love-marriage-problems-solution-918875132955 http://www.notunbazar.com/
+Redirect 301 /find-a-lost-love-spells-here-call-prof-pato-27110397195 http://www.notunbazar.com/
+Redirect 301 /join-illuminati-in-south-africa-call-priest-27604180512 http://www.notunbazar.com/
+Redirect 301 /join-illuminati-in-south-africa-call-priest-27604180512 http://www.notunbazar.com/
+Redirect 301 /are-love-spells-real-whatappp-27746937143 http://www.notunbazar.com/
+Redirect 301 /powerful-solution-are-solved-by-herbalist-kayo-27711712904 http://www.notunbazar.com/
+Redirect 301 /traditional-healer-with-voodoo-protection-spells-prof-kasasa-27739990051 http://www.notunbazar.com/
+Redirect 301 /herbalist-in-lost-love-spells-27810868454 http://www.notunbazar.com/
+Redirect 301 /welcome-to-the-global-illuminati-society-27747758172-confidential http://www.notunbazar.com/
+Redirect 301 /get-love-back-by-vashikaran-black-magic-specialist-919876633747 http://www.notunbazar.com/
+Redirect 301 /breakup-spells-call-27731244274 http://www.notunbazar.com/
+Redirect 301 /spell-caster-whatsapp-27784115746 http://www.notunbazar.com/
+Redirect 301 /mukisa-oil-for-lotto-and-casino-call-dr-mbiro-27787025679 http://www.notunbazar.com/
+Redirect 301 /terminator-spell-call-dr-kiwedde-27785561683 http://www.notunbazar.com/
+Redirect 301 /extra-ordinary-magic-wallet-of-money-spell-caster-call-now-27733105336 http://www.notunbazar.com/
+Redirect 301 /herbalist-healer-spells-caster-27731356845-prof-kaya-mama-jafali http://www.notunbazar.com/
+Redirect 301 /do-you-wish-to-join-illuminati-27747758172-confidential http://www.notunbazar.com/
+Redirect 301 /powerful-traditional-healer-king-of-spells-27732234705 http://www.notunbazar.com/
+Redirect 301 /powerful-traditional-healer-call-27788368653 http://www.notunbazar.com/
+Redirect 301 /dr-mike-abortion-clinic-in-kempton-park-0741703505 http://www.notunbazar.com/
+Redirect 301 /dr-max-abortion-clinic-in-standerton-0834221739 http://www.notunbazar.com/
+Redirect 301 /27840265362-strong-africa-black-magic-with-effective-powerful-love-spells-mama-faith http://www.notunbazar.com/
+Redirect 301 /first-results-pain-free-abortion-doctor-women-s-clinic-074-425-1752 http://www.notunbazar.com/
+Redirect 301 /a-powerful-job-spell-caster-call-27789173463 http://www.notunbazar.com/
+Redirect 301 /best-of-2014-love-charm-spells-27785976242-prof-mama-aidah http://www.notunbazar.com/
+Redirect 301 /strong-spell-caster-and-spiritual-healer-27603695293 http://www.notunbazar.com/
+Redirect 301 /spiritual-healer-working-love-spells-27731356845-prof-kaya-mama-jafalii http://www.notunbazar.com/
+Redirect 301 /no-1-spell-caster-and-lost-love-spell-call-dr-kiwedde-27785561683 http://www.notunbazar.com/
+Redirect 301 /find-your-lost-lover-here-return-a-lost-love http://www.notunbazar.com/
+Redirect 301 /27730397160-dr-adams-effective-lost-love-spells-in-new-york http://www.notunbazar.com/
+Redirect 301 /vashikarn-muthkarni-specilist http://www.notunbazar.com/
+Redirect 301 /psychic-reading-and-traditional-healer-in-pretoria-2730256338 http://www.notunbazar.com/
+Redirect 301 /traditional-herbalist-healer-lost-love-spells-that-works-27732234705 http://www.notunbazar.com/
+Redirect 301 /commitment-spells-call-27731244274 http://www.notunbazar.com/
+Redirect 301 /lands-and-real-estate/apartments/voodoo-love-spells-call-dr-muyini-kadu-27788368653 http://www.notunbazar.com/
+Redirect 301 /i-want-to-sell-my-used-lexus-lx-570-2011 http://www.notunbazar.com/cars-vehicles
+Redirect 301 /powerful-traditional-healer-prof-mpogo-maama-mia-27713204773 http://www.notunbazar.com
+Redirect 301 /lost-love-spells-caster-27782558875 http://www.notunbazar.com
+Redirect 301 /devoted-sandawana-money-power-oil-call-now-27787770207 http://www.notunbazar.com
+Redirect 301 /1-day-results-magic-lost-love-spells-27631954519-africa-europe-asia-and-america http://www.notunbazar.com
+Redirect 301 /join-the-illuminati-family-call-priest-kabuye-27788774187 http://www.notunbazar.com
+Redirect 301 /scorpion http://www.notunbazar.com/pest-control-service
+Redirect 301 /sufi-baba-astrologer-91-9925465720 http://www.notunbazar.com
+Redirect 301 /devoted-lotto-money-spell-caster-call-now-27787770207 http://www.notunbazar.com
+Redirect 301 /lost-love-spells-money-spells-healing-spells-call-karim-27780038396 http://www.notunbazar.com
+Redirect 301 /devoted-cleansing-of-bad-luck-to-success-call-now-27787770207 http://www.notunbazar.com
+Redirect 301 /devoted-black-magic-love-spell-caster-call-now-27787770207 http://www.notunbazar.com
+Redirect 301 /voodoo-love-spells-call-0712216089 http://www.notunbazar.com
+Redirect 301 /long-distance-working-love-spells-call-27839455624 http://www.notunbazar.com
+Redirect 301 /lost-lovers-spells-caster-in-alberton-kempton-park-tembisa-and-benoni-call-27738946921 http://www.notunbazar.com
+Redirect 301 /synthetic-three-piece-unstitched-1292 http://www.notunbazar.com/synthetic-three-piece-unstitched-1293
+Redirect 301 /effective-finder-of-true-lost-love-spell-caster-call-now-27787770207 http://www.notunbazar.com
+Redirect 301 /database-laboratory-report-manager-2-2-software http://www.notunbazar.com/jobs-and-business
+Redirect 301 /new-apple-iphone-5s-latest-model-32gb-space-gray-unlocked-smartphone http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /selling-brand-new-apple-iphone-5s http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /dr-imran-quick-and-safe-abortion-clinic-27737155151 http://www.notunbazar.com/
+Redirect 301 /african-ancient-powerful-genies-jinns-or-djinns-27-76-232-5211-mama-fibi http://www.notunbazar.com/
+Redirect 301 /international-herbalistic-healer-call-mamasumanta-2783591358 http://www.notunbazar.com/
+Redirect 301 /dr-midnight-s-hoodoo-weight-loss-spell http://www.notunbazar.com/
+Redirect 301 /money-spell-business-spell-wealth-spell-win-lottery-spell-ads-27789699523 http://www.notunbazar.com/
+Redirect 301 /love-marriage-problem-solution-nkshastri-919818368595 http://www.notunbazar.com/
+Redirect 301 /kobita-muktijuddho http://www.notunbazar.com/books-gifts-and-collectibles/books
+Redirect 301 /lost-lover-spell-caster-profnyathi-27820407693 http://www.notunbazar.com/
+Redirect 301 /marriage-binding-spells-27631983008 http://www.notunbazar.com/
+Redirect 301 /join-illuminati-free-in-randburg-0736588117 http://www.notunbazar.com/
+Redirect 301 /relationship-problem-end-a-marriage-call-prof-abdul-on-27787108615 http://www.notunbazar.com/
+Redirect 301 /international-traditional-and-spiritual-healer-27785561683 http://www.notunbazar.com/
+Redirect 301 /join-the-illuminati-family-call-27734009912 http://www.notunbazar.com/
+Redirect 301 /money-spells-voodoo-spells-lost-love-spell-caster-usa-namibia-botswana-uk-dubai-uae http://www.notunbazar.com/
+Redirect 301 /f-s-2013-lexus-lx570-used-full-option-in-perfect-condition http://www.notunbazar.com/cars-vehicles/cars
+Redirect 301 /egyptian-magical-rings-27789699523 http://www.notunbazar.com/
+Redirect 301 /approved-protection-spell-27727598382 http://www.notunbazar.com/
+Redirect 301 /prominent-get-back-you-lost-lover-back-in-2days-guarantee-call-now-27787770207 http://www.notunbazar.com/
+Redirect 301 /effective-marriage-fixer-of-all-love-problems-call-now-27787770207 http://www.notunbazar.com/
+Redirect 301 /ad-details-africa-no-1-astrology-spiritual-traditional-healer-long-distance-healing-27794578130 http://www.notunbazar.com/
+Redirect 301 /second-marriage-prediction-based-on-date-of-birth-91-9799970393 http://www.notunbazar.com/no-route
+Redirect 301 /Tunaman http://www.notunbazar.com/no-route
+Redirect 301 /candle-magic-basics-27781462469 http://www.notunbazar.com/no-route
+Redirect 301 /do-you-really-don-t-know-the-use-of-zanzi-oil-call-maama-surprise-27719879543 http://www.notunbazar.com/no-route
+Redirect 301 /most-trusted-winner-of-lost-true-love-spell-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /powerful-and-strong-traditional-healing-spells-mamafuna-babafuna http://www.notunbazar.com/no-route
+Redirect 301 /best-maama-herbalist-in-africa http://www.notunbazar.com/no-route
+Redirect 301 /--271 http://www.notunbazar.com/no-route?___store=default
+Redirect 301 /love-spells-that-work-27631983008 http://www.notunbazar.com/no-route
+Redirect 301 /dr-robin-abortion-clinic-in-randburg-0710679143 http://www.notunbazar.com/no-route
+Redirect 301 /devoted-marriage-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /cheap-working-trusted-geniues-andmostly-used-protection-spell-27760357200-south-africa-johannesburg http://www.notunbazar.com/no-route
+Redirect 301 /prominent-finder-of-true-lost-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /astrology-sangoma-and-lost-love-spell-caster-call-profmaliki-27738109621 http://www.notunbazar.com/no-route
+Redirect 301 /12-ancestor-healer-lost-love-spells-caster-tel-27616383496-saudi-arabia http://www.notunbazar.com/no-route
+Redirect 301 /do-you-wish-to-join-illuminati-society-call-priest-kenny-27768387780 http://www.notunbazar.com/no-route
+Redirect 301 /native-healer-and-traditional-healer-27739970300-anwar-sadat-johannesburg http://www.notunbazar.com/no-route
+Redirect 301 /authentic-love-spells-and-relationship-fixer-27734009912 http://www.notunbazar.com/no-route
+Redirect 301 /prominent-binding-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /devoted-winner-of-true-lost-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /win-lottery-spell-gambling-spell-call-27839455624 http://www.notunbazar.com/no-route
+Redirect 301 /devoted-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /best-african-traditional-healer-with-special-powers-dr-shaba-27832043378 http://www.notunbazar.com/no-route
+Redirect 301 /love-vashikaran-bangali-91-9799298747 http://www.notunbazar.com/no-route
+Redirect 301 /effective-love-spell-and-court-cases-cheap-and-quick-in-johannesburg-south-africa-27727598382 http://www.notunbazar.com/no-route
+Redirect 301 /powerful-money-spells-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /agro/seeds-fertilizers-accessories/true-love-spells-call-mama-annah-27717687132 http://www.notunbazar.com/no-route
+Redirect 301 /extreme-trouble-marriage-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /lose-weight-naturally-by-skinny-fiber-from-usa-with-no-side-effects-798 http://www.notunbazar.com/fashion/health-beauty
+Redirect 301 /powerful-attraction-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /lose-weight-naturally-by-skinny-fiber-from-usa-with-no-side-effects-797 http://www.notunbazar.com/fashion/health-beauty
+Redirect 301 /powerful-traditional-healer http://www.notunbazar.com/no-route
+Redirect 301 /how-to-get-your-man-back-call-27835913584 http://www.notunbazar.com/no-route
+Redirect 301 /doctor-imran-kyeswa-traditional-healer-and-trusted-spell-caster-27737155151-pmb-durban-usa http://www.notunbazar.com/no-route
+Redirect 301 /know-your-future-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /powerful-bring-back-of-lost-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /i-used-mukisa-oil-won-lotto-and-casino-call-27724050745 http://www.notunbazar.com/no-route
+Redirect 301 /lost-love-spell-caster-and-bring-back-lost-lover-27836136858 http://www.notunbazar.com/no-route
+Redirect 301 /personal-matrimonial/others/he-sandawana-oil-and-skin-for-your-life-27784115746 http://www.notunbazar.com/fashion/health-beauty
+Redirect 301 /lotto-spell-for-help-you-to-open-you-luck-to-win-lotto-and-casino-use-lucky-oil-to-win-27710360945 http://www.notunbazar.com/no-route
+Redirect 301 /a-magisterial-magic-ring-277836945389 http://www.notunbazar.com/no-route
+Redirect 301 /business-success-magic-spell-caster-call-27789173463 http://www.notunbazar.com/no-route
+Redirect 301 /apple-iphone-5s-64gb http://www.notunbazar.com/f-s-apple-iphone-5s-64gb-apple-iphone-6-samsung-galaxy-s5
+Redirect 301 /master-lost-love-spells-call-27788368653 http://www.notunbazar.com/personal-matrimonial/others
+Redirect 301 /about-abdul-women-abortion-clinic-7787108615 http://www.notunbazar.com/no-route
+Redirect 301 /herbalist-healer-with-distance-healing-powers-27810558060 http://www.notunbazar.com/no-route
+Redirect 301 /powerful-traditional-healer-2779 http://www.notunbazar.com/no-route
+Redirect 301 /best-lost-love-spells-psychic-healer-call-27732234705 http://www.notunbazar.com/no-route
+Redirect 301 /spiritual-love-spells-and-psychic-readings http://www.notunbazar.com/no-route?___store=default
+Redirect 301 /books-gifts-and-collectibles/books/-178 http://www.notunbazar.com/books-gifts-and-collectibles/books
+Redirect 301 /professional-magic-wallet-of-money-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /selling-apple-iphone-5s-64gb-galaxy-s4-blackberry-z10-bb-porsche-2255 http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /the-greatest-love-spell-caster-in-africa-dial-27713204773-prof-mpogo http://www.notunbazar.com/no-route
+Redirect 301 /best-marriage-spells-call-91-9680460599-at http://www.notunbazar.com/no-route?___store=default
+Redirect 301 /gambling-and-casino-spells-with-sandawana-lucky-oil-27631954519 http://www.notunbazar.com/no-route
+Redirect 301 /international-traditional-healer-mama-ken-27787979935 http://www.notunbazar.com/no-route
+Redirect 301 /dr-jim-abortion-clinic-in-cape-town-0797983131 http://www.notunbazar.com/no-route
+Redirect 301 /bind-us-together-spells-dr-zimu-27789699523 http://www.notunbazar.com/no-route
+Redirect 301 /inter-cast-love-marriage-problem-solution-molvi-ji9636999913 http://www.notunbazar.com/no-route
+Redirect 301 /jute-rope-330 http://www.notunbazar.com/agro
+Redirect 301 /astro-magic-ring-with-money-spells-27839455624 http://www.notunbazar.com/no-route
+Redirect 301 /strong-lost-love-spells-27785561685 http://www.notunbazar.com/no-route
+Redirect 301 /vashikaran-guru-nkshastri-91-9818368595 http://www.notunbazar.com/no-route
+Redirect 301 /devoted-reconciliation-with-lost-love-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /bind-your-lover-and-get-married-to-him-or-her-27810868454 http://www.notunbazar.com/no-route
+Redirect 301 /world-known-spell-caster-27789699523 http://www.notunbazar.com/no-route
+Redirect 301 /home-appliances/home-appliances-others/jute-rope http://www.notunbazar.com/no-route?___store=default
+Redirect 301 /powers-against-money-magic-rings-27631954519 http://www.notunbazar.com/no-route
+Redirect 301 /black-magic-specialist-in-tamil-nadu-kochi-91-9636481131 http://www.notunbazar.com/no-route
+Redirect 301 /fashion/health-beauty/maxman-4-100-guarantee-sex-capsule http://www.notunbazar.com/no-route?___store=default
+Redirect 301 /professional-master-spell-caster-call-now-27787770207 http://www.notunbazar.com/no-route
+Redirect 301 /traditional-healer-spiritual-herbalst-with-powerful-love-spells-expert-prof-pato-27731053552 http://www.notunbazar.com/no-route
+Redirect 301 /powerful-herbalist-healer-27734009912 http://www.notunbazar.com/no-route
+Redirect 301 /lost-love-spells-black-magic-caster-master-prof-kaala-27810648040 http://www.notunbazar.com/no-route
+Redirect 301 /wanted-tuition-for-o-level-a-level-students-1904 http://www.notunbazar.com/jobs-and-business/tuition
+Redirect 301 /magic-wallet-dr-maama-klaifah-27612631702 http://www.notunbazar.com/no-route
+Redirect 301 /blackberry-porsche-design-with-arabic-keyboard-vip-pin-600 http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /ssd-chemical-solution-use-to-clean-black-money http://www.notunbazar.com/electronics/electronics-others
+Redirect 301 /brand-new-apple-iphone-5s-2243 http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /for-sale-2011-lexus-lx-570-black http://www.notunbazar.com/cars-vehicles/cars
+Redirect 301 /urgent-hospitality-and-tourism-job-vacancies http://www.notunbazar.com/jobs-and-business/vacancies
+Redirect 301 /join-illuminati-powers-27789699523 http://www.notunbazar.com/no-route
+Redirect 301 /for-sale-special-pin-blackberry-porsche-blackberry-q10-bbm-chat-23a0c377 http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /nokshi-katha-501 http://www.notunbazar.com/nokshi-katha-506
+Redirect 301 /sandawana-oil-and-skin-call-dr-kiwedde-now-2778-556-1684 http://www.notunbazar.com/no-route
+Redirect 301 /bb-porsche-gold-with-arabic-key-board-vip-pin-bb-chat-271e22e7 http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /king-of-lost-love-spell-caster-in-3days-results-in-africa-call-27839894244 http://www.notunbazar.com/no-route
+Redirect 301 /selling-affordable-iphone-5s-5c-samsung-s5-ipad-air-htc-lg-android http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /park-rides-460 http://www.notunbazar.com/park-rides
+Redirect 301 /powerful-traditional-healer-2777 http://www.notunbazar.com/no-route
+Redirect 301 /ssd-solution-for-cleaning-white-dollar-defaced-with-machine-tell-917838188109 http://www.notunbazar.com/electronics/electronics-others
+Redirect 301 /best-and-latest-designs-available-1304 http://www.notunbazar.com/fashion/jewelry-watches
+Redirect 301 /general-brand-split-type-2-5-ton-ac-993 http://www.notunbazar.com/electronics/tv-ac-refrigerator
+Redirect 301 /ssd-chemical-solution-937 http://www.notunbazar.com/electronics/electronics-others
+Redirect 301 /automatic-ssd-chemical-solution-for-cleaning-deface-currency http://www.notunbazar.com/electronics/electronics-others
+Redirect 301 /best-spell-caster-traditional-healer-astrologer-sheik-muniil-27732234705 http://www.notunbazar.com/no-route
+Redirect 301 /love-spells-in-bloemfontein-call-27713204773-to-prof-mpogo http://www.notunbazar.com/no-route
+Redirect 301 /illuminati-join-today-contact-mama-ayesha-luminati-enjoy-life-fame-wealth-and-protection-27787979935 http://www.notunbazar.com/no-route
+Redirect 301 /african-powerful-traditional-healer-lost-love-spell-dr-kiwedde-27785561683 http://www.notunbazar.com/no-route
+Redirect 301 /husband-and-wife-disturbance-27787609980 http://www.notunbazar.com/no-route
+Redirect 301 /lost-love-spells-love-spell-caster-27799616474 http://www.notunbazar.com/no-route
+Redirect 301 /divorce-issues-in-law-family-problems-baba-ji-91-9872102923 http://www.notunbazar.com/no-route
+Redirect 301 /black-magic-spell-and-fortune-teller-on-27836522787 http://www.notunbazar.com/no-route
+Redirect 301 /loan-between-individual-and-investment-offer http://www.notunbazar.com/loan-offer-between-particular-7105
+Redirect 301 /firewire-pci-card http://www.notunbazar.com/catalog/product/view/id/3330/s/firewire-pci-card/
+Redirect 301 /samsung-lg-monitor-adapter-14volt http://www.notunbazar.com/catalog/product/view/id/3447/s/samsung-lg-monitor-adapter-14volt/
+Redirect 301 /lost-spell-caster-phenomenal-spells-in-whole-world-27727598382 http://www.notunbazar.com/no-route
+Redirect 301 /wats-app-254736134097-100-guaranteed-unlocked-apple-iphone-6-with-complete-accessories http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /chistit-chernye-den-gi-s-ssd-himicheskim-rastvorom http://www.notunbazar.com/electronics/electronics-others
+Redirect 301 /selling-my-2011-lexus-lx-571 http://www.notunbazar.com/cars-vehicles/cars
+Redirect 301 /best-lost-love-spells-trusted-love-spells-powerfull-spiritual-healer-27761185598-prof-mama-nisha http://www.notunbazar.com/no-route
+Redirect 301 /win-lottery-spells-luck-charms-lotto-spells-27839455624 http://www.notunbazar.com/no-route
+Redirect 301 /god-gifted-psychic-and-love-reader http://www.notunbazar.com/no-route
+Redirect 301 /most-trusted-marriage-spell-caster-call-now-27733105336 http://www.notunbazar.com/no-route
+Redirect 301 /sandawana-oil-and-skin-call-dr-kiwedde-now-2778-556-1685 http://www.notunbazar.com/no-route
+Redirect 301 /international-qualified-woman-miracle-spiritual-healer-maama-shahieda-27781419374 http://www.notunbazar.com/no-route
+Redirect 301 /personal-matrimonial/others/registered-lost-love-spell-caster-27789996513 http://www.notunbazar.com/no-route
+Redirect 301 /personal-matrimonial/others/win-contracts-and-tenders-magic-rings-27631954519 http://www.notunbazar.com/no-route
+Redirect 301 /herbalist-healer-profmagwa-27781462469 http://www.notunbazar.com/no-route
+Redirect 301 /maxman-4-100-guarantee-sex-capsule http://www.notunbazar.com/no-route
+Redirect 301 /love-marriage-guru-91-9680460599-at-2260 http://www.notunbazar.com/no-route
+Redirect 301 /spiritual-healer-and-spell-caster-mama-jafali-in-sandton-pretoria-boston-chicago-new-york http://www.notunbazar.com/no-route
+Redirect 301 /girl-vashikaran-specialist-27717731886-love-spell-casters-in-uk-usa http://www.notunbazar.com/no-route
+Redirect 301 /love-spells-with-fast-results-27739353118 http://www.notunbazar.com/no-route
+Redirect 301 /lost-love-spells-caster-27735360444-money-spells-luck-spells-witch-craft-court-case-spells-magic-ring http://www.notunbazar.com/no-route
+Redirect 301 /powerful-islamic-duas-to-get-lost-love-back-call-muwhalimu-karim-27780038395 http://www.notunbazar.com/no-route
+Redirect 301 /strong-cleansing-spells-call-dr-kiwedde-27785561683 http://www.notunbazar.com/no-route
+Redirect 301 /black-magic-specialist-hajialibaba-91-9460434735 http://www.notunbazar.com/no-route
+Redirect 301 /strong-spiritual-healer-with-effective-powerful-love-spells-27732234705 http://www.notunbazar.com/no-route
+Redirect 301 /lottery-no-lucky-lottery-no-specialist-baba-ji-919872240302 http://www.notunbazar.com/no-route
+Redirect 301 /love-vashikaran-specialist-baba-91-9950017433 http://www.notunbazar.com/no-route
+Redirect 301 /love-problem-solution-molvi-ji-919001919358 http://www.notunbazar.com/no-route
+Redirect 301 /lost-love-spell-caster-with-long-distance-healing-call-mama-ken-27787979935 http://www.notunbazar.com/no-route
+Redirect 301 /for-lluminati-secrete-society-for-brotherhood-call-27734009912 http://www.notunbazar.com/no-route
+Redirect 301 /f-s-iphone-5-and-iphone-4s-unlocked http://www.notunbazar.com/for-sale-apple-iphone-6-iphone-5s-16gb-samsung-galaxy-s5-sony-xperia-z2
+Redirect 301 /samsung-galaxy-s5-16gb-unlocked-sim-free http://www.notunbazar.com/for-sale-apple-iphone-6-iphone-5s-samsung-galaxy-s5-blackberry-porsche
+Redirect 301 /vlcc-skin-care-products-hotline-01733973329-01843786311 http://www.notunbazar.com/fashion/health-beauty
+Redirect 301 /black-berry-porsche-gold-arabic-key-board-vip-pin-abb-bb-chat-2a70853c http://www.notunbazar.com/electronics/cell-phone-and-accessories
+Redirect 301 /super-white-2013-lexus-lx570-18-500usd http://www.notunbazar.com/my-used-2013-lexus-lx-570-for-sale
+Redirect 301 /samsung-galaxy-s5 http://www.notunbazar.com/w-t-s-brand-new-original-blackberry-z30-z10-q10-apple-iphone-6-5s-5c-samsung-galaxy-s5
+Redirect 301 /wanted-tuition-1190 http://www.notunbazar.com/jobs-and-business/tuition
+Redirect 301 /general-brand-split-type-2-ton-ac-994 http://www.notunbazar.com/general-brand-split-type-2-ton-ac-995
+Redirect 301 /brand-new-package-full-pc-16 http://www.notunbazar.com/electronics/computers-laptops-and-accessories
+Redirect 301 /love-marriage-guru-91-9680460599-at-2258 http://www.notunbazar.com/no-route
+Redirect 301 /banglalion-prepaid-modem-eid-offer http://www.notunbazar.com/post-free-ads
+Redirect 301 /infrared-blood-circulation-massager http://www.notunbazar.com/infrared-thermometer-dual-type-in-bangladesh
+Redirect 301 /dr-rehma-abortion-clinic-in-durban-0780079195-and-pills-for-sale http://www.notunbazar.com/post-free-ads/
+Redirect 301 /create-a-strong-marriage-success-spell-and-love-attraction-call-27780224593 http://www.notunbazar.com/post-free-ads/
+Redirect 301 /epson-l210-3-in-1-printer-scanner-copier-ink-tank-printer http://www.notunbazar.com/epson-inkjet-photo-l805-low-run-cost-photo-printer
+Redirect 301 /brand-new-package-full-cpu-pentium4-p13 http://www.notunbazar.com/isb-computer-leaders-in-computer-printers-and-accessories
+Redirect 301 /hp-black-85a-china-toner-cartridge http://www.notunbazar.com/hp-85a-black-laser-jet-toner-cartridge
+Redirect 301 /canon-black-original-toner-308 http://www.notunbazar.com/canon-308-comfortable-toner-cartridge
+Redirect 301 /room-at-north-badda-november http://www.notunbazar.com/%E0%A6%9A%E0%A6%BE%E0%A6%95%E0%A7%81%E0%A6%B0%E0%A7%80%E0%A6%9C%E0%A7%80%E0%A6%AC%E0%A6%BF-%E0%A6%B0%E0%A7%81%E0%A6%AE-%E0%A6%AD%E0%A6%BE%E0%A7%9C%E0%A6%BE-%E0%A6%89%E0%A6%A4%E0%A7%8D%E0%A6%A4%E0%A6%B0-%E0%A6%AC%E0%A6%BE%E0%A6%A1%E0%A7%8D%E0%A6%A1%E0%A6%BE
+<IfModule mod_php.c>
+php_value max_execution_time 1000
+</IfModule>
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+deny from 209.36.45.194
+deny from 119.81.15.205
+deny from 54.252.136.146
+deny from 217.23.10.117
