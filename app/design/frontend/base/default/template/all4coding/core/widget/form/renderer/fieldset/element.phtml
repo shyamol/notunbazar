@@ -1,0 +1,37 @@
+<?php
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this All4coding_Core_Block_Widget_Form_Renderer_Fieldset_Element */
+?>
+<?php
+$_element = $this->getElement();
+$_note    = $_element->getNote();
+$_liId    = $_element->getHtmlContainerId();
+$_liClass = $_element->getHtmlContainerClass();
+$_class   = $_element->getFieldsetHtmlClass();
+?>
+<?php if (!$_element->getNoDisplay()): ?>
+<li<?php if($_liId): ?> id="<?php echo $_liId ?>"<?php endif; ?> class="<?php echo $_liClass.($_element->getType() == 'hidden' ? ' hidden' : ''); ?>">
+    <?php if ($_element->getType()=='hidden'): ?>
+    <?php echo trim($_element->getElementHtml()) ?>
+    <?php else: ?>
+        <?php if (!is_null($_element->getLabel())):  ?>
+    <label for="<?php echo $_element->getHtmlId(); ?>" class="<?php echo $_element->getRequired() ? 'required' : ''; ?>">
+        <?php echo $_element->getLabel().($_element->getRequired() ? ' <em>*</em>' : ''); ?>
+    </label>
+        <?php endif; ?>
+    <div class="<?php echo $_element->hasValueClass() ? $_element->getValueClass() : 'input-box' ?><?php echo $_class ? " {$_class}-value" : ''?>">
+        <?php echo trim($_element->getElementHtml()) ?>
+        <?php if ($_note): ?>
+            <p class="note<?php echo $_class ? " {$_class}-note" : ''?>" id="note_<?php echo $_element->getId()?>"><span><?php echo $_note ?></span></p>
+        <?php endif ?>
+    </div>
+    <?php endif; ?>
+</li>
+<?php endif; ?>

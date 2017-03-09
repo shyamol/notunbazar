@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Chapagain_AutoCurrency>
+            <version>0.1.9</version>
+        </Chapagain_AutoCurrency>
+    </modules>
+    <global>
+        <models>            
+			<core>
+				<rewrite>
+					<store>Chapagain_AutoCurrency_Model_Store</store>
+				</rewrite>
+			</core>
+        </models>        
+        <helpers>
+            <autocurrency>
+                <class>Chapagain_AutoCurrency_Helper</class>
+            </autocurrency>
+        </helpers>		
+    </global>
+    <default>
+		<catalog>
+			<autocurrency>
+				<enable_disable>1</enable_disable>				
+			</autocurrency>
+		</catalog>
+	</default>
+</config>

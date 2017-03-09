@@ -1,0 +1,852 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <magazento translate="label">
+            <label>Magazento.com</label>
+            <sort_order>250</sort_order>
+        </magazento>
+    </tabs>
+    <sections>
+        <facebook translate="label" module="facebook">
+            <label>All-In-One Facebook Widgets</label>
+            <tab>magazento</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <sort_order>100</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <appid translate="label">
+                            <label>Application id</label>
+                            <comment><![CDATA[ <a href="http://www.facebook.com/developers/createapp.php">Create Facebook application</a> ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </appid>
+                        <fb_page_url translate="label">
+                            <label>Facebook Page URL</label>
+                            <comment><![CDATA[ <a href="http://www.facebook.com/pages/create.php">Create Facebook page</a> ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </fb_page_url>
+                        <locale translate="label">
+                            <label>Locale</label>
+                            <comment><![CDATA[ the locale option ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Locale</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </locale>
+                    </fields>
+                </general>
+                <likebutton translate="label">
+                    <label>Like and Send buttons</label>
+                    <sort_order>120</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <homecontent translate="label">
+                            <label>Show on Home page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </homecontent>
+                        <categorycontent translate="label">
+                            <label>Show in Category view</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </categorycontent>
+                        <productcontent translate="label">
+                            <label>Show in Product view</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </productcontent>
+                        <send translate="lable">
+                            <label>Send Button</label>
+                            <comment><![CDATA[ Include a Send button. The Send Button is available only on sites that use the JavaScript SDK. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </send>
+                        <layout translate="label">
+                            <label>Layout style</label>
+                            <comment><![CDATA[ determines the size and amount of social context next to the button ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Layout</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </layout>
+                        <showfaces translate="lable">
+                            <label>Show faces</label>
+                            <comment><![CDATA[ Show profile pictures below the button. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </showfaces>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <verb translate="label">
+                            <label>Verb to display</label>
+                            <comment><![CDATA[ The verb to display in the button. Currently only 'like' and 'recommend' are supported. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Verb</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </verb>
+                        <font translate="label">
+                            <label>Font</label>
+                            <comment><![CDATA[ the font of the plugin ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Font</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </font>
+                        <color translate="label">
+                            <label>Color scheme</label>
+                            <comment><![CDATA[ The color scheme of the plugin. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Color</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </color>
+                        <type translate="label">
+                            <label>Type</label>
+                            <comment><![CDATA[ The type of the entity. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Type</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </type>
+                    </fields>
+                </likebutton>    
+                <sendbutton translate="label">
+                    <label>Send button</label>
+                    <sort_order>130</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <homecontent translate="label">
+                            <label>Show on Home page</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </homecontent>
+                        <categorycontent translate="label">
+                            <label>Show in Category view</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </categorycontent>
+                        <productcontent translate="label">
+                            <label>Show in Product view</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </productcontent>
+                        <font translate="label">
+                            <label>Font</label>
+                            <comment><![CDATA[ the font of the plugin ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Font</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </font>
+                    </fields>
+                </sendbutton> 
+                <comments translate="label">
+                    <label>Comments</label>
+                    <sort_order>140</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <productcontent translate="label">
+                            <label>Show in Product view</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </productcontent>
+                        <num_posts translate="lable">
+                            <label>Number of posts</label>
+                            <comment><![CDATA[ the number of posts to display by default. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </num_posts>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                    </fields>
+                </comments>
+                <activity translate="label">
+                    <label>Activity Feed</label>
+                    <sort_order>150</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <lefthomecolumn translate="label">
+                            <label>Left homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lefthomecolumn>
+                        <righthomecolumn translate="label">
+                            <label>Right homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </righthomecolumn>
+                        <leftcategorycolumn translate="label">
+                            <label>Left category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftcategorycolumn>
+                        <rightcategorycolumn translate="label">
+                            <label>Right category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightcategorycolumn>
+                        <leftproductcolumn translate="label">
+                            <label>Left product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftproductcolumn>
+                        <rightproductcolumn translate="label">
+                            <label>Right product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightproductcolumn>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <height translate="lable">
+                            <label>Height</label>
+                            <comment><![CDATA[ The height of the plugin in pixels. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </height>
+                        <header translate="lable">
+                            <label>Header</label>
+                            <comment><![CDATA[ Show the Facebook header on the plugin. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </header>
+                        <font translate="label">
+                            <label>Font</label>
+                            <comment><![CDATA[ the font of the plugin ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Font</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </font>
+                        <border_color translate="lable">
+                            <label>Border color</label>
+                            <comment><![CDATA[ The border color scheme of the plugin, e.g #C4C1BC ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </border_color>
+                        <recommendations translate="lable">
+                            <label>Recommendations</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </recommendations>
+                    </fields>
+                </activity> 
+                <recommendations translate="label">
+                    <label>Recommendations</label>
+                    <sort_order>160</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <lefthomecolumn translate="label">
+                            <label>Left homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lefthomecolumn>
+                        <righthomecolumn translate="label">
+                            <label>Right homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </righthomecolumn>
+                        <leftcategorycolumn translate="label">
+                            <label>Left category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftcategorycolumn>
+                        <rightcategorycolumn translate="label">
+                            <label>Right category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightcategorycolumn>
+                        <leftproductcolumn translate="label">
+                            <label>Left product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftproductcolumn>
+                        <rightproductcolumn translate="label">
+                            <label>Right product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightproductcolumn>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <height translate="lable">
+                            <label>Height</label>
+                            <comment><![CDATA[ The height of the plugin in pixels. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </height>
+                        <header translate="lable">
+                            <label>Header</label>
+                            <comment><![CDATA[ Show the Facebook header on the plugin. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </header>
+                        <font translate="label">
+                            <label>Font</label>
+                            <comment><![CDATA[ the font of the plugin ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Font</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </font>
+                        <border_color translate="lable">
+                            <label>Border color</label>
+                            <comment><![CDATA[ The border color scheme of the plugin, e.g #C4C1BC ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </border_color>
+                    </fields>
+                </recommendations>
+                <likebox translate="label">
+                    <label>Like Box</label>
+                    <sort_order>170</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <lefthomecolumn translate="label">
+                            <label>Left homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lefthomecolumn>
+                        <righthomecolumn translate="label">
+                            <label>Right homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </righthomecolumn>
+                        <leftcategorycolumn translate="label">
+                            <label>Left category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftcategorycolumn>
+                        <rightcategorycolumn translate="label">
+                            <label>Right category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightcategorycolumn>
+                        <leftproductcolumn translate="label">
+                            <label>Left product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftproductcolumn>
+                        <rightproductcolumn translate="label">
+                            <label>Right product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightproductcolumn>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <show_faces translate="lable">
+                            <label>Show faces</label>
+                            <comment><![CDATA[ Show profile pictures below the button. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_faces>
+                        <border_color translate="lable">
+                            <label>Border color</label>
+                            <comment><![CDATA[ The border color scheme of the plugin, e.g #C4C1BC ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </border_color>
+                        <stream translate="lable">
+                            <label>Stream</label>
+                            <comment><![CDATA[ Show the profile stream for the public profile. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </stream>
+                        <header translate="lable">
+                            <label>Header</label>
+                            <comment><![CDATA[ Show the Facebook header on the plugin. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </header>
+                    </fields>
+                </likebox>
+                <facepile translate="label">
+                    <label>Facepile</label>
+                    <sort_order>170</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <lefthomecolumn translate="label">
+                            <label>Left homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lefthomecolumn>
+                        <righthomecolumn translate="label">
+                            <label>Right homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </righthomecolumn>
+                        <leftcategorycolumn translate="label">
+                            <label>Left category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftcategorycolumn>
+                        <rightcategorycolumn translate="label">
+                            <label>Right category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightcategorycolumn>
+                        <leftproductcolumn translate="label">
+                            <label>Left product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftproductcolumn>
+                        <rightproductcolumn translate="label">
+                            <label>Right product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightproductcolumn>
+                        <url translate="label">
+                            <label>Url</label>
+                            <comment><![CDATA[ Select URL source facepile to display friends. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Url</source_model>
+                            <sort_order>65</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </url>
+                        <size translate="lable">
+                            <label>Size</label>
+                            <comment><![CDATA[ Determines the size of the images and social context in the facepile. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>Magazento_Facebook_Adminhtml_Model_System_Config_Source_Size</source_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </size>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <max_rows translate="label">
+                            <label>Max rows</label>
+                            <comment><![CDATA[ The maximum number of rows of profile pictures to show. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </max_rows>
+                    </fields>
+                </facepile>
+                <livestream translate="label">
+                    <label>Live Stream</label>
+                    <sort_order>180</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <fields>
+                        <lefthomecolumn translate="label">
+                            <label>Left homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </lefthomecolumn>
+                        <righthomecolumn translate="label">
+                            <label>Right homepage column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </righthomecolumn>
+                        <leftcategorycolumn translate="label">
+                            <label>Left category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftcategorycolumn>
+                        <rightcategorycolumn translate="label">
+                            <label>Right category column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightcategorycolumn>
+                        <leftproductcolumn translate="label">
+                            <label>Left product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </leftproductcolumn>
+                        <rightproductcolumn translate="label">
+                            <label>Right product column</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </rightproductcolumn>
+                        <width translate="lable">
+                            <label>Width</label>
+                            <comment><![CDATA[ the width of the plugin, in pixels ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </width>
+                        <height translate="lable">
+                            <label>Height</label>
+                            <comment><![CDATA[ The height of the plugin in pixels. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </height>
+                        <xid translate="lable">
+                            <label>Xid</label>
+                            <comment><![CDATA[ If you have multiple live stream boxes on the same page, specify a unique `xid` for each. ]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </xid>
+                        <always_post_to_friends translate="lable">
+                            <label>Always post to friends</label>
+                            <comment><![CDATA[ If set, all user posts will always go to their profile. This option should only be used when users' posts are likely to make sense outside of the context of the event. ]]>
+                            </comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </always_post_to_friends>
+                    </fields>
+                </livestream>
+                <developer>
+                    <frontend_model>facebook/developer</frontend_model>
+                    <sort_order>999</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </developer>
+            </groups>
+        </facebook>
+    </sections>
+</config>
+
+

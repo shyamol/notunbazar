@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <all4coding>
+            <children>
+                <facebook translate="title" module="all4coding_facebook">
+                    <title>Facebook Settings</title>
+                    <sort_order>401</sort_order>
+                    <action>adminhtml/system_config/edit/section/a4c_facebook</action>
+                </facebook>
+            </children>
+        </all4coding>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <all4coding>
+                        <children>
+                            <facebook translate="title" module="all4coding_facebook">
+                                <title>Facebook Settings</title>
+                                <sort_order>401</sort_order>
+                            </facebook>
+                        </children>
+                    </all4coding>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <a4c_facebook translate="title" module="all4coding_facebook">
+                                        <title>Facebook Settings</title>
+                                        <sort_order>401</sort_order>
+                                    </a4c_facebook>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

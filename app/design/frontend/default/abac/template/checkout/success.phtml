@@ -1,0 +1,301 @@
+<?php 
+/*
+Sslcommerz Payment Controller
+By: Abdul Matin
+www.matinict.wordpress.com
+*/
+
+//Status Updated start here
+require_once 'app/Mage.php';
+
+
+
+// Retrieve order
+$_order = new Mage_Sales_Model_Order();
+$orderId = Mage::getSingleton('checkout/session')->getLastRealOrderId();
+$_order->loadByIncrementId($orderId);
+
+
+
+umask(0);
+Mage::app('default');
+/*
+    const STATE_NEW             = 'new';
+    const STATE_PENDING_PAYMENT = 'pending_payment';
+    const STATE_PROCESSING      = 'processing';
+    const STATE_COMPLETE        = 'complete';
+    const STATE_CLOSED          = 'closed';
+    const STATE_CANCELED        = 'canceled';
+    const STATE_HOLDED          = 'holded';
+    const STATE_PAYMENT_REVIEW  = 'payment_review';
+ */
+ 	
+$val_id = isset($_POST['val_id'])? $_POST['val_id']: ''; 
+$tran_id = isset($_POST['tran_id'])? $_POST['tran_id'] : ''; 
+$amount = isset($_POST['amount']) ? $_POST['amount'] : ''; 
+$card_type = isset($_POST['card_type']) ? $_POST['card_type'] : ''; 
+$store_amount = isset($_POST['store_amount']) ? $_POST['store_amount'] : ''; 
+
+$error = isset($_POST['error']) ? $_POST['error'] : ''; 
+//var_dump ($_REQUEST);
+//Come From sslcomarz
+if($tran_id!=''){ # CAME FROM SSLCOMMERZ
+
+
+
+if($val_id!='' ){ # IF VALID RESPONSE - SUCCESS
+
+	#SECOND VALIDATION	
+	$val_id=urlencode($_POST['val_id']);
+	$store_id=urlencode("testbox");
+	$store_passwd=urlencode("qwerty");
+	$requested_url = ("https://www.sslcommerz.com.bd/validator/api/testbox/validationserverAPI.php?val_id=".$val_id."&Store_Id=".$store_id."&Store_Passwd=".$store_passwd."&v=1&format=json");
+
+	$handle = curl_init();
+	curl_setopt($handle, CURLOPT_URL, $requested_url);
+	curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, false);
+
+	$result = curl_exec($handle);
+	$code = curl_getinfo($handle, CURLINFO_HTTP_CODE);
+
+	//  here $res will get 'VALID' if the transaction is a valid one 
+	if($code == 200 && !( curl_errno($handle))){
+
+		$result = json_decode($result);
+		# TRANSACTION INFO
+		$status = $result->status;	
+		$tran_date = $result->tran_date;
+		$tran_id = $result->tran_id;
+		$val_id = $result->val_id;
+		$amount = $result->amount;
+		$store_amount = $result->store_amount;
+		$bank_tran_id = $result->bank_tran_id;
+		$card_type = $result->card_type;
+		
+		# ISSUER INFO
+		$card_no = $result->card_no;
+		$card_issuer = $result->card_issuer;
+		$card_brand = $result->card_brand;
+		$card_issuer_country = $result->card_issuer_country;
+		$card_issuer_country_code = $result->card_issuer_country_code;
+
+
+		if ( (int)$amount==(int)($_order->getBaseGrandTotal()) && trim($tran_id)==trim($orderId)  &&  ($status=='VALID') ){
+			$order = Mage::getModel('sales/order')->loadByIncrementID($orderId);
+			$order->setState(Mage_Sales_Model_Order::STATE_PROCESSING, true);
+			$order->save();
+			// Write your success actions here 
+			// PAYMENT SUCCESS
+				echo '<h3> Payment SUCCESS</h3>';
+			//echo "<br />Payment Complete";
+
+			// Start Send Emai Here......
+			$order = new Mage_Sales_Model_Order();
+			$incrementId = Mage::getSingleton('checkout/session')->getLastRealOrderId(); 
+			$order->loadByIncrementId($incrementId);
+			 
+			try{ $order->sendNewOrderEmail();} 
+			catch (Exception $ex) { echo "Email Not Sent..."; }
+			$customer = Mage::getSingleton('customer/session')->getCustomer();
+			//$email = $customer->getEmail();//End Email Sending
+
+			//Send sms
+			//End Sent notification 
+
+			?>
+			<div class="page-title">
+				<h1><?php echo $this->__('Your order has been received.') ?></h1>
+			</div>
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+			<h2 class="sub-title"><?php echo $this->__('Thank you for your purchase!') ?></h2>
+
+			<?php if ($this->getOrderId()):?>
+			<?php if ($this->getCanViewOrder()) :?>
+				<p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+				
+			<?php  else :?>
+				<p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+			<?php endif;?>
+				<p><?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
+				
+				 
+				
+			<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+				<p>
+					<?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+					<?php echo $this->getChildHtml() ?>
+				</p>
+			<?php endif;?>
+			<?php endif;?>
+
+			<?php if ($this->getAgreementRefId()): ?>
+				<p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId())))?></p>
+			<?php endif;?>
+
+			<?php if ($profiles = $this->getRecurringProfiles()):?>
+			<p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+			<ul class="disc">
+			<?php foreach($profiles as $profile):?>
+			<?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
+				<li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
+			<?php endforeach;?>
+			</ul>
+			<?php endif;?>
+
+			<div class="buttons-set">
+				<button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+			</div>
+
+			<?php		
+		
+		} else { # SECOND VALIDATION FAILED
+		
+			$order = Mage::getModel('sales/order')->loadByIncrementID($orderId);
+			$order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
+			$order->save();
+
+			//echo "<br /> Payment Status fail";	
+			?>
+<div class="page-title">
+				<h1><?php echo $this->__('Your Payment Status Fail.') ?></h1>
+			</div>
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+						<?php if ($this->getOrderId()):?>
+			<?php if ($this->getCanViewOrder()) :?>
+				<p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+				
+			<?php  else :?>
+				<p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+			<?php endif;?>
+				
+								
+			<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+				<p>
+					<?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+					<?php echo $this->getChildHtml() ?>
+				</p>
+			<?php endif;?>
+			<?php endif;?>
+            <div class="buttons-set">
+				<button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+			</div>
+
+<?php	
+		}
+
+} else { # IF NOT VALID RESPONSE - FAILED
+	$order = Mage::getModel('sales/order')->loadByIncrementID($orderId);
+	$order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
+	$order->save();
+
+	//echo "<div class='page-title'><h1><br /> Payment Status fail </h1> </div>";
+	?>
+<div class="page-title">
+				<h1><?php echo $this->__('Your Payment Status Fail.') ?></h1>
+			</div>
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+						<?php if ($this->getOrderId()):?>
+			<?php if ($this->getCanViewOrder()) :?>
+				<p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+				
+			<?php  else :?>
+				<p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+			<?php endif;?>
+				
+								
+			<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+				<p>
+					<?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+					<?php echo $this->getChildHtml() ?>
+				</p>
+			<?php endif;?>
+			<?php endif;?>
+            <div class="buttons-set">
+				<button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+			</div>
+
+<?php
+}
+
+} // END SSLCOMMERZ 
+else {		
+	$order = Mage::getModel('sales/order')->loadByIncrementID($orderId);
+	$order->setState(Mage_Sales_Model_Order::STATE_PENDING_PAYMENT, true);
+	$order->save();
+//echo "<div class='page-title'><h1><br /> Payment Status fail </h1> </div>";
+?>
+<div class="page-title">
+				<h1><?php echo $this->__('Your Payment Status Fail.') ?></h1>
+			</div>
+			<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+						<?php if ($this->getOrderId()):?>
+			<?php if ($this->getCanViewOrder()) :?>
+				<p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+				
+			<?php  else :?>
+				<p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+			<?php endif;?>
+				
+								
+			<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+				<p>
+					<?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+					<?php echo $this->getChildHtml() ?>
+				</p>
+			<?php endif;?>
+			<?php endif;?>
+            <div class="buttons-set">
+				<button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+			</div>
+
+<?php
+	}
+
+}
+else {
+?>
+
+<div class="page-title">
+    <h1><?php echo $this->__('Your order has been received.') ?></h1>
+</div>
+<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<h2 class="sub-title"><?php echo $this->__('Thank you for your purchase!') ?></h2>
+
+<?php if ($this->getOrderId()):?>
+<?php if ($this->getCanViewOrder()) :?>
+    <p><?php echo $this->__('Your order # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getViewOrderUrl()), $this->escapeHtml($this->getOrderId()))) ?></p>
+<?php  else :?>
+    <p><?php echo $this->__('Your order # is: %s.', $this->escapeHtml($this->getOrderId())) ?></p>
+<?php endif;?>
+    <p><?php echo $this->__('You will receive an order confirmation email with details of your order and a link to track its progress.') ?></p>
+<?php if ($this->getCanViewOrder() && $this->getCanPrintOrder()) :?>
+    <p>
+        <?php echo $this->__('Click <a href="%s" onclick="this.target=\'_blank\'">here to print</a> a copy of your order confirmation.', $this->getPrintUrl()) ?>
+        <?php echo $this->getChildHtml() ?>
+    </p>
+<?php endif;?>
+<?php endif;?>
+
+<?php if ($this->getAgreementRefId()): ?>
+    <p><?php echo $this->__('Your billing agreement # is: %s.', sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getAgreementUrl()), $this->escapeHtml($this->getAgreementRefId())))?></p>
+<?php endif;?>
+
+<?php if ($profiles = $this->getRecurringProfiles()):?>
+<p><?php echo $this->__('Your recurring payment profiles:'); ?></p>
+<ul class="disc">
+<?php foreach($profiles as $profile):?>
+<?php $profileIdHtml = ($this->getCanViewProfiles() ? sprintf('<a href="%s">%s</a>', $this->escapeHtml($this->getProfileUrl($profile)), $this->escapeHtml($this->getObjectData($profile, 'reference_id'))) : $this->escapeHtml($this->getObjectData($profile, 'reference_id')));?>
+    <li><?php echo $this->__('Payment profile # %s: "%s".', $profileIdHtml, $this->escapeHtml($this->getObjectData($profile, 'schedule_description')))?></li>
+<?php endforeach;?>
+</ul>
+<?php endif;?>
+
+<div class="buttons-set">
+    <button type="button" class="button" title="<?php echo $this->__('Continue Shopping') ?>" onclick="window.location='<?php echo $this->getUrl() ?>'"><span><span><?php echo $this->__('Continue Shopping') ?></span></span></button>
+</div>
+
+
+<?php } ?>
+

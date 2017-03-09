@@ -1,0 +1,56 @@
+<?php if ((Mage::getStoreConfig('mostpopular/options/enable')) && (Mage::getStoreConfig('mostpopular/homepageoptions/homesidebarleft'))):?>
+
+<div class="block block-mostpopular">
+    <div class="block-title title-topseller">
+        <span><?php echo $this->getModel()->getTitle() ?></span>
+    </div>
+    <div class="block-content">
+        <?php $_products = $this->getProductCollection(); ?>
+        <?php if (sizeof($_products)): ?>
+            <ol class="mini-products-list" id="bestseller-sidebar">
+            <?php $i=0; foreach ($_products->getItems() as $_product): ?>
+                <?php $i++; ?>
+                <?php if ($_product->getData('is_salable')): ?>
+                    <li class="item<?php if($i==sizeof($_products) ): ?> last<?php endif; ?>">
+                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="" /></a>
+                        <div class="product-details">
+                            <p class="product-name"><a href="<?php echo $this->getProductUrl($_product) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></p>
+                            <?php if (Mage::getStoreConfig('mostpopular/homepageoptions/homeprice')):?>
+                                <?php echo $this->getPriceHtml($_product, true) ?>
+                            <?php endif; ?>
+                            <?php if (Mage::getStoreConfig('mostpopular/homepageoptions/homeactions')):?>
+                                <a class="link-cart" href="<?php echo $this->getAddToCartUrl($_product) ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>"><?php echo $this->__('Add to Cart') ?></a>
+                            <?php endif; ?>
+                        </div>
+                    </li>
+                <?php else: ?>
+                    <?php if($this->getModel()->isOutOfStock()): ?>
+                        <li class="item">
+                            <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'thumbnail')->resize(50); ?>" width="50" height="50" alt="" /></a>
+                            <div class="product-details">
+                                <p class="product-name"><a href="<?php echo $this->getProductUrl($_product) ?>"><?php echo $this->htmlEscape($_product->getName()) ?></a></p>
+                                <?php if (Mage::getStoreConfig('mostpopular/homepageoptions/homeprice')):?>
+                                    <?php echo $this->getPriceHtml($_product, true) ?>
+                                <?php endif; ?>
+                                <p class="availability out-of-stock"><span>Out of stock</span></p>
+                            </div>
+                        </li>
+                    <?php endif; ?>
+
+                <?php endif; ?>
+            <?php endforeach; ?>
+            </ol>  
+
+        <?php else: ?>
+            <ol id="bestseller-sidebar" class="mini-products-list">
+                <li class="item odd">
+                    <?php echo $this->getModel()->getNoProductsText(); ?>
+                </li>
+            </ol>
+        <?php endif; ?>
+    </div>
+</div>
+
+
+
+<?php endif; ?>

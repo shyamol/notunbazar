@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<config>
+   <modules>
+      <Ebizmarts_Customerprofile>
+         <version>1.4.1</version>
+      </Ebizmarts_Customerprofile>
+   </modules>
+
+   <global>
+
+        <rewrite>
+            <!-- Rewrite OnePage Success action -->
+			<ebizmarts_customerprofile_account>
+                <from><![CDATA[#^/customer/account/editProfile(.*)#]]></from>
+                <to>customerprofile/account/editProfile</to>
+			</ebizmarts_customerprofile_account>
+        </rewrite>
+
+		<blocks>
+			<customer>
+				<rewrite>
+					<form_edit>Ebizmarts_Customerprofile_Block_Form_Edit</form_edit>
+					<profile>Ebizmarts_Customerprofile_Block_Profile</profile>
+				</rewrite>
+			</customer>
+		</blocks>
+
+		<models>
+			<customerprofile>
+				<rewrite>
+					<gendertype>Ebizmarts_Customerprofile_Model_Gendertype</gendertype>
+					<uploadimage>Ebizmarts_Customerprofile_Model_Uploadimage</uploadimage>
+					<resizeimage>Ebizmarts_Customerprofile_Model_Resizeimage</resizeimage>
+				</rewrite>
+			</customerprofile>
+      	</models>
+
+		<resources>
+		    <customerprofile_setup>
+		       <setup>
+		          <module>Ebizmarts_Customerprofile</module>
+		          <class>Mage_Customer_Model_Entity_Setup</class>
+		       </setup>
+		       <connection>
+		          <use>core_setup</use>
+		       </connection>
+		    </customerprofile_setup>
+
+		    <customerprofile_write>
+		       <connection>
+		          <use>core_write</use>
+		       </connection>
+		    </customerprofile_write>
+
+		    <customerprofile_read>
+		       <connection>
+		          <use>core_read</use>
+		       </connection>
+		    </customerprofile_read>
+
+		</resources>
+
+        <!--<fieldsets>
+            <customer_account>
+                <prefix><create>1</create><update>1</update><name>1</name></prefix>
+                <firstname><create>1</create><update>1</update><name>1</name></firstname>
+                <middlename><create>1</create><update>1</update><name>1</name></middlename>
+                <lastname><create>1</create><update>1</update><name>1</name></lastname>
+                <suffix><create>1</create><update>1</update><name>1</name></suffix>
+                <email><create>1</create><update>1</update></email>
+                <password><create>1</create></password>
+                <confirmation><create>1</create></confirmation>
+                <dob><create>1</create><update>1</update></dob>
+                <taxvat><create>1</create><update>1</update></taxvat>
+
+                <nickname><profileupdate>1</profileupdate></nickname>
+                <gender><profileupdate>1</profileupdate></gender>
+                <shortprofile><profileupdate>1</profileupdate></shortprofile>
+
+            </customer_account>
+        </fieldsets>-->
+
+	</global>
+
+	<frontend>
+
+    	<routers>
+            <Ebizmarts_Customerprofile>
+                <use>standard</use>
+                <args>
+                    <module>Ebizmarts_Customerprofile</module>
+                    <frontName>customerprofile</frontName>
+                </args>
+            </Ebizmarts_Customerprofile>
+        </routers>
+
+
+		<layout>
+		    <updates>
+		        <customerprofile module="Ebizmarts_Customerprofile">
+		            <file>customerprofile.xml</file>
+		        </customerprofile>
+		    </updates>
+		</layout>
+
+        <translate>
+            <modules>
+                <Ebizmarts_Customerprofile>
+                    <files>
+                        <default>Ebizmarts_Customerprofile.csv</default>
+                    </files>
+                </Ebizmarts_Customerprofile>
+            </modules>
+        </translate>
+
+    </frontend>
+
+</config>

@@ -1,0 +1,24 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?> 
+<fb:like 
+href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" 
+send="<?php echo (Mage::getStoreConfig('a4c_facebook/likebutton/send')) ? 'true' : 'false'; ?>" 
+layout="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/layout'); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/width'); ?>" 
+show_faces="<?php echo (Mage::getStoreConfig('a4c_facebook/likebutton/showfaces')) ? 'true' : 'false'; ?>" 
+action="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/verb'); ?>" 
+colorscheme="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/colorscheme'); ?>" 
+font="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/font'); ?>"></fb:like>
+<?php endif; ?>

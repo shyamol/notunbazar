@@ -1,0 +1,5 @@
+<?php if (Mage::getStoreConfig('facebook/general/enabled')) : ?> 
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/<?php echo (Mage::getStoreConfig('facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('facebook/general/locale'); ?>/all.js#appId=<?php echo Mage::getStoreConfig('facebook/general/appid'); ?>&amp;xfbml=1"></script>
+    <fb:like href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" send="<?php echo (Mage::getStoreConfig('facebook/likebutton/send')) ? 'true' : 'false'; ?>" layout="<?php echo Mage::getStoreConfig('facebook/likebutton/layout'); ?>" width="<?php echo Mage::getStoreConfig('facebook/likebutton/width'); ?>" show_faces="<?php echo (Mage::getStoreConfig('facebook/likebutton/showfaces')) ? 'true' : 'false'; ?>" action="<?php echo Mage::getStoreConfig('facebook/likebutton/verb'); ?>" colorscheme="<?php echo Mage::getStoreConfig('facebook/likebutton/color'); ?>" font="<?php echo Mage::getStoreConfig('facebook/likebutton/font'); ?>"></fb:like>
+<?php endif; ?>

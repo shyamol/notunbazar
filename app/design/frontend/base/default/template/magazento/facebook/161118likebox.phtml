@@ -1,0 +1,9 @@
+<?php if (Mage::getStoreConfig('facebook/general/enabled')) : ?>   
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/<?php echo (Mage::getStoreConfig('facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('facebook/general/locale'); ?>/all.js#xfbml=1"></script>
+    <fb:like-box href="<?php echo Mage::getStoreConfig('facebook/general/fb_page_url'); ?>" width="<?php echo Mage::getStoreConfig('facebook/likebox/width'); ?>" show_faces="<?php echo (Mage::getStoreConfig('facebook/likebox/showfaces')) ? 'true' : 'false'; ?>" border_color="<?php echo Mage::getStoreConfig('facebook/likebox/border_color'); ?>" stream="<?php echo (Mage::getStoreConfig('facebook/likebox/stream')) ? 'true' : 'false'; ?>" header="<?php echo (Mage::getStoreConfig('facebook/likebox/header')) ? 'true' : 'false'; ?>"></fb:like-box>
+<!--    <p class="magazento-powered">Powered by <a href="http://www.magazento.com/english/magento-ext/magazento-extensions" target="_blank">Magento extensions</a></p>-->
+<?php endif; ?>
+
+    
+    

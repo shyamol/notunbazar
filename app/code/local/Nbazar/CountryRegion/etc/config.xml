@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Nbazar_CountryRegion>
+            <version>1.0.0</version>
+        </Nbazar_CountryRegion>
+    </modules>
+    <global>
+        <helpers>
+            <countryregion>
+                <class>Nbazar_CountryRegion_Helper</class>
+            </countryregion>
+        </helpers>
+        <blocks>
+            <countryregion>
+                <class>Nbazar_CountryRegion_Block</class>
+            </countryregion>
+        </blocks>
+        <models>
+            <countryregion>
+                <class>Nbazar_CountryRegion_Model</class>
+                <resourceModel>countryregion_mysql4</resourceModel>
+            </countryregion>
+            <countryregion_mysql4>
+                <class>Nbazar_CountryRegion_Model_Mysql4</class>
+                <entities>		  
+                    <model>
+                        <table>country_region</table>
+                    </model>
+                </entities>
+            </countryregion_mysql4>
+        </models>
+        <resources>
+            <countryregion_setup>
+                <setup>
+                    <module>Nbazar_CountryRegion</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </countryregion_setup>
+            <countryregion_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </countryregion_write>
+            <countryregion_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </countryregion_read>
+        </resources>
+    </global>
+    <admin>
+        <routers>
+            <countryregion>
+                <use>admin</use>
+                <args>
+                    <module>Nbazar_CountryRegion</module>
+                    <frontName>admin_countryregion</frontName>
+                </args>
+            </countryregion>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <countryregion module="countryregion">
+                <title>CountryRegion</title>
+                <sort_order>100</sort_order>
+                <children>
+                    <countryregionbackend module="countryregion">
+                        <title>Country Region</title>
+                        <sort_order>0</sort_order>
+                        <action>admin_countryregion/adminhtml_countryregionbackend</action>
+                    </countryregionbackend>
+                    <model module="countryregion">
+                        <title>Manage Model</title>
+                        <sort_order>0</sort_order>
+                        <action>admin_countryregion/adminhtml_model</action>
+                    </model>
+                </children>
+            </countryregion>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <countryregion translate="title" module="countryregion">
+                            <title>CountryRegion</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <countryregionbackend translate="title">
+                                    <title>Country Region</title>
+                                </countryregionbackend>
+                                <model translate="title">
+                                    <title>Manage Model</title>
+                                    <sort_order>0</sort_order>
+                                </model>
+                            </children>
+                        </countryregion>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <countryregion>
+                    <file>countryregion.xml</file>
+                </countryregion>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

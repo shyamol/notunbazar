@@ -1,0 +1,258 @@
+<style type="text/css">
+
+    #messagebox{
+        height: 300px;
+        width: 600px;
+        overflow-y: scroll;
+    }
+    #body{
+        width: 600px;
+    }
+    .toggle{
+        cursor: pointer;
+    }
+
+</style>
+
+<script type="text/javascript">
+    function toggleMe(a){
+        var e=document.getElementById(a);
+        if(!e)return true;
+        if(e.style.display=="none"){
+            e.style.display="block"
+        }
+        else{
+            e.style.display="none"
+        }
+        return true;
+    }
+    function confirm_delete(cId) {
+        var answer = confirm("Are you sure want to delete this conversation?")
+        if (answer){
+            //alert("Entry Deleted");
+            window.location = "?id="+cId+"&cid="+cId;
+        }
+        else{
+            exit();
+        }
+    }
+
+    function confirm_delete_message (mId, id) {
+        var answer = confirm("Are you sure want to delete this message?")
+        if (answer){
+            //alert("Entry Deleted");
+            window.location = "?id="+id+"&mid="+mId;
+        }
+        else{
+            exit();
+        }
+    }
+</script>
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$sellerid = $customer->getentity_id();
+
+if(isset($_GET['id']))
+{
+    $id = $_GET['id'];
+
+    $sql = "update messages set not_read_by_b=NULL where mssg_id='$id' and not_read_by_b='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    $sql = "update messages set not_read_by_a=NULL where mssg_id='$id' and not_read_by_a='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+}
+
+if(isset($_GET['cid']))
+{
+    $cid = $_GET['cid'];
+
+    $sql = "update messages set auth_b=NULL where mssg_id='$cid' and auth_b='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    $sql = "update messages set auth_a=NULL where mssg_id='$cid' and auth_a='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    header( 'Location: '. $this->getUrl('classified/message/')) ;
+    exit;
+
+}
+
+if(isset($_GET['mid']))
+{
+    $mid = $_GET['mid'];
+
+    $sql = "update messages_body set auth_b=NULL where id='$mid' and auth_b='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    $sql = "update messages_body set auth_a=NULL where id='$mid' and auth_a='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+}
+
+if(isset($_POST) && !empty($_POST['request_flag'])):
+    $params = $this->getRequest()->getParams();
+
+    // custom email..
+    $templateId = 1;
+
+// Define the sender, here we query Magento default email (in the configuration)
+// For customer support email, use : 'trans_email/ident_support/...'
+    $mssg_id = $params['mssg_id'];
+    $sender_id = $params['receiver_id'];
+    $receiver_id = $params['sender_id'];
+    $sender_message = $params['message'];
+    $created = date("Y-m-d H:i:s", time());
+
+    $customer_data = Mage::getModel('customer/customer')->load($sender_id);
+    $firstname = $customer_data->getFirstname();
+    $lastname = $customer_data->getLastname();
+    $sender_name = $firstname ." ". $lastname;
+    $sender_email = $customer_data->getEmail();
+
+    $sql = "INSERT INTO messages_body (mssg_id, sender_name, sender_id, sender_email, receiver_id, mssg, created, auth_a, auth_b) VALUES ('$mssg_id', '$sender_name','$sender_id','$sender_email','$receiver_id','$sender_message','$created', '$sender_id', '$receiver_id')";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    $sql = "update messages set not_read_by_b='$sellerid' where mssg_id='$id' and not_read_by_b='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+    $sql = "update messages set not_read_by_a='$sellerid' where mssg_id='$id' and not_read_by_a='$sellerid'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+    // Set you store
+// This information may be taken from the current logged in user
+ /*   $store = Mage::app()->getStore();
+
+// In this array, you set the variables you use in your template
+    $vars = Array(
+        'proName' => $proName,
+        'message' => $params['message'],
+        'email' => $params['email'],
+        'name' => $params['name'],
+        'seller' => $seller
+    );
+
+// You don't care about this...
+    $translate  = Mage::getSingleton('core/translate');
+
+// Send your email
+    Mage::getModel('core/email_template')->sendTransactional($templateId,
+        $sender_email,
+        $sender_email,
+        $fullname,
+        $vars,
+        $store->getId());
+
+
+// You don't care as well
+    $translate->setTranslateInline(true);
+    //custom-end
+                     */
+endif;
+
+$sql = "SELECT * FROM messages WHERE mssg_id='$id'";
+$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+foreach ($connection->fetchAll($sql) as $arr_row):
+    $mssg_title = $arr_row['mssg_title'];
+    $auth_a_conv = $arr_row['auth_a'];
+    $auth_b_conv = $arr_row['auth_b'];
+endforeach;
+if($auth_a_conv==$sellerid || $auth_b_conv==$sellerid):
+
+echo '<h1>'.$mssg_title.'</h1>';
+
+?>
+
+
+<div id="body">
+<p style="text-align: right"><a href="javascript:confirm_delete(<?php echo $id; ?>)">Delete this conversation</a></p>
+<div id="messagebox">
+
+    <?php
+$sql = "SELECT * FROM messages_body WHERE mssg_id='$id' and (auth_a='$sellerid' or auth_b='$sellerid')";
+$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+foreach ($connection->fetchAll($sql) as $arr_row):
+    $msgid = $arr_row['id'];
+    $sender_id = $arr_row['sender_id'];
+    $sender_name = $arr_row['sender_name'];
+    $sender_email = $arr_row['sender_email'];
+    $message = $arr_row['mssg'];
+    $receiver_id = $arr_row['receiver_id'];
+    $created = strtotime($arr_row['created']);
+    $fdate = Date("D, M j, Y, g:i a", $created);
+
+    $customer_data = Mage::getModel('customer/customer')->load($receiver_id);
+    $firstname = $customer_data->getFirstname();
+    $lastname = $customer_data->getLastname();
+    $fullname = $firstname ." ". $lastname;
+    $receiver_email = $customer_data->getEmail();
+
+
+?>
+
+<table class="data-table">
+    <thead>
+    <tr>
+        <th class="toggle" onclick="return toggleMe('<?php echo $msgid; ?>')"><?php echo $sender_name; ?> [<?php echo $sender_email; ?>]</th>
+        <th class="toggle" onclick="return toggleMe('<?php echo $msgid; ?>')"></th>
+        <th class="toggle" style="text-align: right" onclick="return toggleMe('<?php echo $msgid; ?>')"><?php echo $fdate; ?></th>
+        <th style="text-align: right" ><a href="javascript:confirm_delete_message(<?php echo $msgid.','. $id; ?>)"><img src=<?php echo $this->getSkinUrl('images/delete.png') ?> alt="Delete"> </a></th>
+    </tr>
+    </thead>
+    <tbody >
+        <td colspan="4" id="<?php echo $msgid; ?>"></br><?php echo $message; ?></br>&nbsp</td>
+    </tbody>
+</table>
+
+<?php endforeach; ?>
+
+</div>
+<form action="" method="post" name="product_sendtofriend_form" id="product_sendtofriend_form" enctype="multipart/form-data">
+    <div class="fieldset">
+        <ul class="form-list" id="sender_options">
+            <li class="wide">
+                <label for="sender_message" class="required"><em>*</em><?php echo $this->__('Reply:') ?></label>
+                <div class="input-box">
+                    <textarea name="message" class="input-text required-entry" id="sender_message" cols="3" rows="3"></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="buttons-set">
+        <p class="back-link"><a href="<?php echo $this->getUrl('classified/message/') ?>"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="submit" class="button disabled="disabled"><span><span><?php echo $this->__('Send') ?></span></span></button>
+    </div>
+    <input type="hidden" name="request_flag" value="1"/>
+    <input type="hidden" name="mssg_id" value="<?php echo $id ?>"/>
+    <input type="hidden" name="sender_id" value="<?php echo $sender_id ?>"/>
+    <input type="hidden" name="sender_name" value="<?php echo $sender_name ?>"/>
+    <input type="hidden" name="sender_email" value="<?php echo $sender_email ?>"/>
+    <input type="hidden" name="receiver_id" value="<?php echo $receiver_id ?>"/>
+</form>
+
+    </div>
+
+<?php else: ?>
+<?php     header( 'Location: '. $this->getUrl('classified/message/')) ;
+    exit;
+    ?>
+ <?php endif; ?>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var productSendtofriendForm = new VarienForm('product_sendtofriend_form');
+    productSendtofriendForm.submit = function() {
+        if(this.validator.validate()) {
+            this.form.submit();
+        }
+    }.bind(productSendtofriendForm);
+    //]]>
+</script>

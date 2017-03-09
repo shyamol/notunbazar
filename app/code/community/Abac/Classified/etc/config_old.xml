@@ -1,0 +1,132 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Abac_Classified>
+      <version>1.0.0</version>
+    </Abac_Classified>
+  </modules>
+  <frontend>
+    <routers>
+      <classified>
+        <use>standard</use>
+          <args>
+            <module>Abac_Classified</module>
+            <frontName>classified</frontName>
+          </args>
+      </classified>
+    </routers>
+		<layout>
+		  <updates>
+			<classified>
+			  <file>classified.xml</file>
+			</classified>
+		  </updates>
+		</layout>
+				<translate>
+            <modules>
+                <Abac_Classified>
+                    <files>
+                        <default>Abac_Classified.csv</default>
+                    </files>
+                </Abac_Classified>
+            </modules>
+        </translate>
+  </frontend>
+  <global>
+    <helpers>
+      <classified>
+        <class>Abac_Classified_Helper</class>
+      </classified>
+    </helpers>
+	<blocks>
+	  <classified>
+		<class>Abac_Classified_Block</class>
+	  </classified>
+	</blocks>
+	<resources>
+	  <classified_setup>
+		<setup>
+		  <module>Abac_Classified</module>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </classified_setup>
+	  <classified_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </classified_write>
+	  <classified_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </classified_read>
+	</resources>
+    <events>
+	  <demo_event> <!-- identifier of the event we want to catch -->
+        <observers>
+          <demo_event_handler> <!-- identifier of the event handler -->
+            <type>model</type> <!-- class method call type; valid are model, object and singleton -->
+            <class>classified/observer</class> <!-- observers class alias -->
+            <method>test</method>  <!-- observer's method to be called -->
+            <args></args> <!-- additional arguments passed to observer -->
+          </demo_event_handler>
+        </observers>
+      </demo_event>
+    </events>
+  </global>
+  <admin>
+	<routers>
+	  <classified>
+	    <use>admin</use>
+		<args>
+		  <module>Abac_Classified</module>
+		  <frontName>classified</frontName>
+		</args>
+	  </classified>
+	</routers>
+  </admin>
+  <adminhtml>
+	<menu>
+	  <classified module="classified">
+		<title>Classified</title>
+		<sort_order>100</sort_order>
+		<children>
+		  <classifiedbackend module="classified">
+			<title>ABAC Classified</title>
+			<sort_order>0</sort_order>
+			<action>classified/adminhtml_classifiedbackend</action>
+		  </classifiedbackend>
+		</children>
+	  </classified>
+	</menu>
+	<acl>
+	  <resources>
+		<all>
+		  <title>Allow Everything</title>
+		</all>
+		<admin>
+		  <children>
+			<classified translate="title" module="classified">
+			  <title>Classified</title>
+			  <sort_order>1000</sort_order>
+			  <children>
+		  <classifiedbackend translate="title">
+			<title>ABAC Classified</title>
+		  </classifiedbackend>
+			  </children>
+			</classified>
+		  </children>
+		</admin>
+	  </resources>
+	</acl>
+	<layout>
+	  <updates>
+		<classified>
+		  <file>classified.xml</file>
+		</classified>
+	  </updates>
+	</layout>
+  </adminhtml>
+</config> 

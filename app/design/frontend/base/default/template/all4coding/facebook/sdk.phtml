@@ -1,0 +1,24 @@
+<?php
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<div id="fb-root"></div>
+<script type="text/javascript">
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/<?php echo (Mage::getStoreConfig('a4c_facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('a4c_facebook/general/locale'); ?>/all.js#xfbml=1&amp;appId=<?php echo Mage::getStoreConfig('a4c_facebook/general/appid'); ?>";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+<?php endif; ?>

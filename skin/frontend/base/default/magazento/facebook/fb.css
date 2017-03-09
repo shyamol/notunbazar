@@ -1,0 +1,21 @@
+.magazento-powered {
+  color: #808080;
+  font-size: 9px;
+  font-family: "lucida grande",tahoma,verdana,arial,sans-serif;
+  text-align: left;
+}
+
+.magazento-powered a {
+    color: #808080;
+    text-decoration: none;
+}
+
+.magazento-powered a:hover {
+    text-decoration: underline;
+}
+.magazento-powered, .magazento-powered a {
+    color: #BBB;
+    font-size: 9px;
+    text-align: right;
+    text-decoration: none;
+    }

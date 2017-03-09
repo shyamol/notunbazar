@@ -1,0 +1,103 @@
+<?php
+//require_once '/app/Mage.php';
+Mage :: app("default")->setCurrentStore(Mage_Core_Model_App :: ADMIN_STORE_ID);
+?>
+<style type="text/css" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+       xmlns="http://www.w3.org/1999/html">
+    .active {
+        background-color: green;
+        border-radius: 10px 10px 10px 10px;
+        color: #FFFFFF;
+        padding: 2px 20px 3px;
+
+    }
+    .pending {
+        background-color: red;
+        border-radius: 10px 10px 10px 10px;
+        color: #FFFFFF;
+        padding: 2px 26px 3px;
+
+    }
+</style>
+
+<script type="text/javascript">
+    function confirm_delete(pId, pName) {
+        var answer = confirm("Delete advertisement: " + pName + " ?")
+        if (answer) {
+            //alert("Entry Deleted");
+            window.location = "?&id=" + pId;
+        }
+        else {
+            exit();
+        }
+    }
+</script> 
+
+<div class="page-title">
+    <h1><?php echo $this->__('My Advertisements') ?></h1>
+</div>
+
+<?php
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    try {
+        $product = Mage::getModel('catalog/product')->load($id)->delete();
+        Mage::getSingleton('catalog/session')->addSuccess($this->__('Successfully deleted advertisement.'));
+        // header( 'Location: '. $this->getUrl('classified/myad/')) ;
+    } catch (Exception $e) {
+        Mage::getSingleton('core/session')->addError($this->__('Could not delete advertisement'));
+        header('Location: ' . $this->getUrl('classified/myad/'));
+    }
+}
+
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$sellerId = $customer->getentity_id();
+
+$productMediaConfig = Mage::getModel('catalog/product_media_config');
+$_productCollection = Mage::getResourceModel('reports/product_collection')
+        ->addAttributeToSelect('*')
+        ->addAttributeToFilter('sellerid', $sellerId)
+        ->setOrder('created_at', 'desc');
+$i = 0;
+?>
+<table class="data-table" id="wishlist-table">
+    <thead>
+        <tr>
+            <th style="width:20%"></th>
+            <th style="width:30%"><?php echo $this->__('Advertisements') ?></th>
+            <th style="width:15%"><?php echo $this->__('Status') ?></th>
+            <th style="width:35%"><?php echo $this->__('Actions') ?></th>
+        </tr>
+    </thead>
+    <tbody>
+<?php
+foreach ($_productCollection as $_product) :
+    $imageurl = $this->helper('catalog/image')->init($_product, 'small_image')->resize(113);
+    $producurl = $this->geturl() . $_product->getUrlPath();
+    $pId = $_product->getId();
+    $i++;
+    ?>
+
+            <tr>
+                <td style="width:20%"><a href="<?php echo $producurl; ?>"><img src="<?php echo "$imageurl" ?>"></a></td>
+                <td style="width:30%"><a href="<?php echo $producurl; ?>"><h3><?php echo $_product->getName(); ?></h3></a><div><?php echo $_product->getShortDescription(); ?></div></td>
+                <td style="width:15%"><?php if ($_product->getStatus() == '1'): ?><span class="active"><span><strong><?php echo $this->__('Approved') ?></strong></span></span><?php else: ?>
+                        <span class="pending"><span><strong><?php echo $this->__('Pending') ?></strong></span></span>
+    <?php endif; ?></td>
+                <td style="width:35%">
+                    <a href="<?php echo $this->getUrl(); ?>classified/myad/edit?id=<?php echo $pId; ?>"><?php echo $this->__('Edit') ?></a> | 
+                    <a href="javascript:confirm_delete(<?php echo $pId; ?>,'<?php echo $_product->getName(); ?>')"><?php echo $this->__('Delete') ?></a> | 
+                    <a href="<?php echo $this->getUrl(); ?>classified/myad/photo?id=<?php echo $pId; ?>"><?php echo $this->__('Edit Photo') ?></a> |                 
+                    <form  action="<?php echo $this->getUrl(); ?>promotion/" method="post">
+                        <input type="hidden" name="a" value="1" />
+                        <input type="hidden" name="productId" value="<?php echo $pId; ?>" />
+                        <button class="button send-message renew-ad" type="submit"><span class="send-message"></span><?php echo $this->__('Renew') ?></button>
+                    </form>
+                </td>
+            </tr>
+<?php endforeach; ?>
+<?php if ($i == 0): ?>
+            <td colspan="4" id="noadv"></br><?php echo "YOU HAVE NO ADVERTISEMENTS"; ?></br>&nbsp</td>
+<?php endif; ?>
+    </tbody>
+</table>

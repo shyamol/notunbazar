@@ -1,0 +1,25 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>   
+<fb:activity
+site="<?php echo $this->helper('core/url')->getCurrentUrl(); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/activity/width'); ?>" 
+height="<?php echo Mage::getStoreConfig('a4c_facebook/activity/height'); ?>" 
+header="<?php echo (Mage::getStoreConfig('a4c_facebook/activity/header')) ? 'true' : 'false'; ?>"
+colorscheme="<?php echo Mage::getStoreConfig('a4c_facebook/activity/colorscheme'); ?>" 
+linktarget="<?php echo Mage::getStoreConfig('a4c_facebook/activity/linktarget'); ?>"
+font="<?php echo Mage::getStoreConfig('a4c_facebook/activity/font'); ?>" 
+border_color="<?php echo Mage::getStoreConfig('a4c_facebook/activity/border_color'); ?>" 
+recommendations="<?php echo (Mage::getStoreConfig('a4c_facebook/activity/recommendations')) ? 'true' : 'false'; ?>"></fb:activity>
+<?php endif; ?>

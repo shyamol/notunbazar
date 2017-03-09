@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <All4coding_Facebook>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <All4coding_Core/>
+            </depends>
+        </All4coding_Facebook>
+    </modules>
+</config>

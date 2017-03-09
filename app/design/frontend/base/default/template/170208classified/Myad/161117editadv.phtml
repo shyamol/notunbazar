@@ -1,0 +1,316 @@
+<style type="text/css" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+       xmlns="http://www.w3.org/1999/html">
+    .sale_form input[type="text"]{border:1px solid #b6b6b6;}
+    .red { color: #EB340A; }
+    .input-field{
+        font-family: trebuchet ms,Georgia, Times New Roman, Times, serif;
+        font-size: 13px;
+        padding: 2px;
+        color: #2F2F2F;
+        height: 24px;
+        float: right;
+        width: 250px;
+        margin: -3px 160px 5px 0;
+    }
+    .validation-advice{float:right; margin: 0 295px 5px 0;}
+    .clr{margin-left: 188px;}
+    .indent{margin-left: 96px;
+    }
+    .note{font-size: 11px; list-style: disc ; margin-left: 188px;}
+    .check{ font-size: 13px; margin-left: 174px;}
+    .MultiFile-list {
+        clear: left;
+        margin-left: 181px;
+    }
+        }
+</style>
+
+<script type="text/javascript">
+    function check_phone(){
+        var elem = document.getElementById("check-phone");
+        elem.style.display = "block";
+    }
+    function check_location(){
+        var elem = document.getElementById("check-loc");
+        elem.style.display = "block";
+    }
+</script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.blockUI.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.form.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MetaData.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.pack.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.validate.js') ?>"></script>
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+
+<div class="page-title">
+    <h1><?php echo $this->__('Edit Advertisement') ?></h1>
+</div>
+<?php
+
+if(isset($_GET['id']))
+{
+    $id = $_GET['id'];
+}
+
+$product = Mage::getModel('catalog/product')->load($id);
+$cateid = $product->getCategoryIds() ;
+$cateid=$cateid[0];
+
+
+if(isset($_POST) && !empty($_POST['request_flag'])):
+    $params = $this->getRequest()->getParams();
+
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $sellerid = $customer->getentity_id();
+
+if(isset($_POST['phone_check']))
+{
+    $custAddressId = $customer->getDefaultBilling();
+    if($custAddressId){
+        $customAddress = Mage::getModel('customer/address')->load($custAddressId);
+        $customAddress->setTelephone($params['phone']) ;
+    }
+    try {
+        $customAddress->save();
+    }
+    catch (Exception $ex) {
+        Zend_Debug::dump($ex->getMessage());
+    }
+}
+if(isset($_POST['location_check']))
+{
+    $custAddressId = $customer->getDefaultBilling();
+    if($custAddressId){
+        $customAddress = Mage::getModel('customer/address')->load($custAddressId);
+        $customAddress->setStreet($params['location']) ;
+    }
+    try {
+        $customAddress->save();
+    }
+    catch (Exception $ex) {
+        Zend_Debug::dump($ex->getMessage());
+    }
+}
+if(isset($_POST['negotiable']))
+{
+    $newproduct->setNegotiable('1');
+}
+
+    $product->setAttributeSetId(4);
+    $product->setName($params['title']);
+    $product->setCategoryIds(array($params['catetop']));
+    $product->setShortDescription($params['product_description']);
+    $product->setPrice($params['price']);
+    $product->setSeller($params['name']);
+    $product->setPhone($params['phone']);
+    $product->setLocation($params['location']);
+    $product->setEmail($params['email']);
+    $product->setStoreID(0);
+    $product->setStatus('3');
+    
+    foreach($_FILES["file"]["name"] as $name => $value)
+    {
+        if ($_FILES["file"]["name"][$name]!="")
+        {
+            //print_r($_FILES);
+            $imagefile =  "var/". $_FILES["file"]["name"][$name] ;
+            move_uploaded_file($_FILES["file"]["tmp_name"][$name],$imagefile);
+            $product->addImageToMediaGallery($imagefile, array ('image','small_image','thumbnail'), false, false);
+            unlink($imagefile);
+        }
+    }
+    
+    if($product->save())
+    {
+
+        $advertiser_email = $product->getEmail();
+         $ad_id = $product->getentity_id();
+        $proName = $product->getName();
+        $proComment = $product->getComment();
+        $advertiser = $product->getSeller();
+        $AdUrl = Mage::getModel('catalog/product')->load($ad_id)->getProductUrl();
+                          $templateId = 7;
+
+        // Define the sender, here we query Magento default email (in the configuration)
+        // For customer support email, use : 'trans_email/ident_support/...'
+         $sender =  Array('name' => 'NotunBazar', 'email' => 'contact@notunbazar.com');
+        // Set you store
+        // This information may be taken from the current logged in user
+           $store = Mage::app()->getStore();
+        // In this array, you set the variables you use in your template
+           $vars = Array(
+               'proName' => $proName,
+               'proComment' => $proComment,
+               'advertiser' => $advertiser,
+               'proUrl' => $AdUrl,
+               'logo_path' => 'http://notunbazar.com/skin/frontend/default/abac/images/logo.png'
+           );
+
+        // Send your email
+        $translate  = Mage::getSingleton('core/translate');
+
+        Mage::getModel('core/email_template')->sendTransactional($templateId,
+               $sender,
+               $advertiser_email,
+               $advertiser,
+              $vars,
+               $store->getId());
+               
+                      Mage::getModel('core/email_template')->sendTransactional($templateId,
+               $sender,
+               'contact@notunbazar.com',
+               'Notunbazar Admin',
+              $vars,
+               $store->getId());
+
+           $translate->setTranslateInline(true);
+
+
+        Mage::getSingleton('core/session')->addSuccess($this->__('Advertisement has been successfully updated.'));
+        header('Location: http://notunbazar.com/classified/myad');
+    }
+    
+      if ($tagName!="")
+    {
+        $tagName = $params['tags'];
+        $customerID = NULL;
+        $storeId = Mage::app()->getStore()->getId();
+        $productID = $product->getId();
+
+        $tagModel = Mage::getModel('tag/tag');
+
+        function _extractTags($tagName)
+        {
+            return explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+        }
+
+        function _cleanTags(array $tagNamesArr)
+        {
+            foreach( $tagNamesArr as $key => $tagName ) {
+                $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
+                $tagNamesArr[$key] = trim($tagNamesArr[$key]);
+                if( $tagNamesArr[$key] == '' ) {
+                    unset($tagNamesArr[$key]);
+                }
+            }
+            return $tagNamesArr;
+        }
+        $tagNamesArr = _cleanTags(_extractTags($tagName));
+        foreach ($tagNamesArr as $tagName) {
+            $tagModel->loadByName($tagName);
+                //$tagModel->unsetData()->loadByName($tagName);  //if using a loop
+
+            if (!$tagModel->getId()) {
+                $tagModel->setName($tagName)
+                ->setFirstCustomerId($customerId)
+                ->setFirstStoreId($storeId)
+                ->setStatus($tagModel->getPendingStatus())
+                ->save();
+            }
+
+            $relationStatus = $tagModel->saveRelation($productID, $customerId, $storeId);
+        }
+    }
+
+endif;
+?>
+
+            <form method="post" name="sale_form" action="" class="sale_form" id="sale_form" enctype="multipart/form-data">
+                <div style="width: 630px; float: left;">
+                    <div style="margin-left: 20px;">
+                        <div class="fieldset">
+                            <h2 class="legend"><?php echo $this->__('Ad Information') ?></h2>
+                            <label for="catetop" class="sellp-text required"><?php echo $this->__('Select Category') ?> <span class="red">*</span></label>
+                            <?php $_helper = Mage::helper('catalog/category') ?>
+                            <?php $_categories = $_helper->getStoreCategories() ?>
+                            <?php if (count($_categories) > 0): ?>
+<select class="cate-se validate-select" id="cate-top" name="catetop">
+		<option style="color: #2F2F2F; font-weight: bold;" value=""><?php echo $this->__('Select one') ?></option>
+                            <?php foreach($_categories as $_category):?>
+
+                                <option style="color: #2F2F2F; font-weight: bold;" value="<?php echo $_category->getId() ?>" <?php if ($cateid==$_category->getId()):?>selected="selected"<?php endif; ?>>
+                                    <?php echo $_category->getName() ?>
+                                </option>
+                                <?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?><?php $_subcategories = $_category->getChildrenCategories() ?>
+                                <?php if (count($_subcategories) > 0): ?>
+                                    <?php foreach($_subcategories as $_subcategory): ?>
+                                        <option style="color: #2F2F2F ;font-size: 12px;" value="<?php echo $_subcategory->getId() ?>"  <?php if ($cateid==$_subcategory->getId()):?>selected="selected"<?php endif; ?>>  <?php echo '&nbsp'.'&nbsp'.'|-- '.$_subcategory->getName() ?>
+                                        </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endforeach; ?><?php endif; ?>
+                        </select>
+                            <p class="clr">&nbsp;</p>
+                            <label for="title" class="sellp-text required"><?php echo $this->__('Ad Title') ?><span class="red">*</span></label>
+                            <input id="" type="text" class="input-field required-entry" name="title" value="<?php echo $product->getName(); ?>" />
+                            <p class="clr">&nbsp;</p>
+
+                            <p class="sellp-text"><?php echo $this->__('Ad Description') ?></p>
+                            <textarea id="textarea"  name="product_description" style="height: 115px;" class="con-textarea input-field"><?php echo $product->getShortDescription(); ?></textarea>
+                            <ul class="note"><li><?php echo $this->__('Including more details will help you getting better responses') ?></li></ul>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="price" class="sellp-text required"><?php echo $this->__('Desired Price (Tk.)') ?> <span class="red">*</span></label>
+                            <input id=""  type="text" name="price" value="<?php echo $product->getPrice(); ?>"  class="input-field required-entry validate-number" /><br>
+                            <div class="check"><input type="checkbox" name="negotiable" value="Yes" /><?php echo $this->__('Private (Select, if you don\'t want to publish the price)') ?></div>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="image" class="sellp-text"><?php echo $this->__('Add Image') ?></label>
+                            <input type="file" name="file[]" id='file' size="28" class="multi" accept="gif|jpg|png" maxlength="4" style="margin-left: 109px" />
+                            <ul class="note"><li><?php echo $this->__('Allowed image types: jpg, png, gif | Max upload: 4 images') ?></li><li><?php echo $this->__('Ads with multiple images get 3 times better responses than those without') ?></li></ul>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="tags" class="sellp-text"><?php echo $this->__('Keywords') ?></label>
+                            <input id="tags"  type="text" class="input-field" name="tags" value="" /> <br>
+                            <ul class="note"><li><?php echo $this->__('Use spaces to separate tags. Use single quotes (\') for phrases') ?></li><li><?php echo $this->__('Including relevant keywords will make your ad more discoverable') ?></li><ul>
+                                <p class="clr">&nbsp;</p>
+                        </div>
+
+
+                        <div class="fieldset">
+                            <h2 class="legend"><?php echo $this->__('Advertiser Information') ?></h2>
+
+                            <label for="name" class="sellp-text required"><?php echo $this->__('Name') ?> <span class="red">*</span></label>
+                            <input id="" type="text" class="input-field required-entry" name="name" value="<?php echo $product->getSeller(); ?>"/>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="phone" class="sellp-text required"><?php echo $this->__('Phone Number') ?> <span class="red">*</span></label>
+                            <input id="phone" type="text" class="input-field required-entry" name="phone"  onclick="check_phone();" value="<?php echo $product->getPhone(); ?>" />
+                                <div id="check-phone" class="check" style="display: none"><input type="checkbox" name="phone_check" value="Yes"/> <?php echo $this->__('Check to update with your account Phone Number') ?></div>
+
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="email" class="sellp-text"><?php echo $this->__('Email') ?> </label>
+                            <input id="" type="text" class="input-field" name="email" value="<?php echo $product->getEmail(); ?>" />
+
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="location" class="sellp-text"><?php echo $this->__('Location') ?> </label>
+                            <input id="" type="text" class="input-field" name="location" onclick="check_location();"  value="<?php echo $product->getLocation(); ?>" />
+                                    <br>
+                            <?php if ($this->helper('customer')->isLoggedIn() ):
+                            if($street=="" && $city==""): ?>
+                                <div id="check-loc" class="check" style="display: none"><input type="checkbox" name="location_check" value="Yes" /> <?php echo $this->__('Check to update with your account Location') ?></div>
+                                <?php endif; endif; ?>
+                            <p class="clr">&nbsp;</p>
+                        </div>
+
+
+                        <div class="buttons-set">
+                            <p class="back-link"><a href="#" onclick="history.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+                            <button type="submit" title="Submit" class="button validation-passed"><span><span><?php echo $this->__('Update') ?></span></span></button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="request_flag" value="1"/>
+            </form>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('sale_form', true);
+    //]]>
+</script>

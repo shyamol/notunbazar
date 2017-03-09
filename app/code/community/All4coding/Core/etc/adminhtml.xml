@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <menu>
+        <all4coding module="all4coding_core">
+            <title>All4coding</title>
+            <sort_order>10000</sort_order>
+        </all4coding>
+    </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <all4coding module="all4coding_core">
+                        <title>All4coding</title>
+                        <sort_order>10000</sort_order>
+                    </all4coding>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <a4c_core translate="title" module="all4coding_core">
+                                        <title>General Settings</title>
+                                    </a4c_core>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

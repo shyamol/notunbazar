@@ -1,0 +1,517 @@
+<style type="text/css" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"
+xmlns="http://www.w3.org/1999/html">
+.sale_form input[type="text"]{border:1px solid #b6b6b6;}
+.red { color: #EB340A; }
+.input-field{
+    font-family: trebuchet ms,Georgia, Times New Roman, Times, serif;
+    font-size: 13px;
+    padding: 2px;
+    color: #2F2F2F;
+    height: 24px;
+    float: right;
+    width: 250px;
+    margin: -3px 160px 5px 0;
+}
+.validation-advice{float:right; margin: 0 295px 5px 0;}
+.clr{margin-left: 188px;}
+.indent{margin-left: 96px;
+}
+.note{font-size: 11px; list-style: disc ; margin-left: 188px;}
+.check{ font-size: 13px; margin-left: 174px;}
+.MultiFile-list {
+    clear: left;
+    margin-left: 181px;
+}
+}
+</style>
+<script type="text/javascript">
+function check_phone(){
+    var elem = document.getElementById("check-phone");
+    elem.style.display = "block";
+}
+function check_location(){
+    var elem = document.getElementById("check-loc");
+    elem.style.display = "block";
+}
+</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.blockUI.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.form.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MetaData.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.pack.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.validate.js') ?>"></script>
+
+<script type="text/javascript">
+jQuery.noConflict();
+</script>
+ <script type="text/javascript">
+ // var RecaptchaOptions = {
+ // 	custom_translations : { instructions_visual : "শব্দ দুইটি লিখুন" },
+ //    theme : 'clean'
+ // };
+ </script>
+<?php
+
+if(isset($_POST) && !empty($_POST['request_flag'])):
+    $params = $this->getRequest()->getParams();
+
+
+$attributeSetId = 4;
+
+    //$newproduct = Mage::getModel('catalog/product');
+$newproduct = new Mage_Catalog_Model_Product();
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+
+$email = $customer->getEmail();
+$firstname = $customer->getFirstname();
+$lastname = $customer->getLastname()  ;
+$fullname = $firstname ." ". $lastname;
+$sellerid = $customer->getentity_id();
+
+if(isset($_POST['phone_check']))
+{
+    $custAddressId = $customer->getDefaultBilling();
+    if($custAddressId){
+        $customAddress = Mage::getModel('customer/address')->load($custAddressId);
+        $customAddress->setTelephone($params['phone']) ;
+    }
+    try {
+        $customAddress->save();
+    }
+    catch (Exception $ex) {
+        Zend_Debug::dump($ex->getMessage());
+    }
+}
+if(isset($_POST['location_check']))
+{
+    $custAddressId = $customer->getDefaultBilling();
+    if($custAddressId){
+        $customAddress = Mage::getModel('customer/address')->load($custAddressId);
+        $customAddress->setStreet($params['location']) ;
+    }
+    try {
+        $customAddress->save();
+    }
+    catch (Exception $ex) {
+        Zend_Debug::dump($ex->getMessage());
+    }
+}
+if(isset($_POST['negotiable']))
+{
+    $newproduct->setNegotiable('1');
+}
+
+    //  print_r($customer);
+
+$newproduct->setTypeId('simple');
+$newproduct->setWeight(100);
+$newproduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+$newproduct->setStatus(0);
+//$newproduct->setSku('masum');
+$newproduct->setTaxClassId(0);
+$newproduct->setWebsiteIDs(array(1));
+//$newproduct->setStoreIDs(array(1));
+$newproduct->setStoreID(0);
+$newproduct->setStockData(array(
+    'is_in_stock' => 1,
+    'qty' => 2,
+    'manage_stock' => 1
+    ));
+
+$newproduct->setAttributeSetId(4);
+$newproduct->setName($params['title']);
+    $newproduct->setCategoryIds(array($params['catetop'])); // array of categories it will relate to
+
+    $newproduct->setDescription('Blank');
+    $newproduct->setShortDescription($params['product_description']);
+    
+    $dbread = Mage::getSingleton('core/resource')->getConnection('core_read');
+    $sql = $dbread->query("SELECT * FROM ntnbzcatalog_product_entity ORDER BY entity_id DESC LIMIT 1");
+    $res = $sql->fetch();
+    $product_sku = (int)$res["entity_id"] + 1;
+    $newproduct->setSku($product_sku);
+    
+    $baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+    $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode(); 
+    // convert price from current currency to base currency
+    $priceOne = Mage::helper('directory')->currencyConvert($params['price'], $currentCurrencyCode, $baseCurrencyCode); 
+    // convert price from base currency to current currency
+    //$priceTwo = Mage::helper('directory')->currencyConvert($price, $baseCurrencyCode, $currentCurrencyCode);
+    
+    //$newproduct->setPrice($params['price']); //direc from input value
+    $newproduct->setPrice($priceOne); //convert input value to base currency
+    $newproduct->setSeller($params['name']);
+    $newproduct->setPhone($params['phone']);
+    $newproduct->setLocation($params['location']);
+    $newproduct->setEmail($params['email']);
+    $newproduct->setSellerid($sellerid);
+
+    foreach($_FILES["file"]["name"] as $name => $value)
+    {
+        if ($_FILES["file"]["name"][$name]!="")
+        {
+            //print_r($_FILES);
+            $imagefile =  "var/". $_FILES["file"]["name"][$name] ;
+            move_uploaded_file($_FILES["file"]["tmp_name"][$name],$imagefile);
+            $newproduct->addImageToMediaGallery($imagefile, array ('image','small_image','thumbnail'), false, false);
+            unlink($imagefile);
+        }
+    }
+
+    try {
+        if (is_array($errors = $newproduct->validate())) {
+            $strErrors = array();
+            foreach($errors as $code=>$error) {
+                $strErrors[] = ($error === true)? Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code) : $error;
+            }
+            $this->_fault('data_invalid', implode("\n", $strErrors));
+        }
+        //require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+        //require_once('D:/xampp/htdocs/notunbaz/media/captcha/recaptchalib.php');
+        // require_once(Mage::getBaseDir().'/media/captcha/recaptchalib.php');
+        // $privatekey = "6LeUAN0SAAAAAE8P1hgByZtNBqhsB2o2L_0b0ecZ";
+        // $resp = recaptcha_check_answer ($privatekey,
+        //     $_SERVER["REMOTE_ADDR"],
+        //     $_POST["recaptcha_challenge_field"],
+        //     $_POST["recaptcha_response_field"]);
+        //if(isset($_POST['g-recaptcha-response']) && !empty($_POST['g-recaptcha-response'])):
+        //your site secret key
+        $secret = '6LcE2QwUAAAAAD1UjovXRIKO6jGgUSTVOUQuQCgW';
+        //get verify response data
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secret.'&response='.$_POST['g-recaptcha-response']);
+        $responseData = json_decode($verifyResponse);
+        //if($responseData->success):
+        
+        if (!$responseData->success && !$this->helper('customer')->isLoggedIn()) {
+          
+    // What happens when the CAPTCHA was entered incorrectly
+  /*  die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+   "(reCAPTCHA said: " . $resp->error . ")"); */
+ Mage::getSingleton('core/session')->addError('The reCAPTCHA wasnt entered correctly. Please try again.');
+header( 'Location: http://notunbazar.com/post-free-ads/' ) ;
+
+} else {
+    if($newproduct->save())
+    {
+
+        Mage::getSingleton('core/session')->addSuccess('Thanks for your advertisement submission. Your advertisement would be aired shortly.');
+        header( 'Location: http://notunbazar.com/post-free-ads/' ) ;
+    }
+
+    if ($tagName!="")
+    {
+        $tagName = $params['tags'];
+        $customerID = NULL;
+        $storeId = Mage::app()->getStore()->getId();
+        $productID = $newproduct->getId();
+
+        $tagModel = Mage::getModel('tag/tag');
+
+        function _extractTags($tagName)
+        {
+            return explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+        }
+
+        function _cleanTags(array $tagNamesArr)
+        {
+            foreach( $tagNamesArr as $key => $tagName ) {
+                $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
+                $tagNamesArr[$key] = trim($tagNamesArr[$key]);
+                if( $tagNamesArr[$key] == '' ) {
+                    unset($tagNamesArr[$key]);
+                }
+            }
+            return $tagNamesArr;
+        }
+        $tagNamesArr = _cleanTags(_extractTags($tagName));
+        foreach ($tagNamesArr as $tagName) {
+            $tagModel->loadByName($tagName);
+                //$tagModel->unsetData()->loadByName($tagName);  //if using a loop
+
+            if (!$tagModel->getId()) {
+                $tagModel->setName($tagName)
+                ->setFirstCustomerId($customerId)
+                ->setFirstStoreId($storeId)
+                ->setStatus($tagModel->getPendingStatus())
+                ->save();
+            }
+
+            $relationStatus = $tagModel->saveRelation($productID, $customerId, $storeId);
+        }
+    }
+
+        /*  SKU
+         * $_productCollection = Mage::getResourceModel('reports/product_collection')
+            ->addAttributeToSelect('*')
+            ->setOrder('created_at', 'desc');
+                foreach ($_productCollection as $_product) :
+                    //echo $_product->getSku() ;
+                endforeach;  */
+
+
+        // custom email..
+                $templateId = 1;
+
+// Define the sender, here we query Magento default email (in the configuration)
+// For customer support email, use : 'trans_email/ident_support/...'
+                $sender = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                    'email' => Mage::getStoreConfig('trans_email/ident_general/email'));
+
+                $receiver = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                    'email' => Mage::getStoreConfig('contacts/email/recipient_email'));
+
+
+// Set you store
+// This information may be taken from the current logged in user
+                $store = Mage::app()->getStore();
+
+// In this array, you set the variables you use in your template
+                $vars = Array('adname' => $params['title'],
+                    'addesc' => $params['product_description'],
+                    'adprice' => $params['price'],
+                    'fullname' => $params['name']);
+
+// You don't care about this...
+                $translate  = Mage::getSingleton('core/translate');
+
+// Send your email
+                Mage::getModel('core/email_template')->sendTransactional($templateId,
+                    $sender,
+                    $params['email'],
+                    $fullname,
+                    $vars,
+                    $store->getId());
+                
+                Mage::getModel('core/email_template')->sendTransactional($templateId,
+                    $sender,
+                    $receiver[email],
+                    $fullname,
+                    $vars,
+                    $store->getId());
+
+// You don't care as well
+                $translate->setTranslateInline(true);
+       //custom-end 
+            }
+        }
+        catch (Mage_Core_Exception $e) {
+            $this->_fault('data_invalid', $e->getMessage());
+        }
+        endif;
+        ?>
+        <div class="main-body"><!--star body-->
+            <div class="pro-dis">
+                <?php if (!$this->helper('customer')->isLoggedIn() ): ?>
+                <div id="messages"><ul class="messages"><li class="error-msg"><ul><li>
+                    <span><?php echo $this->__("You are welcome to post your advertisement without registration. However, registration and log-in before posting an advertisement is recommended since,") ?>
+                        <br><?php echo $this->__('i. It helps for your credibility among the targeted audience.') ?><br><?php echo $this->__('ii. You wont need to type your phone number, location etc. each time you post an advertisement.') ?></li></ul></span>
+                    </li></ul></div>
+                <?php endif; ?>
+                <br>
+                <div class="page-title">
+                    <h1><?php echo $this->__('Post FREE Ads') ?></h1>
+
+                </div>
+                <div><!--Start details-->
+                    <br>
+                    <form method="post" name="sale_form" action="" class="sale_form" id="sale_form" enctype="multipart/form-data">
+                        <div class="post-add-form" style="float: left;">
+                            <div class="post-add-input-field">
+                                <div class="fieldset">
+                                    <h2 class="legend"><?php echo $this->__('Ad Information') ?></h2>
+                                    <label for="catetop" class="sellp-text required"><?php echo $this->__('Select Category') ?> <span class="red">*</span></label>
+                                    <?php $_helper = Mage::helper('catalog/category') ?>
+                                    <?php $_categories = $_helper->getStoreCategories() ?>
+                                    <?php if (count($_categories) > 0): ?>
+                                    <select class="cate-se validate-select" id="cate-top" name="catetop">
+                                      <option style="color: #2F2F2F; font-weight: bold;" value=""><?php echo $this->__('Select one') ?></option>
+                                      <?php foreach($_categories as $_category): ?>
+                                      <option style="color: #2F2F2F; font-weight: bold;" value="<?php echo $_category->getId() ?>">
+                                        <?php echo $_category->getName() ?>
+                                    </option>
+                                    <?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?><?php $_subcategories = $_category->getChildrenCategories() ?>
+                                    <?php if (count($_subcategories) > 0): ?>
+                                    <?php foreach($_subcategories as $_subcategory): ?>
+                                    <option style="color: #2F2F2F ;font-size: 12px;" value="<?php echo $_subcategory->getId() ?>">  <?php echo '&nbsp'.'&nbsp'.'|-- '.$_subcategory->getName() ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?><?php endif; ?>
+                    </select>
+                    <p class="clr">&nbsp;</p>
+                    <label for="title" class="sellp-text required"><?php echo $this->__('Ad Title') ?> <span class="red">*</span></label>
+                    <input id="" type="text" class="input-field required-entry" name="title" value="" />
+                    <p class="clr">&nbsp;</p>
+
+                    <p class="sellp-text"><?php echo $this->__('Ad Description') ?></p>
+                    <textarea id="textarea"  name="product_description" style="height: 115px;" class="con-textarea input-field"></textarea>
+                    <ul class="note"><li><?php echo $this->__('Including more details will help you getting better responses') ?></li></ul>
+                    <p class="clr">&nbsp;</p>
+
+                    <label for="price" class="sellp-text required"><?php echo $this->__('Desired Price ') ?><?php echo '('.Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol().')'; ?><span class="red">*</span></label>
+                    <input id=""  type="text" name="price" value=""  class="input-field required-entry validate-number" /><br>
+                    <div class="check"><input type="checkbox" name="negotiable" value="Yes" /> <?php echo $this->__("Private (Select, if you don't want to publish the price)") ?></div>
+                    <p class="clr">&nbsp;</p>
+
+                    <label for="image" class="sellp-text"><?php echo $this->__('Add Image') ?></label>
+                    <input type="file" name="file[]" id='file' size="28" class="multi" accept="gif|jpg|png" maxlength="4" style="margin-left: 109px" />
+                    <ul class="note"><li><?php echo $this->__("Allowed image types: jpg, png, gif | Max upload: 4 images") ?></li><li><?php echo $this->__('Ads with multiple images get 3 times better responses than those without') ?></li></ul>
+                    <p class="clr">&nbsp;</p>
+
+                    <label for="tags" class="sellp-text"><?php echo $this->__('Keywords') ?></label>
+                    <input id="tags"  type="text" class="input-field" name="tags" value="" /> <br>
+                    <ul class="note"><li><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases") ?></li><li><?php echo $this->__('Including relevant keywords will make your ad more discoverable') ?></li><ul>
+                        <p class="clr">&nbsp;</p>
+                    </div>
+
+
+                    <div class="fieldset">
+                        <h2 class="legend"><?php echo $this->__('Advertiser Information') ?></h2>
+                        <?php $customer = Mage::getSingleton('customer/session')->getCustomer();
+                        $email = $customer->getEmail();
+                        $firstname = $customer->getFirstname();
+                        $lastname = $customer->getLastname()  ;
+                        $fullname = $firstname ." ". $lastname;
+                        ?>
+
+                        <label for="name" class="sellp-text required"><?php echo $this->__('Name') ?> <span class="red">*</span></label>
+                        <input id="" type="text" class="input-field required-entry" name="name"
+                        <?php if ($this->helper('customer')->isLoggedIn() ): ?>
+                        value="<?php echo $fullname ?>"
+                    <?php else: ?>
+                    value="" <?php endif; ?>
+                    />
+                    <p class="clr">&nbsp;</p>
+
+                    <label for="phone" class="sellp-text required"><?php echo $this->__('Phone Number') ?> <span class="red">*</span></label>
+                    <?php $custAddressId = $customer->getDefaultBilling();
+                    if ($custAddressId){
+                        $address = Mage::getModel('customer/address')->load($custAddressId);
+                        $street = $address->getData('street');
+                        $city = $address->getData('city');
+                        $phone = $address->getData('telephone');
+                    }?>
+                    <input id="phone" type="text" class="input-field required-entry" name="phone"  onclick="check_phone();"
+                    <?php if ($this->helper('customer')->isLoggedIn() ): ?>
+                    value="<?php echo $phone ?>"
+                <?php else: ?>
+                value="" <?php endif; ?>
+                />
+                <?php if ($this->helper('customer')->isLoggedIn() ):
+                if($phone==""): ?>
+                <div id="check-phone" class="check" style="display: none"><input type="checkbox" name="phone_check" value="Yes"/> <?php echo $this->__('Check to update with your account Phone Number') ?></div>
+            <?php endif; endif; ?>
+            <p class="clr">&nbsp;</p>
+
+            <label for="email" class="sellp-text"><?php echo $this->__('Email') ?> </label>
+            <input id="" type="text" class="input-field" name="email"
+            <?php if ($this->helper('customer')->isLoggedIn() ): ?>
+            value="<?php echo $email ?>"
+        <?php else: ?>
+        value="" <?php endif; ?>
+        />
+        <p class="clr">&nbsp;</p>
+
+        <label for="location" class="sellp-text"><?php echo $this->__('Location') ?> </label>
+        <input id="" type="text" class="input-field" name="location" onclick="check_location();"
+        <?php if ($this->helper('customer')->isLoggedIn() ):
+        if ($street!="" && $city!=""): ?>
+        value="<?php echo $street.', '.$city ?>"
+    <?php elseif($street=="" && $city!=""): ?>
+    value="<?php echo $city ?>"
+<?php elseif($street!="" && $city==""): ?>
+ value="<?php echo $street ?>"
+<?php else: ?>
+ value="" <?php endif; endif;?>
+ /> <br>
+ <?php if ($this->helper('customer')->isLoggedIn() ):
+ if($street=="" && $city==""): ?>
+ <div id="check-loc" class="check" style="display: none"><input type="checkbox" name="location_check" value="Yes" /> <?php echo $this->__('Check to update with your account Location') ?></div>
+<?php endif; endif; ?>
+<p class="clr">&nbsp;</p>
+</div>
+
+
+                        <!--    <p class="sellp-text" style="margin-left: 158px;">Location In Map</p>
+                           <p class="clr">&nbsp;</p>
+                          <div class="prof-pic"><img src="{{skin url='images/p-2.jpg'}}" alt="" width="210" height="160" />
+                               <p class="photo-text"><a>Capture</a></p>
+                               <p class="photo-text"><a>Upload</a></p>
+                           </div>-->
+                           <!--<div class="map3"><a><img style="width: 230px; height: 195px;" src="{{skin url='images/map.jpg'}}" alt="" /></a></div>-->
+                           <div class="sellp-text" style="width:auto;">
+                            <!-- <p style="font-size: 18px; padding: 3px 0 0 5px; float: left;">    -->
+                            <input style="width: 20px; height: 23px; float: left;" type="checkbox" name="vehicle" value="Bike" class="validate-must-be-baz"/>
+
+                            <a href="http://notunbazar.com/index.php/terms-and-conditions"><?php echo $this->__('I accept all the Terms and Conditions.') ?></a></p>
+                        </div>
+
+                        <div class="clr">&nbsp;</div>
+                        <!-- <p class="sellp-text">Verification Code</p>
+                        <input id="Enter Code" style="height: 24px; color: #0c83d3; width: 145px; text-align: center; font-family: Agency FB,Georgia, Times New Roman, Times, serif; font-size: 18px;" onfocus="javascript:if(this.value=='Enter Code')this.value='';" onblur="if(this.value=='')this.value='Enter Code';" type="text" name="search" value="Enter Code" />-->
+                        <!--<div class="confirm-butt">
+                            <p class="confirm-text"><a>Confirm</a></p>
+                        </div>-->
+                        <!--<div class="reg-butt"><br />
+                           <p class="regbutton-text">
+                           <a href="javascript:void(0);" onclick="document.getElementById('sale_form').submit();">Register</a></p>
+
+                       </div>-->
+                       <?php if (!$this->helper('customer')->isLoggedIn()): ?>
+                       <?php //echo $this->getChildHtml('studioforty9.recaptcha.explicit'); ?>
+
+                        <div class="g-recaptcha" data-sitekey="6LcE2QwUAAAAAL1HT60CchdehudzTLpYd8X1MNFz"></div>
+                       <?php
+
+                       //require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+                       //require_once('D:/xampp/htdocs/notunbaz/media/captcha/recaptchalib.php');
+                     //  require_once(Mage::getBaseDir().'/media/captcha/recaptchalib.php');
+          //$publickey = "6LeUAN0SAAAAAHT6ucaF6EO6HfXz6_lglp35toIo"; // you got this from the signup page
+          //echo recaptcha_get_html($publickey);
+          ?>
+          <?php 
+            //echo "string";
+            //echo $this->getChildHtml('studioforty9.recaptcha.explicit'); ?>
+      <?php endif; ?>
+
+      <div class="buttons-set">
+        <button type="submit" title="Submit" class="button validation-passed"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+    </div>
+</div>
+</div>
+<input type="hidden" name="request_flag" value="1"/>
+</form>
+<div class="clr">&nbsp;</div>
+</div>
+
+<!--end details-->
+
+
+</div>
+<div class="clr">&nbsp;</div>
+</div>
+<!--end body-->
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('sale_form', true);
+    Validation.add('validate-must-be-baz','You must accept the terms and condition!',
+      //  Validation.add('g-recaptcha-response','You must accept the terms and condition!',
+        function(the_field_value){
+        if(the_field_value == 'Bike')
+        {
+            return true;
+        }
+        return false;
+    });
+    var googleResponse = jQuery('.g-recaptcha-response').val();
+    if (!googleResponse) {
+        $('<p style="color:red !important" class=error-captcha"><span class="glyphicon glyphicon-remove " ></span> Please fill up the captcha.</p>" ').insertAfter("#html_element");
+        return false;
+    } else {
+
+        return true;
+    }
+    //]]>
+    </script>

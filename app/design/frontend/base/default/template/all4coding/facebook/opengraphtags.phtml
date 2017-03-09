@@ -1,0 +1,36 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+$category   = Mage::registry('current_category');
+/* @var $category Mage_Catalog_Model_Category */
+$product    = Mage::registry('current_product');
+/* @var $product Mage_Catalog_Model_Product */
+
+$head = $this->getLayout()->getBlock('head');
+/* @var $head Mage_Page_Block_Html_Head */
+?>
+
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<meta property="fb:app_id" content="<?php echo Mage::getStoreConfig('a4c_facebook/general/appid'); ?>"/>
+<meta property="og:type" content="<?php echo Mage::getStoreConfig('a4c_facebook/likebutton/type'); ?>" />
+<meta property="og:url" content="<?php echo $this->helper('core/url')->getCurrentUrl();?>" />
+<meta property="og:site_name" content="<?php echo Mage::app()->getStore()->getName(); ?>" />
+    <?php if ($category && $category->getImageUrl()) : ?>
+<meta property="og:image" content="<?php echo $category->getImageUrl(); ?>" />
+    <?php elseif ($product) : ?>
+<meta property="og:image" content="<?php echo $product->getImageUrl(); ?>" />
+    <?php else : ?>
+<meta property="og:image" content="<?php echo $this->getLayout()->getBlock('header')->getLogoSrc(); ?>" />
+    <?php endif; ?>
+<meta property="og:title" content="<?php echo $head->getTitle(); ?>" />
+<meta property="og:description" content="<?php echo $head->getDescription(); ?>" />
+<?php endif; ?>

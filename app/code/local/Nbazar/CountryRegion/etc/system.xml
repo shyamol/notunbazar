@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+	  <tabs>
+		<country_region translate="label" module="countryregion">
+            <label>Country Region</label>
+            <sort_order>0</sort_order>
+        </country_region>
+	  </tabs>
+</config>

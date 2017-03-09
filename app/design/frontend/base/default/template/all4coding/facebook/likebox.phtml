@@ -1,0 +1,23 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<fb:like-box 
+href="<?php echo Mage::getStoreConfig('a4c_facebook/general/fb_page_url'); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/likebox/width'); ?>" 
+height="<?php echo Mage::getStoreConfig('a4c_facebook/likebox/height'); ?>" 
+show_faces="<?php echo (Mage::getStoreConfig('a4c_facebook/likebox/show_faces')) ? 'true' : 'false'; ?>" 
+border_color="<?php echo Mage::getStoreConfig('a4c_facebook/likebox/border_color'); ?>" 
+stream="<?php echo (Mage::getStoreConfig('a4c_facebook/likebox/stream')) ? 'true' : 'false'; ?>" 
+header="<?php echo (Mage::getStoreConfig('a4c_facebook/likebox/header')) ? 'true' : 'false'; ?>"></fb:like-box>
+<?php endif; ?>

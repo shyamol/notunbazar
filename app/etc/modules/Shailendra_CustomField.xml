@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Shailendra_CustomField>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Shailendra_CustomField>
+    </modules>
+</config> 

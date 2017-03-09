@@ -1,0 +1,19 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<fb:send 
+href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" 
+font="<?php echo Mage::getStoreConfig('a4c_facebook/sendbutton/font'); ?>"
+colorscheme="<?php echo Mage::getStoreConfig('a4c_facebook/sendbutton/colorscheme'); ?>"></fb:send>
+<?php endif; ?>

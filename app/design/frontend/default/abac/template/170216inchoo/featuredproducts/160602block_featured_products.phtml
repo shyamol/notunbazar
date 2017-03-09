@@ -1,0 +1,84 @@
+<?php
+/**
+ * @category     Inchoo
+ * @package     Inchoo Featured Products
+ * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+ * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+ */
+?>
+<?php $image_size = (int) Mage::getStoreConfig("featuredproducts/cmspage/max_image_dimension") ?>
+<?php if (($_products = $this->getProductCollection()) && $_products->getSize()): ?>
+   <div class="fea-ad" style="width: auto; float: none; margin-left: 0;">
+<p class="fe-text"><?php echo $this->__($this->getBlockLabel()) ?></p>
+</div>
+   <table border="0" cellspacing="0">
+
+        <tbody>
+
+            <?php
+            $i = 0;
+            $row = 0;
+            foreach ($_products->getItems() as $_product):
+                ?>            
+            <?php
+            $_productid = $_product->getId();
+            $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+            $promotionTable = Mage::getSingleton('core/resource')->getTableName('promotion');
+            $query5 = "SELECT promotion_id FROM " . $promotionTable . " where product_id = '$_productid' && order_status = 3 && adtype = 1 ORDER BY promotion_id DESC";
+            $promotion_id = $connection->fetchRow($query5);
+            if($promotion_id):                
+                $model = Mage::getModel('promotion/promotion')->load($promotion_id, 'promotion_id');
+
+                $active_from = $model->getActiveFrom();
+                $active_to = $model->getActiveTo();
+                
+                if ((strtotime($active_to) > strtotime('+0 day')) && (strtotime($active_from) < strtotime('+1 day'))):
+                 ?>
+
+                            <?php if ($i == 0): ?>
+                                <?php $row++; ?>
+                                <tr class="<?php echo (($row % 2) > 0) ? 'odd' : 'even' ?>">
+                            <?php endif; ?>
+                            <td style="text-align: center;">
+
+                                <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>">
+                                    <img class="product-img" src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize($image_size, $image_size) ?>" alt="<?php echo $this->htmlEscape($_product->getName()) ?>" />
+                                </a>
+                                <div class="product-description">
+                                    <p>
+                                        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->htmlEscape($_product->getName()) ?>)">
+                                    <?php echo $this->htmlEscape($_product->getName()) ?>
+                                        </a>
+                                    </p>
+                                    <?php echo $this->getReviewsSummaryHtml($_product, 'short') ?>
+
+                                    <?php if (Mage::getStoreConfig('featuredproducts/general/price_visible')): ?>
+
+                                        <?php echo $this->getPriceHtml($_product, true, '-new') ?>
+
+                                        <?php if ($_product->isSaleable()): ?>
+                                            <!--<button type="button" class="button btn-cart" onclick="setLocation('<?php echo $this->getAddToCartUrl($_product) ?>')"><span><span><?php echo $this->__('Add to Cart') ?></span></span></button>-->
+                                        <?php else: ?>
+                                            <div class="out-of-stock"><?php echo $this->__('Out of stock') ?></div>
+                                        <?php endif; ?>
+
+                                    <?php endif; ?>
+
+                                </div>
+                            </td>
+
+                            <?php $i++;
+                            if ($i == $this->getItemsPerRow()):
+                            ?>
+                                <?php $i = 0; ?>
+                                 </tr>
+                            <?php endif; ?>
+                <?php endif; ?>
+             <?php endif; ?>
+                    
+    <?php endforeach; ?>
+
+        </tbody>
+
+    </table>
+<?php endif; ?>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--
+    /**
+     * @category     Inchoo
+     * @package     Inchoo Top Products
+     * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+     * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+     */
+    -->
+    <modules>
+        <Inchoo_TopProducts>
+            <version>2.0.0</version>
+        </Inchoo_TopProducts>
+    </modules>
+
+    <global>
+        <blocks>
+            <topproducts>
+                <class>Inchoo_TopProducts_Block</class>
+            </topproducts>
+        </blocks>
+
+        <helpers>
+            <topproducts>
+                <class>Inchoo_TopProducts_Helper</class>
+            </topproducts>
+        </helpers>
+
+        <models>
+            <topproducts>
+                <class>Inchoo_TopProducts_Model</class>
+            </topproducts>
+        </models>
+
+        <resources>
+            <topproducts_setup>
+                <setup>
+                    <module>Inchoo_TopProducts</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </topproducts_setup>
+
+            <topproducts_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </topproducts_write>
+            <topproducts_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </topproducts_read>
+        </resources>
+    </global>
+
+    <frontend>
+        <routers>
+            <topproducts>
+                <use>standard</use>
+                <args>
+                    <module>Inchoo_TopProducts</module>
+                    <frontName>top-products</frontName>
+                </args>
+            </topproducts>
+        </routers>
+        <layout>
+            <updates>
+                <topproducts>
+                    <file>inchootopproducts.xml</file>
+                </topproducts>
+            </updates>
+        </layout>
+    </frontend>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <topproducts before="Mage_Adminhtml">Inchoo_TopProducts_Adminhtml</topproducts>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <default>
+        <topproducts>
+            <general>
+                <active>0</active>
+                <price_visible>1</price_visible>
+            </general>
+            <cmspage>
+                <heading_block>Top Products</heading_block>
+                <product_sort_by>random</product_sort_by>
+                <number_of_items>5</number_of_items>
+                <number_of_items_per_row>3</number_of_items_per_row>
+                <max_image_dimension>80</max_image_dimension>
+            </cmspage>
+            <standalone>
+                <heading>Top Products</heading>
+                <layout>two_columns_right</layout>
+                <meta_title>Top Products</meta_title>
+                <meta_description>Check out our great collection of Top products</meta_description>
+                <meta_keywords>top, products</meta_keywords>
+            </standalone>
+        </topproducts>
+    </default>
+</config>

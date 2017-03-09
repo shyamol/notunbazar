@@ -1,0 +1,337 @@
+<?php
+//Check If Customer Is Logged In Or Not.
+if (!Mage::getSingleton("customer/session")->isLoggedIn()) {
+    $session = Mage::getSingleton("customer/session");
+// Store The Current Page Url Where User will be redirected once loggedin
+    $session->setBeforeAuthUrl(Mage::helper("core/url")->getCurrentUrl());
+    $customerLoginURL = $this->getBaseUrl() . "customer/account/login";
+    Mage::app()->getFrontController()->getResponse()->setRedirect($customerLoginURL)->sendResponse();
+}
+
+$read = Mage::getSingleton('core/resource')->getConnection('core_read');
+$prefix = Mage::getConfig()->getTablePrefix();
+$result = $read->query("SELECT DISTINCT t1.option_id as id, t2.value as country FROM " . $prefix . "eav_attribute_option as t1 INNER JOIN " . $prefix . "eav_attribute_option_value as t2 where t1.attribute_id = 146 and t1.option_id = t2.option_id ORDER BY country ASC");
+?>
+<div class="main-body"><!--star body-->
+    <div class="pro-dis">
+        <?php if (!$this->helper('customer')->isLoggedIn()): ?>
+            <div id="messages">
+                <ul class="messages">
+                    <li class="error-msg">
+                        <ul>
+                            <li>
+                                <span>
+                                    <?php echo $this->__("You are welcome to post your advertisement without registration. However, registration and log-in before posting an advertisement is recommended since,"); ?>
+                                    <br/><?php echo $this->__('i. It helps for your credibility among the targeted audience.') ?>
+                                    <br/><?php echo $this->__('ii. You wont need to type your phone number, location etc. each time you post an advertisement.'); ?>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+            </div>
+        <?php endif; ?>
+        <br/>
+
+        <div class="page-title">
+            <h1><?php echo $this->__('Post FREE Ads') ?></h1>
+
+        </div>
+        <div><!--Start details-->
+            <br/>
+
+            <form method="post" name="sale_form" action="/promotion/" class="sale_form" id="sale_form"
+                  enctype="multipart/form-data">
+                <div class="post-add-form" style="float: left;">
+                    <div class="post-add-input-field">
+                        <div class="fieldset">
+                            <h2 class="legend"><?php echo $this->__('Ad Information') ?></h2>
+                            <label for="ad-category"
+                                   class="label-text required"><?php echo $this->__('Select Category') ?>
+                                <span class="red">*</span>
+                            </label>
+                            <?php $_helper = Mage::helper('catalog/category') ?>
+                            <?php $_categories = $_helper->getStoreCategories() ?>
+                            <?php if (count($_categories) > 0): ?>
+                                <select class="cate-se validate-select" id="cate-top" name="ad-category">
+                                    <option style="color: #2F2F2F; font-weight: bold;"
+                                            value=""><?php echo $this->__('Select one') ?></option>
+                                            <?php foreach ($_categories as $_category): ?>
+                                        <option style="color: #2F2F2F; font-weight: bold;"
+                                                value="<?php echo $_category->getId() ?>">
+                                                    <?php echo $_category->getName() ?>
+                                        </option>
+                                        <?php $_category = Mage::getModel('catalog/category')->load($_category->getId()) ?><?php $_subcategories = $_category->getChildrenCategories() ?>
+                                        <?php if (count($_subcategories) > 0): ?>
+                                            <?php foreach ($_subcategories as $_subcategory): ?>
+                                                <option style="color: #2F2F2F ;font-size: 12px;"
+                                                        value="<?php echo $_subcategory->getId() ?>">  <?php echo '&nbsp' . '&nbsp' . '|-- ' . $_subcategory->getName() ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?><?php endif; ?>
+                            </select>
+
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="title" class="label-text required"><?php echo $this->__('Ad Title') ?> <span class="red">*</span></label>
+                            <input id="" type="text" class="input-field required-entry" name="title" value="<?php echo isset($_POST['title']) ? $_POST['title'] : '' ?>"/>
+
+                            <p class="clr">&nbsp;</p>
+
+                            <!--<p class="label-text"><?php //echo $this->__('Ad Description') ?></p> -->
+							<label for="description" class="label-text"><?php echo $this->__('Ad Description') ?></label>
+                            <textarea id="textarea" name="product_short_description" style="height: 115px;" class="con-textarea input-field"></textarea>
+                            <ul class="note">
+                                <li><?php echo $this->__('Including more details will help you getting better responses') ?></li>
+                            </ul>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="price" class="label-text required">
+                                <?php echo $this->__('Desired Price ') ?><?php echo '(' . Mage::app()->getLocale()->currency(Mage::app()->getStore()->getCurrentCurrencyCode())->getSymbol() . ')'; ?>
+                                <span class="red">*</span>
+                            </label>
+                            <input id="" type="text" name="price" value=""
+                                   class="input-field required-entry validate-number"/>
+                            <br/>
+
+                            <div class="check">
+                                <input type="checkbox" name="negotiable" value="Yes"/>
+                                <?php echo $this->__("Private (Select, if you don't want to publish the price)") ?>
+                            </div>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="tags" class="label-text"><?php echo $this->__('Keywords') ?></label>
+                            <input id="tags" type="text" class="input-field" name="tags" value=""/> <br/>
+                            <ul class="note">
+                                <li><?php echo $this->__("Use spaces to separate tags. Use single quotes (') for phrases"); ?></li>
+                                <li><?php echo $this->__('Including relevant keywords will make your ad more discoverable'); ?></li>
+                            </ul>
+                            <p class="clr">&nbsp;</p>
+
+                            <label for="country" class="label-text"><?php echo $this->__('Country') ?></label>                            
+                            <select name="country" id="country" onChange="getState(this.value)" class="cate-se validate-select">
+<!--                                <option value>Country</option>-->
+                                <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)) { ?>
+                                    <option value="<?php echo $row['id'] ?>" <?php if ($row['id'] == 4): ?>selected="selected"<?php endif; ?>><?php echo $row['country'] ?></option>
+                                <?php } ?>
+                            </select>
+                            <p class="clr">&nbsp;</p>
+                            <?php
+                                //$read = Mage::getSingleton('core/resource')->getConnection('core_read');
+                                $country = 17;
+                                $table_country_region = Mage::getSingleton('core/resource')->getTableName('country_region');
+                                $table_eav_attribute_option = Mage::getSingleton('core/resource')->getTableName('eav_attribute_option');
+                                $table_eav_attribute_option_value = Mage::getSingleton('core/resource')->getTableName('eav_attribute_option_value');
+                                $resultState = $read->query("SELECT DISTINCT t1.state_id as id, t2.value as statename FROM " . $table_country_region . " as t1 INNER JOIN  " . $table_eav_attribute_option_value . "  as t2 where t1.country_id = " . $country . " and t2.store_id = 0 and t1.state_id = t2.option_id ORDER BY statename ASC");
+                            ?>
+                            <div id="state_city">
+                                <label for="state_district" class="label-text"><?php echo $this->__('State/District') ?>
+                                    <span class="red">*</span>
+                                </label>
+                                <div id="statediv">
+                                    <select name="state_district" id="state_district" class="cate-se validate-select" onchange="getCity(<?php echo $country; ?>, this.value)">
+                                        <option value>Select State</option>
+                                        <?php while ($rowState = $resultState->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                <option value=<?php echo $rowState['id'] ?>><?php echo $rowState['statename'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <p class="clr">&nbsp;</p>
+
+                                <label for="region_city" class="label-text"><?php echo $this->__('Region/City') ?></label>
+                                <div id="citydiv">
+                                    <select name="region_city" id="region_city" class="cate-se validate-select">
+                                        <option>Select City</option>
+                                    </select>
+                                </div>
+                                <p class="clr">&nbsp;</p>
+								
+								<label for="location" class="label-text required"><?php echo $this->__('Location') ?> <span	class="red">*</span></label>
+								<input id="location" name="location" value="" class="input-field required-entry" type="text">
+
+                            <p class="clr">&nbsp;</p>
+								
+                            </div>
+                        </div>
+
+
+                        <div class="fieldset">
+                            <h2 class="legend"><?php echo $this->__('Advertiser Information') ?></h2>
+                            <label for="phone" class="label-text"><?php echo $this->__('Phone Number') ?>
+                            </label>
+                            <?php
+							//--------------------
+							/*
+							$email = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+							echo $email;
+							
+							$email = Mage::getSingleton('customer/session')->getCustomer()->getEmail();
+							   if ($email) {
+									$address = Mage::getModel('customer/address')->load($email);
+									echo "<pre>"; print_r($address->getData());echo "</pre>";
+							   }
+							
+							$customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultShipping();
+							   if ($customerAddressId) {
+									$address = Mage::getModel('customer/address')->load($customerAddressId);
+									echo "<pre>"; print_r($address->getData());echo "</pre>";
+							   }
+							
+							
+							
+								$customerAddressId = Mage::getSingleton('customer/session')->getCustomer()->getDefaultBilling();
+								if ($customerAddressId){
+								$address = Mage::getModel('customer/address')->load($customerAddressId);
+								echo "<pre>"; print_r($address->getData());echo "</pre>";
+								}
+							
+							$customAddress = Mage::getModel('customer/address')->load($customerAddressId);
+							//echo $customAddress;
+							echo "<pre>"; print_r($customAddress->getData());echo "</pre>";
+							*/
+							//--------------------
+							
+                            $customer = Mage::getSingleton('customer/session')->getCustomer();
+                            $email = $customer->getEmail();
+                            $customerAddressId = $customer->getDefaultBilling();
+                            if ($customerAddressId): {
+                                    $address = Mage::getModel('customer/address')->load($customerAddressId);
+                                    $phone = $address->getData('telephone');
+                                } else:
+                                $phone = '';
+                            endif;
+                            ?>
+                            <input id="email" type="hidden" class="input-field" name="email" value="<?php echo $email ?>"/>
+                            <input id="phone" type="text" class="input-field validate-phoneNo" name="phone"
+                                   onclick="check_phone();" value="<?php echo $phone ?>"/>
+                                   <?php
+                                   if ($this->helper('customer')->isLoggedIn()):
+                                       if ($phone == ""):
+                                           ?>
+                                    <div id="check-phone" class="check">
+                                        <input type="checkbox" name="phone_check" value="Yes"/>
+                                        <?php echo $this->__('Check to update with your account Phone Number') ?>
+                                    </div>
+                                    <?php
+                                endif;
+                            endif;
+                            ?>
+                            <p class="clr">&nbsp;</p>
+                        </div>
+                        <div class="label-text" style="width:auto;">
+                            <input style="width: 20px; height: 23px; float: left; margin-left: 11px;" type="checkbox" name="terms_condition" class="validate-terms"/>
+
+                            <a target="_blank" href="<?php echo Mage::getBaseUrl(); ?>terms-and-conditions/"><?php echo $this->__('I accept all the Terms and Conditions.') ?></a></p>
+                        </div>
+                        <div class="clr">&nbsp;</div>
+                        <div class="buttons-set">
+                            <button type="submit" title="Submit" class="button validation-passed">
+                                <span><span><?php echo $this->__('Next') ?></span></span></button>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" name="request_flag" value="1"/>
+            </form>
+            <div class="clr">&nbsp;</div>
+        </div>
+        <!--end details-->
+    </div>
+    <div class="clr">&nbsp;</div>
+</div>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        //jQuery("#citydiv").hide();
+        jQuery("#country").change(function () {
+            if (jQuery("#country option:selected").text() == "Bangladesh") {
+                jQuery("#state_city").show(500);
+            }
+            else
+            {
+                jQuery("#state_city").hide(500);
+            }
+        });
+    });
+</script>
+<!--end body-->
+<script language="javascript" type="text/javascript">
+    function getXMLHTTP() { //fuction to return the xml http object
+        var xmlhttp = false;
+        try {
+            xmlhttp = new XMLHttpRequest();
+        }
+        catch (e) {
+            try {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {
+                try {
+                    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+                }
+                catch (e1) {
+                    xmlhttp = false;
+                }
+            }
+        }
+
+        return xmlhttp;
+    }
+
+    function getState(countryId) {
+
+        var strURL = "/findState.php?country=" + countryId;
+        var req = getXMLHTTP();
+
+        if (req) {
+
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    // only if "OK"
+                    if (req.status == 200) {
+                        document.getElementById('statediv').innerHTML = req.responseText;
+                        document.getElementById('citydiv').innerHTML = '<select name="region_city" id="region_city" class="cate-se validate-select">' +
+                                '<option>Select City</option>' +
+                                '</select>';
+                    } else {
+                        alert("Problem while using XMLHTTP:\n" + req.statusText);
+                    }
+                }
+            }
+            req.open("GET", strURL, true);
+            req.send(null);
+        }
+    }
+    function getCity(countryId, stateId) {
+        var strURL = "/findCity.php?country=" + countryId + "&state=" + stateId;
+        var req = getXMLHTTP();
+
+        if (req) {
+
+            req.onreadystatechange = function () {
+                if (req.readyState == 4) {
+                    // only if "OK"
+                    if (req.status == 200) {
+                        document.getElementById('citydiv').innerHTML = req.responseText;
+                    } else {
+                        alert("Problem while using XMLHTTP:\n" + req.statusText);
+                    }
+                }
+            }
+            req.open("GET", strURL, true);
+            req.send(null);
+        }
+
+    }
+</script>
+<script type="text/javascript">
+    //<![CDATA[
+    var dataForm = new VarienForm('sale_form', true);
+    Validation.add('validate-terms', 'Please accept Terms and Condition.', function (v) {
+        return !Validation.get('IsEmpty').test(v);
+    });
+    Validation.add('validate-phoneNo', 'Please enter a valid phone number. For example 01234567890 or +8801234567890', function (v) { //phone no validation (+8801111111111 or 01111111111)
+        return Validation.get('IsEmpty').test(v) || /^[+0-9]+[0-9]+$/.test(v);
+    });
+    //]]>
+</script>

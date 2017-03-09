@@ -1,0 +1,23 @@
+<config>
+    <!--
+    /**
+     * @category     Inchoo
+     * @package     Inchoo pending Products
+     * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+     * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+     */
+    -->
+    <menu>
+        <catalog>
+            <children>
+                <inchoo_pendingproducts translate="title" module="inchoo_pendingproducts">
+                    <title>Pending Products</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/pending/index</action>
+                </inchoo_pendingproducts>
+
+            </children>
+        </catalog>
+    </menu>
+
+</config>

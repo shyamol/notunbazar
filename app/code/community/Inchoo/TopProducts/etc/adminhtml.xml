@@ -1,0 +1,55 @@
+<config>
+    <!--
+    /**
+     * @category     Inchoo
+     * @package     Inchoo Top Products
+     * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+     * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+     */
+    -->
+    <menu>
+        <catalog>
+            <children>
+                <topproduct translate="title">
+                    <title>Top Products</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/top/index</action>
+                </topproduct>
+
+            </children>
+        </catalog>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <topproducts translate="title" module="topproducts">
+                                        <title>Top Products Settings</title>
+                                        <sort_order>50</sort_order>
+                                    </topproducts>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <topproduct translate="title" module="topproducts">
+                                <title>Top Products Data</title>
+                                <sort_order>60</sort_order>
+                            </topproduct>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

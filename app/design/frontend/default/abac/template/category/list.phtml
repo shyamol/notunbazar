@@ -1,0 +1,25 @@
+ <?php foreach ($this->getStoreCategories() as $_category): ?>
+<?php $open = $this->isCategoryActive($_category); ?>
+<?php
+$cur_category=Mage::getModel('catalog/category')->load($_category->getId());
+$layer = Mage::getSingleton('catalog/layer');
+$layer->setCurrentCategory($cur_category);
+if ($immagine = $this->getCurrentCategory()->getImageUrl()):
+?>
+				<li class="mosaic-block bar">
+				<a href="<?php echo $this->getCategoryUrl($_category)?>">
+					<div class="mosaic-overlay">
+						<h5 class=""><?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?></h5>
+					<!--	<a href="sell-your-item.html"><h5 class="">Sell</h5></a> -->
+						</div>
+
+
+<img src="<?php echo $immagine ?>" alt="<?php echo $this->htmlEscape($this->getCurrentCategory()->getName()) ?>" width="214" height="192" />
+ </a>
+</li>
+</a>
+
+
+
+<?php endif; ?>
+<?php endforeach; ?>

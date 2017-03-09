@@ -1,0 +1,12 @@
+<?php if($this->getCurrencyCount() > 1): ?>
+ <select onchange="window.location.href=this.value" name="custom-currency-selector" id="custom-currency-selector">
+        <?php foreach ($this->getCurrencies() as $_code => $_name): ?>
+        <option value="<?php echo $this->getSwitchCurrencyUrl($_code)?>"
+                <?php if($_code == $this->getCurrentCurrencyCode()): ?>
+                    selected="selected"
+                <?php endif; ?>>
+            <?php echo $_code ?>
+        </option>
+        <?php endforeach; ?>
+    </select>
+<?php endif; ?>

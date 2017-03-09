@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <classified_adminhtml_classifiedbackend_index>
+	<reference name="content">
+	  <block type="classified/adminhtml_classifiedbackend" name="classifiedbackend" template="classified/classifiedbackend.phtml"/>
+	</reference>
+  </classified_adminhtml_classifiedbackend_index>
+</layout>

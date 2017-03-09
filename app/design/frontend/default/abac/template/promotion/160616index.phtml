@@ -1,0 +1,393 @@
+<?php
+if (!$this->helper('customer')->isLoggedIn()) {
+    Mage::app()->getFrontController()->getResponse()->setRedirect(Mage::getUrl('customer/account'));
+}
+Mage::getSingleton('checkout/session')->unsetData('isPromotion'); //need to unset in checkout page
+Mage::getSingleton('checkout/session')->unsetData('adType'); //need to unset in checkout page
+
+$quote = Mage::getSingleton('checkout/session')->getQuote(); // empty cart
+$quote->delete(); // empty cart
+$productID = Mage::getSingleton('checkout/session')->getData('productId');
+
+if (isset($_POST['a'])) { //From my advertisement renew button
+    $productID = $_POST['productId'];
+}
+
+if (isset($_POST['request_flag'])):
+    $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $email = $customer->getEmail();
+    $firstName = $customer->getFirstname();
+    $lastName = $customer->getLastname();
+    $fullName = $firstName . " " . $lastName;
+    $sellerId = $customer->getentity_id();
+
+    $params = $this->getRequest()->getParams();
+    $newProduct = new Mage_Catalog_Model_Product();
+
+	
+
+	if (isset($_POST['phone_check'])) { //save phone no to customer's address
+		 $_custom_address = array ( 'telephone' => $params['phone'], 'firstname' => $firstName, 'lastname' => $lastName);
+		 $customAddress = Mage::getModel('customer/address');
+
+		 $customAddress->setData($_custom_address)
+		  ->setCustomerId($customer->getId())
+		  ->setIsDefaultBilling('1')
+		  ->setIsDefaultShipping('1');
+		  //->setSaveInAddressBook('1');
+		 try {
+			$customAddress->save();
+		 }
+		 catch (Exception $ex) {
+			Zend_Debug::dump($ex->getMessage());
+		 }
+
+	  }
+/*
+    if (isset($_POST['phone_check'])) { //save phone no to customer's address
+        $customerAddressId = $customer->getDefaultBilling();
+        if ($customerAddressId) {
+            $customAddress = Mage::getModel('customer/address')->load($customerAddressId);
+            $customAddress->setTelephone($params['phone']);
+        }
+        try {
+            $customAddress->save();
+        } catch (Exception $ex) {
+            Zend_Debug::dump($ex->getMessage());
+        }
+    }	
+*/	
+	
+	
+	
+	
+	
+	
+    if (isset($_POST['negotiable'])) { //if you don't want to publish the price
+        $newProduct->setNegotiable('1');
+    }
+    $newProduct->setTypeId('simple');
+    $newProduct->setWeight(4.0000);
+    $newProduct->setVisibility(Mage_Catalog_Model_Product_Visibility::VISIBILITY_BOTH);
+    $newProduct->setStatus(2);
+    $newProduct->setTaxClassId(0);
+    $newProduct->setWebsiteIds(array(Mage::app()->getStore(true)->getWebsite()->getId()));
+    $newProduct->setStoreId(0);
+    $newProduct->setStockData(array(
+        'is_in_stock' => 1,
+        'qty' => 99999,
+        'manage_stock' => 1
+    ));
+
+    $newProduct->setAttributeSetId(4);
+    $newProduct->setName($params['title']);
+    $newProduct->setCategoryIds(array($params['ad-category'])); // array of categories it will relate to
+
+    $newProduct->setDescription('Blank');
+    $newProduct->setShortDescription($params['product_short_description']);
+
+    $read = Mage::getSingleton('core/resource')->getConnection('core_read'); // To read from the database
+    $productTable = Mage::getSingleton('core/resource')->getTableName('catalog_product_entity'); //table name
+    $query = "SELECT entity_id FROM " . $productTable . " ORDER BY entity_id DESC LIMIT 1"; //select latest product id
+    $res = $read->fetchOne($query);
+    $product_sku = (int) $res + 1; //set sku as same as product id (entity_id)
+    $newProduct->setSku($product_sku);
+
+    $baseCurrencyCode = Mage::app()->getStore()->getBaseCurrencyCode();
+    $currentCurrencyCode = Mage::app()->getStore()->getCurrentCurrencyCode();
+    // convert price from current currency to base currency
+    $priceOne = Mage::helper('directory')->currencyConvert($params['price'], $currentCurrencyCode, $baseCurrencyCode);
+    $newProduct->setPrice($priceOne); //convert input value to base currency
+    $newProduct->setPhone($params['phone']);
+    $newProduct->setSellerid($sellerId);
+    
+    //add location
+    
+    $newProduct->setCountry($params['country']);
+    $newProduct->setStateDistrict($params['state_district']);
+    $newProduct->setRegionCity($params['region_city']);
+	$newProduct->setLocation($params['location']);
+	$newProduct->setSeller($fullName);
+
+    try {
+        if (is_array($errors = $newProduct->validate())) {
+            $strErrors = array();
+            foreach ($errors as $code => $error) {
+                $strErrors[] = ($error === true) ? Mage::helper('catalog')->__('Attribute "%s" is invalid.', $code) : $error;
+            }
+            $this->_fault('data_invalid', implode("\n", $strErrors));
+        }
+        if ($newProduct->save()) {
+            $productID = $newProduct->getId();
+            $tagName = $params['tags'];
+            if ($tagName != " ") {
+                $tagName = $params['tags'];
+                $customerID = NULL;
+                $storeId = Mage::app()->getStore()->getId();
+
+                $tagModel = Mage::getModel('tag/tag');
+
+                function _extractTags($tagName) {
+                    return explode("\n", preg_replace("/(\'(.*?)\')|(\s+)/i", "$1\n", $tagName));
+                }
+
+                function _cleanTags(array $tagNamesArr) {
+                    foreach ($tagNamesArr as $key => $tagName) {
+                        $tagNamesArr[$key] = trim($tagNamesArr[$key], '\'');
+                        $tagNamesArr[$key] = trim($tagNamesArr[$key]);
+                        if ($tagNamesArr[$key] == '') {
+                            unset($tagNamesArr[$key]);
+                        }
+                    }
+                    return $tagNamesArr;
+                }
+
+                $tagNamesArr = _cleanTags(_extractTags($tagName));
+                foreach ($tagNamesArr as $tagName) {
+                    $tagModel->loadByName($tagName);
+
+                    if (!$tagModel->getId()) {
+                        $tagModel->setName($tagName)
+                                ->setFirstCustomerId($customerId)
+                                ->setFirstStoreId($storeId)
+                                ->setStatus($tagModel->getPendingStatus())
+                                ->save();
+                    }
+
+                    $relationStatus = $tagModel->saveRelation($productID, $customerId, $storeId);
+                }
+            }
+
+
+            $templateId = 1;
+
+            // Define the sender, here we query Magento default email (in the configuration)
+            // For customer support email, use : 'trans_email/ident_support/...'
+            $sender = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                'email' => Mage::getStoreConfig('trans_email/ident_general/email'));
+
+            $receiver = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                'email' => Mage::getStoreConfig('contacts/email/recipient_email'));
+
+
+            // Set you store
+            // This information may be taken from the current logged in user
+            $store = Mage::app()->getStore();
+
+            // In this array, you set the variables you use in your template
+            $vars = Array('adname' => $params['title'],
+                'addesc' => $params['product_short_description'],
+                'adprice' => $params['price'],
+                'fullname' => $params['name']);
+
+            // You don't care about this...
+            $translate = Mage::getSingleton('core/translate');
+
+            // Send your email
+            Mage::getModel('core/email_template')->sendTransactional($templateId, $sender, $params['email'], $fullName, $vars, $store->getId());
+
+            Mage::getModel('core/email_template')->sendTransactional($templateId, $sender, $receiver[email], $fullName, $vars, $store->getId());
+
+            // You don't care as well
+            $translate->setTranslateInline(true);
+            Mage::getSingleton('core/session')->addSuccess('Thanks for your advertisement submission. Your advertisement would be aired shortly.');
+            //header('Location: http://notunbazar.com/post-free-ads/');
+        }
+    } catch (Mage_Core_Exception $e) {
+        //$this->_fault('data_invalid', $e->getMessage());
+    }
+endif; //End of product save
+
+if ($_POST['listing_submit'] == 1) {
+    $selected_radio = $_POST['status'];
+    $productID = $_POST['product_ID'];
+    Mage::getSingleton('checkout/session')->setData('productId', $productID);
+    if ($selected_radio == 'free') { //free
+        $url = "/classified/myad/photo/?id=" . $productID;
+        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+    } else {
+        Mage::getSingleton('checkout/session')->setData('isPromotion', 'yes');
+        $quoteTable = Mage::getSingleton('core/resource')->getTableName('sales_flat_quote_item');
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        if ($selected_radio == 'featured') { //feature
+            $id = Mage::getStoreConfig('promotion/feature/product', Mage::app()->getStore()); // Replace id with your product id
+            $qty = 1; // Replace qty with your qty
+            $_product = Mage::getModel('catalog/product')->load($id);
+            $cart = Mage::getModel('checkout/cart');
+            //$quote = Mage::getModel('sales/quote')->setStoreId(Mage::app('default')->getStore('default')->getId());
+            //$quote->setTrainingLocation('ssssssss');
+            //$quote->save();
+            $cart->init();
+            $cart->addProduct($_product, array('qty' => $qty));
+            //$quote = $cart->getQuote();
+            //$cart->getQuote()->setTrainingLocation('ssssssss');
+            $cart->save();
+            $quote_id = Mage::getSingleton('checkout/session')->getQuoteId();            
+            $query = "UPDATE " . $quoteTable . " SET promotion_productid = :promotion_productid WHERE quote_id = :quote_id";
+            $binds = array(
+                'promotion_productid' => $productID,
+                'quote_id' => $quote_id,
+            );
+            $write->query($query, $binds);
+            Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
+            Mage::getSingleton('checkout/session')->setData('adType', '1'); //1 for Feature/Premium
+        }
+        if ($selected_radio == 'top') { //top/platinum
+            $id = Mage::getStoreConfig('promotion/top/product', Mage::app()->getStore()); // Replace id with your product id
+            $qty = '1'; // Replace qty with your qty
+            $_product = Mage::getModel('catalog/product')->load($id);
+            $cart = Mage::getModel('checkout/cart');
+            $cart->init();
+            $cart->addProduct($_product, array('qty' => $qty));
+            $cart->save();
+            $quote_id = Mage::getSingleton('checkout/session')->getQuoteId();            
+            $query = "UPDATE " . $quoteTable . " SET promotion_productid = :promotion_productid WHERE quote_id = :quote_id";
+            $binds = array(
+                'promotion_productid' => $productID,
+                'quote_id' => $quote_id,
+            );
+            $write->query($query, $binds);
+            Mage::getSingleton('checkout/session')->setCartWasUpdated(true);
+            Mage::getSingleton('checkout/session')->setData('adType', '2'); //2 for Top/
+        }
+        $url = "/checkout/onepage/";
+        Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+    }
+}
+?>
+<?php
+if ($productID == '') {
+    $url = "/";
+    Mage::app()->getFrontController()->getResponse()->setRedirect($url);
+}
+?>
+<form class="listing" action="" method="post">
+    <div class="boat-listing-type">
+        <div class="listing-type-promotion">
+            <h2 class="product-name">
+                <?php echo Mage::getStoreConfig('promotion/free/title', Mage::app()->getStore()); ?>
+            </h2>
+
+            <div class="product-info">
+                <div class="edit-price-box"><p><?php echo "FREE"; ?></p></div>
+                <div class="text-content-promotion">
+                    <div class="week">
+                        <?php echo Mage::getStoreConfig('promotion/free/weeks', Mage::app()->getStore()) . " Weeks"; ?>
+                    </div>
+                    <div class="photo">
+                        <?php echo Mage::getStoreConfig('promotion/free/photos', Mage::app()->getStore()) . " Photos"; ?>
+                    </div>
+                    <div class="featured">
+                        <?php echo Mage::getStoreConfig('promotion/free/message1', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="contact-link">
+                        <?php echo Mage::getStoreConfig('promotion/free/message2', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result1">
+                        <?php echo Mage::getStoreConfig('promotion/free/message3', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result2">
+                        <?php echo Mage::getStoreConfig('promotion/free/message4', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result3"></div>
+
+                </div>
+            </div>
+            <div class="check-input">
+                <input type="radio" name="status" value="free">
+                </div>
+        </div>
+        <div class="listing-type-promotion2">
+            <div class="promotion-ribbon-content">
+                <?php
+                $productModel = Mage::getModel('catalog/product');
+                $feature = Mage::getStoreConfig('promotion/feature/product', Mage::app()->getStore());
+                $featured_product = $productModel->load($feature);
+                $fprice = $featured_product->getPrice(); // same as $product->getData('price');
+                $featured_price = Mage::helper('core')->currency($fprice, true, false);
+                ?>
+                <div class="side-corner-tag">
+                    <div class="promotion-ribbon">
+                        <h2 class="product-name1"><?php echo Mage::getStoreConfig('promotion/feature/title', Mage::app()->getStore()); ?></h2>
+
+                        <div class="product-info">
+                            <div class="edit-price-box">
+                                <p><?php echo $featured_price; ?></p>
+                            </div>
+                            <div class="text-content-promotion">
+                                <div class="week">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/weeks', Mage::app()->getStore()) . "weeks"; ?>
+                                </div>
+                                <div class="photo">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/photos', Mage::app()->getStore()) . "Photos"; ?>
+                                </div>
+                                <div class="featured">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/message1', Mage::app()->getStore()); ?></div>
+                                <div class="contact-link">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/message2', Mage::app()->getStore()); ?></div>
+                                <div class="search-result1">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/message3', Mage::app()->getStore()); ?></div>
+                                <div class="search-result2">
+                                    <?php echo Mage::getStoreConfig('promotion/feature/message4', Mage::app()->getStore()); ?></div>
+                                <div class="search-result3"></div>
+                            </div>
+                        </div>
+                        <div class="check-input-promotion">
+                            <input type="radio" name="status" value="featured" checked>
+                            </div>
+                    </div>
+                    <p><span>Most<br>Popular</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="listing-type-promotion">
+            <?php
+            $top = Mage::getStoreConfig('promotion/top/product', Mage::app()->getStore());
+            $top_product = $productModel->load($top);
+            $tprice = $top_product->getPrice(); // same as $product->getData('price');
+            $top_price = Mage::helper('core')->currency($tprice, true, false);
+            ?>
+            <h2 class="product-name"><?php echo Mage::getStoreConfig('promotion/top/title', Mage::app()->getStore()); ?></h2>
+
+            <div class="product-info">
+                <div class="edit-price-box">
+                    <p><?php echo $top_price; ?></p>
+                </div>
+                <div class="text-content-promotion">
+                    <div class="week">
+                        <?php echo Mage::getStoreConfig('promotion/top/weeks', Mage::app()->getStore()) . "Weeks"; ?>
+                    </div>
+                    <div class="photo">
+                        <?php echo Mage::getStoreConfig('promotion/top/photos', Mage::app()->getStore()) . "Photos"; ?>
+                    </div>
+                    <div class="featured-Platinum">
+                        <?php echo Mage::getStoreConfig('promotion/top/message1', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="contact-link">
+                        <?php echo Mage::getStoreConfig('promotion/top/message2', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result1">
+                        <?php echo Mage::getStoreConfig('promotion/top/message3', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result2">
+                        <?php echo Mage::getStoreConfig('promotion/top/message4', Mage::app()->getStore()); ?>
+                    </div>
+                    <div class="search-result3">
+                        <?php echo Mage::getStoreConfig('promotion/top/message5', Mage::app()->getStore()); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="check-input">
+                <input type="radio" name="status" value="top"><?php echo $top_name; ?><br>
+                </div>
+        </div>
+        <input type="hidden" name="listing_submit" value="1"/>
+        <input type="hidden" name="product_ID" value="<?php echo $productID; ?>" />
+    </div>
+    <div class="listing-form-submit">
+        <button type="submit" title="<?php echo $this->__('Next') ?>" class="button btn-cart">
+            <span><span><?php echo $this->__('Next') ?></span></span></button>
+    </div>
+
+</form>

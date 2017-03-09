@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="after_body_start">
+            <block type="core/template" name="facebook_sdk" template="all4coding/facebook/sdk.phtml" />
+        </reference>
+    </default>
+    
+    <!--like button-->
+    <cms_index_index>
+        <reference name="content">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/homecontent">
+                    <template>all4coding/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/homecontent">
+                    <template>all4coding/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="content">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/pagecontent">
+                    <template>all4coding/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/pagecontent">
+                    <template>all4coding/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="content">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/categorycontent">
+                    <template>all4coding/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/categorycontent">
+                    <template>all4coding/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="product.info.extrahint">
+            <block type="core/template" name="product.info.extrahint.facebook_like" before="-">
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/productcontent">
+                    <template>all4coding/facebook/like.phtml</template>
+                </action>
+            </block>
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="a4c_facebook/likebutton/productcontent">
+                    <template>all4coding/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+
+    <!--send button-->
+    <cms_index_index>
+        <reference name="content">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/sendbutton/homecontent">
+                    <template>all4coding/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="content">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/sendbutton/pagecontent">
+                    <template>all4coding/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="content">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/sendbutton/categorycontent">
+                    <template>all4coding/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="product.info.extrahint">
+            <block type="core/template" name="product.info.extrahint.facebook_send" before="-">
+                <action method="setTemplate" ifconfig="a4c_facebook/sendbutton/productcontent">
+                    <template>all4coding/facebook/send.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+
+    <!--comments-->
+    <catalog_product_view>
+        <reference name="product.info">                
+            <block type="core/template" name="product.fbcomments" as="fbcomments" template="all4coding/facebook/comments.phtml">
+                <action method="addToParentGroup" ifconfig="a4c_facebook/comments/productcontent">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+    
+    <!--activity-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/lefthomecolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/righthomecolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/leftpagecolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/rightpagecolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/leftcategorycolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/rightcategorycolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/leftproductcolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/activity/rightproductcolumn">
+                    <template>all4coding/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    
+    <!--recommendations-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/lefthomecolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/righthomecolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/leftpagecolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/rightpagecolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/leftcategorycolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/rightcategorycolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/leftproductcolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/recommendations/rightproductcolumn">
+                    <template>all4coding/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    
+    <!--likebox-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/lefthomecolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/righthomecolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/leftpagecolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/rightpagecolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/leftcategorycolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/rightcategorycolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/leftproductcolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/likebox/rightproductcolumn">
+                    <template>all4coding/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    
+    <!--facepile-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/lefthomecolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/righthomecolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/leftpagecolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/rightpagecolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/leftcategorycolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/rightcategorycolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/leftproductcolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/facepile/rightproductcolumn">
+                    <template>all4coding/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    
+    <!-- livestream -->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_livestream_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/lefthomecolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_livestream_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/righthomecolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    
+    <cms_page_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_livestream_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/leftpagecolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_livestream_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/rightpagecolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_page_view>
+
+    <catalog_category_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_livestream_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/leftcategorycolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_livestream_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/rightcategorycolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_view>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_livestream_left" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/leftproductcolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="right">
+            <block type="core/template" name="facebook_livestream_right" after="-" >
+                <action method="setTemplate" ifconfig="a4c_facebook/livestream/rightproductcolumn">
+                    <template>all4coding/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+</layout>

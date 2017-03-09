@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Nbazar_Promotion>
+            <version>0.1.0</version>
+        </Nbazar_Promotion>
+    </modules>
+    <frontend>
+        <routers>
+            <promotion>
+                <use>standard</use>
+                <args>
+                    <module>Nbazar_Promotion</module>
+                    <frontName>promotion</frontName>
+                </args>
+            </promotion>
+        </routers>
+        <layout>
+            <updates>
+                <promotion>
+                    <file>promotion.xml</file>
+                </promotion>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+        <helpers>
+            <promotion>
+                <class>Nbazar_Promotion_Helper</class>
+            </promotion>
+        </helpers>
+        <blocks>
+            <promotion>
+                <class>Nbazar_Promotion_Block</class>
+            </promotion>
+        </blocks>
+        <models>
+            <promotion>
+                <class>Nbazar_Promotion_Model</class>
+                <resourceModel>promotion_mysql4</resourceModel>
+            </promotion>
+            <promotion_mysql4>
+                <class>Nbazar_Promotion_Model_Mysql4</class>
+                <entities>
+                    <promotion>
+                        <table>promotion</table>
+                    </promotion>
+                </entities>
+            </promotion_mysql4>
+        </models>
+        <resources>
+            <promotion_setup>
+                <setup>
+                    <module>Nbazar_Promotion</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </promotion_setup>
+            <promotion_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </promotion_write>
+            <promotion_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </promotion_read>
+        </resources>
+        <events>
+            <sales_model_service_quote_submit_after> <!-- identifier of the event we want to catch -->
+                <observers>
+                    <sales_model_service_quote_submit_after> <!-- identifier of the event handler -->
+                        <type>singleton</type>
+                        <!-- class method call type; valid are model, object and singleton -->
+                        <class>promotion/observer</class>
+                        <!-- observers class alias -->
+                        <method>saveOrderAfter</method>
+                        <!-- observer's method to be called -->
+                        <!-- additional arguments passed to observer -->
+                    </sales_model_service_quote_submit_after>
+                </observers>
+            </sales_model_service_quote_submit_after>
+            <sales_order_invoice_save_after>
+                <observers>
+                    <promotion_order_export>
+                        <type>singleton</type>
+                        <class>Nbazar_Promotion_Model_Observer</class>
+                        <method>orderComplete</method>
+                    </promotion_order_export>
+                </observers>
+            </sales_order_invoice_save_after>
+            <admin_system_config_changed_section_promotion>
+                <observers>
+                    <mymodule>
+                        <type>singleton</type>
+                        <class>promotion/observer</class>
+                        <method>handle_adminSystemConfigChangedSection</method>
+                    </mymodule>
+                </observers>
+            </admin_system_config_changed_section_promotion>
+        </events>
+    </global>
+    <admin>
+        <routers>
+            <promotion>
+                <use>admin</use>
+                <args>
+                    <module>Nbazar_Promotion</module>
+                    <frontName>promotion</frontName>
+                </args>
+            </promotion>
+        </routers>
+    </admin>
+    <adminhtml>
+        <menu>
+            <promotion module="promotion">
+                <title>Promotion</title>
+                <sort_order>100</sort_order>
+                <children>
+                    <!--
+                    <promotionbackend module="promotion">
+                          <title>Promotional Prodct</title>
+                          <sort_order>0</sort_order>
+                          <action>promotion/adminhtml_promotionbackend</action>
+                    </promotionbackend>
+                    -->
+                    <promotion module="promotion">
+                        <title>Manage Promotional Product</title>
+                        <sort_order>10</sort_order>
+                        <action>promotion/adminhtml_promotion</action>
+                    </promotion>
+                    <settings translate="title" module="promotion">
+                        <title>Settings</title>
+                        <action>adminhtml/system_config/edit/section/promotion</action>
+                        <sort_order>20</sort_order>
+                    </settings>
+                </children>
+            </promotion>
+        </menu>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <promotion translate="title" module="promotion">
+                            <title>Promotion</title>
+                            <sort_order>1000</sort_order>
+                            <children>
+                                <promotionbackend translate="title">
+                                    <title>Promotional Prodct</title>
+                                </promotionbackend>
+                                <promotion translate="title">
+                                    <title>Manage Promotion</title>
+                                    <sort_order>0</sort_order>
+                                </promotion>
+                            </children>
+                        </promotion>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <promotion>
+                    <file>promotion.xml</file>
+                </promotion>
+            </updates>
+        </layout>
+    </adminhtml>
+</config> 

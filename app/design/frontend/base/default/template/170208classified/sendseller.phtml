@@ -1,0 +1,279 @@
+<script type="text/javascript">
+    var RecaptchaOptions = {
+        theme : 'clean'
+    };
+</script>
+
+<div class="page-title">
+    <h1>Message to Advertiser</h1>
+</div>
+<?php
+
+$session = Mage::getSingleton('customer/session');
+
+if ($session->isLoggedIn()) {
+    $username= $session->getCustomer()->getName();
+    $email = $session->getCustomer()->getEmail();
+    $sender_id = $session->getCustomer()->getEntityId();
+}
+
+
+$proid= $_GET['id'];
+$productUrl = Mage::getModel('catalog/product')->load($proid)->getProductUrl();
+
+$_newProduct = Mage::getModel('catalog/product')->load($proid);
+
+$proName= $_newProduct->getName();
+$seller= $_newProduct->getSeller();
+$seller_id = $_newProduct->getSellerid();
+$rcvEmail= $_newProduct->getEmail();
+$location= $_newProduct->getLocation();
+$phone= $_newProduct->getPhone();
+
+if(isset($_POST) && !empty($_POST['request_flag'])):
+    require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+    $privatekey = "6LeUAN0SAAAAAE8P1hgByZtNBqhsB2o2L_0b0ecZ";
+    $resp = recaptcha_check_answer ($privatekey,
+        $_SERVER["REMOTE_ADDR"],
+        $_POST["recaptcha_challenge_field"],
+        $_POST["recaptcha_response_field"]);
+
+    if (!$resp->is_valid && !$this->helper('customer')->isLoggedIn()) {
+
+        // What happens when the CAPTCHA was entered incorrectly
+        /*  die ("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+               "(reCAPTCHA said: " . $resp->error . ")"); */
+        Mage::getSingleton('core/session')->addError('The reCAPTCHA wasnt entered correctly. Please try again.');
+        //$this->_redirect('http://www.google.com');//redirect to a block or your own custom block in order to display the message
+        header( 'Location: http://www.notunbazar.com/classified/send?id='.$proid ) ;
+
+    } else {
+
+        $params = $this->getRequest()->getParams();
+
+        $customer_data = Mage::getModel('customer/customer')->load($seller_id);
+        $customer_email = $customer_data->getEmail();
+
+       // $sender_email = $params['email'];
+        $sender_name = $username;
+        $sender_message = $params['message'];
+        $created = date("Y-m-d H:i:s", time());
+
+        if( $customer_data->getEntityId()!=NULL)
+        {
+            if($rcvEmail==NULL)
+            {
+                if($customer_email==NULL)
+                {
+                    //echo "insert to my mssg";
+                    //insertPM();
+                    $sql = "INSERT INTO messages (ad_id, mssg_title, auth_a, auth_b, not_read_by_a, not_read_by_b) VALUES ('$proid','$proName', '$sender_id','$seller_id', '$sender_id','$seller_id')";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                    $connection->query($sql);
+
+                    $sql = "SELECT max(mssg_id) FROM messages";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+                    $maxid = $connection->fetchOne($sql);
+
+                    $sql = "INSERT INTO messages_body (mssg_id, sender_name, sender_id, sender_email, receiver_id, mssg, created,  auth_a, auth_b) VALUES ('$maxid', '$sender_name','$sender_id','$sender_email','$seller_id','$sender_message','$created', '$sender_id','$seller_id')";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                    $connection->query($sql);
+                }
+                else
+                {
+                    // echo "insert to my mssg. sent notify to". $customer_email;
+                    //insertPM();
+                    $sql = "INSERT INTO messages (ad_id, mssg_title, auth_a, auth_b, not_read_by_a, not_read_by_b) VALUES ('$proid','$proName', '$sender_id','$seller_id', '$sender_id','$seller_id')";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                    $connection->query($sql);
+
+                    $sql = "SELECT max(mssg_id) FROM messages";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+                    $maxid = $connection->fetchOne($sql);
+
+                    $sql = "INSERT INTO messages_body (mssg_id, sender_name, sender_id, sender_email, receiver_id, mssg, created,  auth_a, auth_b) VALUES ('$maxid', '$sender_name','$sender_id','$sender_email','$seller_id','$sender_message','$created', '$sender_id','$seller_id')";
+                    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                    $connection->query($sql);
+                    // sendEmail("3",$customer_email);
+             /*       $templateId = 3;
+
+// Define the sender, here we query Magento default email (in the configuration)
+// For customer support email, use : 'trans_email/ident_support/...'
+                    $sender =  Array('name' => $sender_name, 'email' => $sender_email);
+// Set you store
+// This information may be taken from the current logged in user
+                    $store = Mage::app()->getStore();
+// In this array, you set the variables you use in your template
+                    $vars = Array(
+                        'proName' => $proName,
+                        'message' => $sender_message,
+                        'email_sender' => $sender_email,
+                        'senderName' => $sender_name,
+                        'seller' => $seller,
+                        'proUrl' => $productUrl
+                    );
+
+// Send your email
+                    $translate  = Mage::getSingleton('core/translate');
+                    Mage::getModel('core/email_template')->sendTransactional($templateId,
+                        $sender,
+                        $customer_email,
+                        $seller,
+                        $vars,
+                        $store->getId());
+
+                    $translate->setTranslateInline(true);     */
+                    Mage::getSingleton('catalog/session')->addSuccess($this->__('Your message has been sent.'));
+                    header('Location:'. $productUrl ) ;
+                    exit();
+                }
+            }
+            else
+            {
+                //echo "insert to my mssg. send notify to". $rcvEmail;
+                // insertPM();
+                $sql = "INSERT INTO messages (ad_id, mssg_title, auth_a, auth_b, not_read_by_a, not_read_by_b) VALUES ('$proid','$proName', '$sender_id','$seller_id', '$sender_id','$seller_id')";
+                $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                $connection->query($sql);
+
+                $sql = "SELECT max(mssg_id) FROM messages";
+                $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+                $maxid = $connection->fetchOne($sql);
+
+                $sql = "INSERT INTO messages_body (mssg_id, sender_name, sender_id, sender_email, receiver_id, mssg, created,  auth_a, auth_b) VALUES ('$maxid', '$sender_name','$sender_id','$sender_email','$seller_id','$sender_message','$created', '$sender_id','$seller_id')";
+                $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+                $connection->query($sql);
+                //  sendEmail("3",$rcvEmail);
+           /*     $templateId = 3;
+
+// Define the sender, here we query Magento default email (in the configuration)
+// For customer support email, use : 'trans_email/ident_support/...'
+                $sender =  Array('name' => $sender_name, 'email' => $sender_email);
+// Set you store
+// This information may be taken from the current logged in user
+                $store = Mage::app()->getStore();
+// In this array, you set the variables you use in your template
+                $vars = Array(
+                    'proName' => $proName,
+                    'message' => $sender_message,
+                    'email_sender' => $sender_email,
+                    'senderName' => $sender_name,
+                    'seller' => $seller,
+                    'proUrl' => $productUrl
+                );
+
+// Send your email
+                $translate  = Mage::getSingleton('core/translate');
+                Mage::getModel('core/email_template')->sendTransactional($templateId,
+                    $sender,
+                    $rcvEmail,
+                    $seller,
+                    $vars,
+                    $store->getId());
+
+                $translate->setTranslateInline(true); */
+                Mage::getSingleton('catalog/session')->addSuccess($this->__('Your message has been sent.'));
+                header( 'Location:'. $productUrl ) ;
+                exit();
+            }
+        }
+
+    }
+
+endif;
+
+        $customer_data = Mage::getModel('customer/customer')->load($seller_id);
+        $customer_email = $customer_data->getEmail();
+        
+         if( $customer_data->getEntityId()==NULL):
+        
+?>
+            <div id="messages"><ul class="messages"><li class="error-msg"><ul><li>
+            You cannot send message for this advertisement. Because the owner of this advertisement is not registered with this system.
+            </li></ul></div>
+            
+                <div class="buttons-set">
+        <p class="back-link"><a href="#" onclick="history.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+    </div>
+    
+            <?php else: ?>
+<form action="" method="post" name="product_sendtofriend_form" id="product_sendtofriend_form" enctype="multipart/form-data">
+    <div class="fieldset">
+        <?php echo $this->getBlockHtml('formkey')?>
+        <h2 class="legend"><?php echo $this->__('Sender:') ?></h2>
+        <ul class="form-list" id="sender_options">
+<!--            <li class="fields">
+                <div class="field">
+                    <label for="sender_name" class="required"><em>*</em><?php echo $this->__('Name:') ?></label>
+                    <div class="input-box">
+                        <input name="name" value="<?php echo $username; ?>" title="<?php echo $this->__('Name') ?>" id="sender_name" type="text" class="input-text required-entry" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="sender_email" class="required"><em>*</em><?php echo $this->__('Email:') ?></label>
+                    <div class="input-box">
+                        <input name="email" value="<?php echo $email; ?>" title="<?php echo $this->__('Email Address') ?>" id="sender_email" type="text" class="input-text required-entry validate-email" />
+                    </div>
+                </div>
+            </li> -->
+            <li class="wide">
+                <label for="sender_message" class="required"><em>*</em><?php echo $this->__('Message:') ?></label>
+                <div class="input-box">
+                    <textarea name="message" class="input-text required-entry" id="sender_message" cols="3" rows="3"></textarea>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="fieldset">
+        <h2 class="legend"><?php echo $this->__('Recipient:') ?></h2>
+        <ul class="form-list" id="sender_options">
+            <li class="fields">
+                <div class="field">
+                    <label for="sender_name"><?php echo $this->__('Name:') ?></label>&nbsp
+                    <?php echo $seller; ?>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="sender_name"><?php echo $this->__('Location:') ?></label>&nbsp
+                    <?php echo $location; ?>
+                </div>
+            </li>
+            <li class="fields">
+                <div class="field">
+                    <label for="sender_name"><?php echo $this->__('Phone: ')?></label>&nbsp
+                    <?php echo $phone; ?>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <?php if (!$this->helper('customer')->isLoggedIn()): ?>
+    <?php
+    require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+    $publickey = "6LeUAN0SAAAAAHT6ucaF6EO6HfXz6_lglp35toIo"; // you got this from the signup page
+    echo recaptcha_get_html($publickey);
+    ?>
+    <?php endif; ?>
+    <div class="buttons-set">
+        <p class="back-link"><a href="#" onclick="history.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <button type="submit" class="button disabled="disabled"><span><span><?php echo $this->__('Send') ?></span></span></button>
+    </div>
+
+    <input type="hidden" name="request_flag" value="1"/>
+</form>
+
+<div class="clr">&nbsp;</div>
+</div>
+<div class="clr">&nbsp;</div>
+</div>
+<?php endif; ?>
+<script type="text/javascript">
+    //<![CDATA[
+    var productSendtofriendForm = new VarienForm('product_sendtofriend_form');
+    productSendtofriendForm.submit = function() {
+        if(this.validator.validate()) {
+            this.form.submit();
+        }
+    }.bind(productSendtofriendForm);
+    //]]>
+</script>

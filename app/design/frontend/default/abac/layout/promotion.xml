@@ -1,0 +1,17 @@
+<?xml version="1.0"?>   
+<layout version="0.1.0">   
+    <promotion_index_index>   
+        <reference name="root">   
+            <action method="setTemplate">
+                <template>page/3columns.phtml</template>
+            </action>   
+        </reference>   
+        <reference name="content">   
+            <block type="promotion/index" name="promotion_index" template="promotion/index.phtml"/>   
+        </reference>
+        <reference name="left">
+            <block type="sidebarsearch/advanced_sidebar" name="sidebarsearch_advanced_sidebar" template="inchoo/sidebarsearch/advanced/sidebar.phtml" before="-"/>
+        </reference>   
+    </promotion_index_index>   
+</layout>   
+	

@@ -1,0 +1,35 @@
+<?php
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this All4coding_Core_Block_Widget_Form_Renderer_Fieldset */
+
+?>
+<?php $_element = $this->getElement() ?>
+<?php if ($_element->getFieldsetContainerId()): ?>
+<div id="<?php echo $_element->getFieldsetContainerId(); ?>">
+<?php endif; ?>
+    <div class="fieldset <?php echo $_element->getClass() ?>" id="<?php echo $_element->getHtmlId() ?>">
+        <?php if ($_element->getLegend()): ?>
+        <h2 class="legend"><?php echo $_element->getLegend() ?></h2>
+        <?php endif; ?>
+        <?php if ($_element->getComment()): ?>
+            <p class="comment"><?php echo $this->escapeHtml($_element->getComment()) ?></p>
+        <?php endif; ?>
+        <?php if ($_element->hasHtmlContent()): ?>
+            <?php echo $_element->getHtmlContent(); ?>
+        <?php else: ?>
+        <ul class="form-list">
+            <?php echo $_element->getChildrenHtml(); ?>
+        </ul>
+        <?php endif; ?>
+        <?php echo $_element->getSubFieldsetHtml() ?>
+    </div>
+<?php if ($_element->getFieldsetContainerId()): ?>
+</div>
+<?php endif; ?>

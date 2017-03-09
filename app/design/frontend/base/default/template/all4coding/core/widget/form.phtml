@@ -1,0 +1,36 @@
+<?php
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+/* @var $this All4coding_Core_Block_Widget_Form */
+
+$form = $this->getForm();
+
+?>
+<?php if ($useContainer = $form->getUseContainer()): ?>
+    <form <?php echo $form->serialize($form->getHtmlAttributes()); ?>>
+<?php endif; ?>
+<?php foreach ($form->getElements() as $element): ?>
+    <?php echo $element->toHtml(); ?>
+<?php endforeach; ?>
+<?php if ($useContainer): ?>
+    <div class="buttons-set">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <?php if ($this->getBackurl()): ?>
+        <p class="back-link"><a href="<?php echo $this->escapeUrl($this->getBackUrl()) ?>" class="back-link"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+        <?php endif; ?>
+        <button type="submit" title="<?php echo $this->__('Submit') ?>" class="button"><span><span><?php echo $this->__('Submit') ?></span></span></button>
+    </div>
+    </form>
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('<?php echo $form->getId(); ?>', true);
+    //]]>
+    </script>
+<?php endif; ?>
+<?php echo $this->getChildHtml('form_after');?>

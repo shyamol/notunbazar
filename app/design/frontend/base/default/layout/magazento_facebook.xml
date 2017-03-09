@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>magazento/facebook/fb.css</stylesheet>
+            </action>
+        </reference>
+    </default>
+<!--like button-->
+    <cms_index_index>
+        <reference name="content">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebutton/homecontent">
+                    <template>magazento/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="facebook/likebutton/homecontent">
+                    <template>magazento/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_default />
+    <catalog_category_layered>
+        <reference name="content">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebutton/categorycontent">
+                    <template>magazento/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="facebook/likebutton/categorycontent">
+                    <template>magazento/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="product.info.addto">
+            <block type="core/template" name="facebook_like" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebutton/productcontent">
+                    <template>magazento/facebook/like.phtml</template>
+                </action>
+            </block> 
+        </reference>
+        <reference name="head">
+            <block type="core/template" name="facebook_meta">
+                <action method="setTemplate" ifconfig="facebook/likebutton/productcontent">
+                    <template>magazento/facebook/opengraphtags.phtml</template>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+
+<!--send button-->
+    <cms_index_index>
+        <reference name="content">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="facebook/sendbutton/homecontent">
+                    <template>magazento/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_default />
+    <catalog_category_layered>
+        <reference name="content">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="facebook/sendbutton/categorycontent">
+                    <template>magazento/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="product.info.addto">
+            <block type="core/template" name="facebook_send" before="-" >
+                <action method="setTemplate" ifconfig="facebook/sendbutton/productcontent">
+                    <template>magazento/facebook/send.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+<!--comments-->
+    <catalog_product_view>
+        <reference name="product.info">                
+            <block type="core/template" name="product.fbcomments" as="fbcomments" template="magazento/facebook/comments.phtml">
+                <action method="addToParentGroup" ifconfig="facebook/comments/productcontent">
+                    <group>detailed_info</group>
+                </action>
+            </block>
+        </reference>
+    </catalog_product_view>
+<!--activity-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/lefthomecolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    <cms_index_index>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/righthomecolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/leftcategorycolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+    <catalog_category_layered>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/rightcategorycolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/leftproductcolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    <catalog_product_view>
+        <reference name="right">
+            <block type="core/template" name="facebook_activity" before="-" >
+                <action method="setTemplate" ifconfig="facebook/activity/rightproductcolumn">
+                    <template>magazento/facebook/activity.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+<!--recommendations-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/lefthomecolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    <cms_index_index>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/righthomecolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/leftcategorycolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+    <catalog_category_layered>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/rightcategorycolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/leftproductcolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    <catalog_product_view>
+        <reference name="right">
+            <block type="core/template" name="facebook_recommendations" before="-" >
+                <action method="setTemplate" ifconfig="facebook/recommendations/rightproductcolumn">
+                    <template>magazento/facebook/recommendations.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+<!--likebox-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/lefthomecolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    <cms_index_index>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/righthomecolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_layered>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/leftcategorycolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+    <catalog_category_layered>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/rightcategorycolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/leftproductcolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    <catalog_product_view>
+        <reference name="right">
+            <block type="core/template" name="facebook_likebox" before="-" >
+                <action method="setTemplate" ifconfig="facebook/likebox/rightproductcolumn">
+                    <template>magazento/facebook/likebox.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+<!--facepile-->
+    <cms_index_index>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/lefthomecolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+    <cms_index_index>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/righthomecolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </cms_index_index>
+
+    <catalog_category_default>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/leftcategorycolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_default>
+    <catalog_category_layered>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/rightcategorycolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_category_layered>
+
+    <catalog_product_view>
+        <reference name="left">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/leftproductcolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    <catalog_product_view>
+        <reference name="right">
+            <block type="core/template" name="facebook_facepile" before="-" >
+                <action method="setTemplate" ifconfig="facebook/facepile/rightproductcolumn">
+                    <template>magazento/facebook/facepile.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+    
+    <catalog_product_view>
+        <reference name="right">
+            <block type="core/template" name="facebook_livestream" before="-" >
+                <action method="setTemplate" ifconfig="facebook/livestream/rightproductcolumn">
+                    <template>magazento/facebook/livestream.phtml</template>
+                </action>
+            </block> 
+        </reference>
+    </catalog_product_view>
+</layout>

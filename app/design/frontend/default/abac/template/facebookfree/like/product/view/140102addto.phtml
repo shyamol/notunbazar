@@ -1,0 +1,51 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php $_product = $this->getProduct(); ?>
+<?php $_wishlistSubmitUrl = $this->helper('wishlist')->getAddUrl($_product); ?>
+
+<ul class="add-to-links">
+<?php if (Mage::getStoreConfig('facebook/general/enabled')) : ?> 
+<?php if ($this->helper('wishlist')->isAllow()) : ?>
+    <li><a href="<?php echo $_wishlistSubmitUrl ?>" onclick="productAddToCartForm.submitLight(this, this.href); return false;" class="link-wishlist"><?php echo $this->__('Add to Wishlist') ?></a></li>
+<?php endif; ?>
+<?php
+    $_compareUrl = $this->helper('catalog/product_compare')->getAddUrl($_product);
+?>
+<?php if($_compareUrl) : ?>
+    <li><span class="separator">|</span> <a href="<?php echo $_compareUrl ?>" class="link-compare"><?php echo $this->__('Add to Compare') ?></a></li>
+<?php endif; ?>
+</br>
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/<?php echo (Mage::getStoreConfig('facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('facebook/general/locale'); ?>/all.js#appId=<?php echo Mage::getStoreConfig('facebook/general/appid'); ?>&amp;xfbml=1"></script>
+    <li><fb:like href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" send="<?php echo (Mage::getStoreConfig('facebook/likebutton/send')) ? 'true' : 'false'; ?>" layout="<?php echo Mage::getStoreConfig('facebook/likebutton/layout'); ?>" width="<?php echo Mage::getStoreConfig('facebook/likebutton/width'); ?>" show_faces="<?php echo (Mage::getStoreConfig('facebook/likebutton/showfaces')) ? 'true' : 'false'; ?>" action="<?php echo Mage::getStoreConfig('facebook/likebutton/verb'); ?>" colorscheme="<?php echo Mage::getStoreConfig('facebook/likebutton/color'); ?>" font="<?php echo Mage::getStoreConfig('facebook/likebutton/font'); ?>"></fb:like></li>
+<?php endif; ?>
+<?php if (Mage::getStoreConfig('facebook/general/enabled')) : ?>   
+    <script src="http://connect.facebook.net/<?php echo (Mage::getStoreConfig('facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('facebook/general/locale'); ?>/all.js#xfbml=1"></script>
+   <li> <fb:send href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" font="<?php echo Mage::getStoreConfig('facebook/likebutton/font'); ?>"></fb:send></li>
+<?php endif; ?>
+</ul>

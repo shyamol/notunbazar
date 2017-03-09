@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+
+    
+    <cms_index_index>
+	<reference name="head">
+	    <action method="addCss"><stylesheet>magazento/mostpopular/style.css</stylesheet></action>
+        </reference>
+	<reference name="left">
+	    <block type="mostpopular/home" name="mostpopular.home.left">
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/home_left.phtml</template>
+                </action>
+            </block>
+	</reference>
+	<reference name="right">
+	    <block type="mostpopular/home" name="mostpopular.home.right" >
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/home_right.phtml</template>
+                </action>
+	    </block>
+	</reference>
+    </cms_index_index>
+    
+    <catalog_category_default>
+	<reference name="head">
+	    <action method="addCss"><stylesheet>magazento/mostpopular/style.css</stylesheet></action>
+        </reference>
+	<reference name="left">
+	    <block type="mostpopular/category" name="mostpopular.cat.left" >
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/category_left.phtml</template>
+                </action>
+            </block>
+	</reference>
+	<reference name="right">
+	    <block type="mostpopular/category" name="mostpopular.cat.right" >
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/category_right.phtml</template>
+                </action>
+	    </block>
+	</reference>
+    </catalog_category_default>
+
+    <catalog_category_layered>
+	<reference name="head">
+	    <action method="addCss"><stylesheet>magazento/mostpopular/style.css</stylesheet></action>
+        </reference>
+	<reference name="left">
+	    <block type="mostpopular/category" name="mostpopular.cat.left" >
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/category_left.phtml</template>
+                </action>
+            </block>
+	</reference>
+	<reference name="right">
+	    <block type="mostpopular/category" name="mostpopular.cat.right" >
+                <action method="setTemplate">
+                    <template>magazento/mostpopular/category_right.phtml</template>
+                </action>
+	    </block>
+	</reference>
+    </catalog_category_layered>
+    
+    <default>       
+        <reference name="before_body_end">
+            <block type="core/template" template="magazento/mostpopular/magazento.phtml" />
+        </reference>
+    </default>    
+    
+</layout>
+
+
+
+
+
+
+
+
+
+
+
+<!--    <catalog_category_default>
+	<reference name="left">
+	    <block type="mostpopular/home" name="left.mostpopular" as="mostpopular" >
+                <action method="setTemplate" ifconfig="mostpopular/catpageoptions/catsidebarleft">
+                    <template>magazento/mostpopular/category.phtml</template>
+                </action>
+            </block>
+	</reference>
+	<reference name="right">
+	    <block type="mostpopular/category" name="right.mostpopular" as="mostpopular" >
+                <action method="setTemplate" ifconfig="mostpopular/catpageoptions/catsidebarright">
+                    <template>magazento/mostpopular/category.phtml</template>
+                </action>
+	    </block>
+	</reference>
+    </catalog_category_default>-->

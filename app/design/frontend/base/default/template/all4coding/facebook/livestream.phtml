@@ -1,0 +1,21 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<fb:live-stream 
+event_app_id="<?php echo Mage::getStoreConfig('a4c_facebook/general/appid'); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/livestream/width'); ?>" 
+height="<?php echo Mage::getStoreConfig('a4c_facebook/livestream/height'); ?>" 
+xid="<?php echo Mage::getStoreConfig('a4c_facebook/livestream/xid'); ?>" 
+always_post_to_friends="<?php echo Mage::getStoreConfig('a4c_facebook/livestream/always_post_to_friends'); ?>"></fb:live-stream>
+<?php endif; ?>

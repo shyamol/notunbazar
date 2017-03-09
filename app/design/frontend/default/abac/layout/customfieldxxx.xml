@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <customer_account_create>
+        <reference name="customer_form_register">
+            <action method="setTemplate"><template>customfield/persistent/customer/form/register.phtml</template></action>
+        </reference>
+    </customer_account_create>
+    <customer_account_edit>
+        <reference name='customer_edit'>
+            <action method="setTemplate"><template>customfield/customer/form/edit.phtml</template></action>
+        </reference>
+    </customer_account_edit>
+</layout>

@@ -1,0 +1,148 @@
+<style type="text/css">
+    .trunread{background-color: #F6F6F6;}
+    .unread:hover{cursor: pointer;}
+</style>
+
+
+<script type="text/javascript">
+    function confirm_delete(mId) {
+        var answer = confirm("Are you sure want to delete this message?")
+        if (answer){
+            //alert("Entry Deleted");
+            window.location = "?&id="+mId;
+        }
+        else{
+            exit();
+        }
+    }
+</script>
+
+<div class="page-title">
+    <h1><?php echo $this->__('My Messages') ?></h1>
+</div>
+
+<?php
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$sellerId = $customer->getentity_id();
+
+$table_messages_body = Mage::getSingleton('core/resource')->getTableName('messages_body'); //table name
+$table_messages = Mage::getSingleton('core/resource')->getTableName('messages'); //table name
+
+if(isset($_GET['id']))
+{
+    $id = $_GET['id'];
+    $sql = "update $table_messages set auth_b=NULL where mssg_id='$id' and auth_b='$sellerId'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+    $sql = "update $table_messages set auth_a=NULL where mssg_id='$id' and auth_a='$sellerId'";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_write');
+    $connection->query($sql);
+
+   // header( 'Location: '. $this->getUrl('classified/message/')) ;
+   // exit;
+    /*
+try
+{
+$product = Mage::getModel('catalog/product')->load($id)->delete();
+Mage::getSingleton('catalog/session')->addSuccess($this->__('Successfully deleted advertisement.'));
+// header( 'Location: '. $this->getUrl('classified/myad/')) ;
+}
+catch (Exception $e)
+{
+Mage::getSingleton('core/session')->addError('Could not delete advertisement');
+header( 'Location: '. $this->getUrl('classified/myad/')) ;
+}                     */
+}
+
+?>
+
+<table class="data-table" id="wishlist-table">
+    <thead>
+    <tr>
+        <th>Sender</th>
+        <th>Messages</th>
+        <th></th>
+        <th>Date/Time</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+    $i=0;
+    
+    $sqla = "SELECT distinct mssg_id FROM $table_messages_body WHERE receiver_id='$sellerId' order by mssg_id desc";
+    $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+    foreach ($connection->fetchAll($sqla) as $arr_rowa):
+        $mssg_id = $arr_rowa['mssg_id'];
+        
+        $sqlb = "SELECT * FROM $table_messages WHERE mssg_id='$mssg_id'";
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+        foreach ($connection->fetchAll($sqlb) as $arr_rowb):
+            $mssg_title = $arr_rowb['mssg_title'];
+            $auth_a_conv = $arr_rowb['auth_a'];
+            $auth_b_conv = $arr_rowb['auth_b'];
+            $not_read_by_a = $arr_rowb['not_read_by_a'];
+            $not_read_by_b = $arr_rowb['not_read_by_b'];
+        endforeach;
+        
+        if($sellerId==$auth_a_conv)
+        {
+            $sender_id = $auth_b_conv;
+        }
+        else
+        {
+            $sender_id =  $auth_a_conv;
+        }
+
+        $customer_data = Mage::getModel('customer/customer')->load($sender_id);
+        $firstname = $customer_data->getFirstname();
+        $lastname = $customer_data->getLastname();
+        $sender_name = $firstname ." ". $lastname;
+        
+        $sqlc = "SELECT * FROM $table_messages_body WHERE mssg_id='$mssg_id'  and (auth_a='$sellerId' or auth_b='$sellerId') order by created desc LIMIT 1";
+        $connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+        foreach ($connection->fetchAll($sqlc) as $arr_row):
+            $mssg_id = $arr_row['mssg_id'];
+           // $sender_name = $arr_row['sender_name'];
+           $sender_id = $arr_row['sender_id'];
+            $sender_email = $arr_row['sender_email'];
+            $message = $arr_row['mssg'];
+            $message = trim($message);
+            $limit = 20;
+            if (strlen($message) > $limit) {
+                $message = substr($message, 0, strrpos(substr($message, 0, $limit), ' '));
+            }
+            $read_yet = $arr_row['read_yet'];
+            $created = strtotime($arr_row['created']);
+            $fdate = Date("M j, g:i a", $created);
+            
+
+    ?>  <?php if($auth_a_conv==$sellerId || $auth_b_conv==$sellerId): $i++;?>
+        <?php if($not_read_by_a==$sellerId || $not_read_by_b==$sellerId): ?>
+
+    <tr class="trunread">
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><strong><?php echo $sender_name; ?></strong></td>
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><strong><?php echo $mssg_title.'</strong> - '.$message; ?></td>
+        <td><?php if($sender_id==$sellerId): ?><img src=<?php echo $this->getSkinUrl('images/reply.png') ?> alt="Replied"> <?php endif; ?></td>
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><strong><?php echo $fdate; ?></strong></td>
+        <td><strong><a href=<?php echo $this->getUrl(); ?>classified/message/show?id=<?php echo $mssg_id; ?>>Reply </a> | <a href="javascript:confirm_delete(<?php echo $mssg_id; ?>)">Delete</a></strong></td>
+    </tr>
+        <?php else: ?>
+    <tr>
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><?php echo $sender_name; ?></td>
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><?php echo $mssg_title.' - '.$message; ?></td>
+        <td><?php if($sender_id==$sellerId): ?><img src=<?php echo $this->getSkinUrl('images/reply.png') ?> alt="Replied"> <?php endif; ?></td>
+        <td class="unread" onclick="window.location.href='show?id=<?php echo $mssg_id; ?>';"><?php echo $fdate; ?></td>
+        <td><a href=<?php echo $this->getUrl(); ?>classified/message/show?id=<?php echo $mssg_id; ?>>Reply </a> | <a href="javascript:confirm_delete(<?php echo $mssg_id; ?>)">Delete</a></td>
+    </tr>
+        <?php endif; ?>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        <?php endforeach;?>
+        
+        <?php if($i==0):?>         
+            <td colspan="5" id="nomssg"></br><?php echo "YOU HAVE NO MESSAGES"; ?></br>&nbsp</td>
+	<?php endif; ?>
+	
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Abac_Classified>
+      <active>true</active>
+      <codePool>community</codePool>
+      <version>1.0.0</version>
+    </Abac_Classified>
+  </modules>
+</config>

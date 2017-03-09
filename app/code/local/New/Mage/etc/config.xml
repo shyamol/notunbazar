@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <New_Mage>
+            <version>0.0.1</version>
+        </New_Mage>
+    </modules>
+    <frontend>
+        <routers>
+            <customer>
+                <args>
+                    <modules>
+                        <New_Mage before="Mage_Customer">New_Mage</New_Mage>
+                    </modules>
+                </args>
+            </customer>
+        </routers>
+    </frontend>
+</config>

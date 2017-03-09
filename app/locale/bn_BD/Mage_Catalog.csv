@@ -1,0 +1,612 @@
+# of Use,# কার্যকরী
+%1$s incl tax.,%1$s ট্যাক্স সহকারে.
+%s - %s,%s - %s
+%s Item(s),%s পদ(গুলো)
+(Copy data from: %s),(তথ্য অনুলিপি করুন: %s থেকে)
+(Will make search for the query above return results for this search.),(Will make search for the query above return results for this search.)
+* Required Fields,* প্রয়োজনীয় ফিল্ডগুলো
+-- Please Select --,-- নির্বাচন করুন --
+A name is required,নাম উল্লেখ আবশ্যক 
+Action,সিদ্ধান্ত 
+Add Attribute,এট্রিবিউট যোগ করুন 
+Add Design Change,ডিজাইনে পরিবর্তন আনুন 
+Add Group,গ্রুপ যোগ করুন
+Add Items to Cart,কার্টে পণ্য যোগ করুন
+Add New,নতুন যোগ করুন
+Add New Attribute,নতুন এট্রিবিউট যোগ করুন
+Add New Attribute Set,নতুন এট্রিবিউট সেট যোগ করুন
+Add New Group,নতুন গ্রুপ যোগ করুন
+Add New Images,নতুন ছবি যোগ করুন
+Add New Option,নতুন অপশন যুক্ত করুন
+Add New Row,নতুন সারি যোগ করুন
+Add New Search Term,নতুন অনুসন্ধান শব্দ যুক্ত করুন
+Add New Set,নতুন সেট যোগ করুন
+Add Option,অপশন যুক্ত করুন
+Add Product,পণ্য যুক্ত করুন
+Add Product To Websites,সাইটে পণ্য যুক্ত করুন
+Add Root Category,প্রধান বিভাগ যোগ করুন
+Add Subcategory,উপবিভাগ যোগ করুন
+Add Tax,ট্যাক্স যোগ করুন
+Add Tier,টিয়ার যুক্ত করুন 
+Add to Cart,কার্টে যোগ করুন
+Add to My Wishlist,আমার পছন্দ তালিকাতে যোগ করুন 
+Add to Wishlist,পছন্দ তালিকাতে যোগ করুন 
+Additional Information,অতিরিক্ত তথ্য
+All,সব
+ALL GROUPS,সবগুলো গ্রুপ
+All Product Types,সকল পণ্যের প্রকার
+All products of this set will be deleted! Are you sure you want to delete this attribute set?,এই সেটের সকল পণ্য ‍মুছে যাবে! এই এট্রিবিউট সেটটি মুছে ফেলতে আপনি নিশ্চিত?
+Allow HTML-tags on Front-end,ফ্রন্ট এন্ডে HTML ট্যাগের অনুমতি দিন
+and,এবং
+and above,এবং উপরোক্ত
+Apply To,প্রয়োগ করুন
+Apply To Configurable/Grouped Product,কনফিগারযোগ্য / গোষ্ঠীবদ্ধকৃত প্রোডাক্ট প্রয়োগ
+Approved,অনুমোদিত
+Are you sure you want to delete this category?,এই ক্যাটাগরি মুছে ফেলতে আপনি নিশ্চিত?
+Are you sure you would like to remove all products from your comparison?,আপনার তুলনার সব পণ্যগুলো মুছে ফেলতে আপনি নিশ্চিত?
+Are you sure you would like to remove this item from the compare products?,আপনার তুলনার লিস্ট থেকে এই পণ্যটি মুছে ফেলতে আপনি নিশ্চিত?
+Are you sure?,আপনি কি নিশ্চিত?
+As low as:,সর্বনিম্ন:
+Assign,নিযুক্ত করুন 
+Assign product link,পণ্য লিংক নিযুক্ত করুন 
+Assign product to category,বিভাগ অনুসারে পণ্য নিযুক্ত করুন 
+Assigned Products,নিযুক্ত পণ্যসমূহ
+Associated Products,সংযুক্ত পণ্যসমূহ
+Attrib. Set Name,নাম সংগঠন করুন
+Attribute Code,এট্রিবিউট কোড
+"Attribute group with the ""/name/"" name already exists","/name/"" নামের এট্রিবিউট ইতিমধ্যেই আছে"
+Attribute Information,তথ্য বিশেষণ
+Attribute Label,লেবেল এট্রিবিউট করুন 
+Attribute Model,মডেল এট্রিবিউট করুন 
+Attribute model not defined,Attribute model not defined
+Attribute Name:,এট্রিবিউটের নাম:
+Attribute Properties,এট্রিবিউটের প্রপারটিজ 
+Attribute Set,অ্যাট্রিবিউট সেট
+Attribute with the same code already exists,একই কোডের এট্রিবিউট ইতিমধ্যেই আছে
+Attributes,অ্যাট্রিবিউট
+Attrribute names can be specified per store.,দোকান প্রতি এট্রিবিউটের নাম দেয়া সম্ভব।
+Autogenerate,স্বয়ংক্রিয় পরিচালনা 
+Availability,প্রাপ্যতা
+Availability: In stock.,প্রাপ্যতা: সুপ্রাপ্য।
+Availability: Out of stock.,প্রাপ্যতা: স্টক শেষ। 
+Back,পেছনে
+Backend Model,Backend Model
+Backend Table,Backend Table
+Backend Table Title,Backend Table Title
+Backorders,Backorders
+Base directory to upload image file is not specified,ছবি আপলোড করার বেইস ডিরেক্টরি নির্দিষ্ট করা হয়নি
+Based On,যার উপর ভিত্তি করা হয়েছে
+Best Value,সর্বোত্তম মূল্য
+Block after Info Column,Block after Info Column
+Bottom/Left,পেছনে/বামে
+Bottom/Right,পেছনে/ডানে
+Browse By,অনুসন্ধান
+Buy %1$s for %2$s,Buy %1$s for %2$s
+Buy %1$s for %2$s (%3$s incl. tax) each,Buy %1$s for %2$s (%3$s incl. tax) each
+Buy %1$s for %2$s each,Buy %1$s for %2$s each
+cache refresh needed,ক্যাশ মুছা প্রয়োজন
+Can be used only with catalog input type Dropdown,Can be used only with catalog input type Dropdown
+"Can be used only with catalog input type Dropdown, Multiple Select and Price","Can be used only with catalog input type Dropdown, Multiple Select and Price"
+Can't create image.,ছবি তৈরী করা যায়নি।
+Cart Item Attribute,কার্ট আইটেম অ্যাট্রিবিউট
+Catalog,তালিকা
+Catalog Input Type for Store Owner,দোকান মালিকের জন্য ক্যাটালগ তথ্যের প্রকার
+Catalog Price Scope,ক্যাটালগ মূল্য ব্যাপ্তি
+Catalog Section,ক্যাটালগ অনুচ্ছেদ
+"Catalog, Search","ক্যাটালগ, সার্চ"
+Categories,ক্যাটাগরিগুলো 
+categories,ক্যাটাগরিগুলো
+Categories Sitemap,ক্যাটাগরিগুলো সাইটম্যাপ 
+Category,ক্যাটাগরি
+Category API,ক্যাটাগরি এপিআই 
+Category attributes API,Category attributes API
+Category Data,ক্যাটাগরি তথ্য
+Category delete error,ক্যাটাগরি মুছার সময় ভুল হয়েছে
+Category deleted,ক্যাটাগরি মুছা হয়েছে
+Category move error,ক্যাটাগরি সরানোর সময় ভুল হয়েছে
+Category must be instance of Mage_Catalog_Model_Category,Category must be instance of Mage_Catalog_Model_Category
+Category Navigation:,Category Navigation:
+Category Products,ক্যাটাগরি পণ্যগুলো
+Category saved,ক্যাটাগরি সংরক্ষন করা হয়েছে
+Category Top Navigation,Category Top Navigation
+Category URL Suffix,Category URL Suffix
+Change,পরিবর্তন 
+Change or Retrieve attribute store view,Change or Retrieve attribute store view
+Change status,স্ট্যাটাস পরিবর্তন 
+Check items to add to the cart or,পণ্য কার্টে যোগ করার পূর্বে পরীক্ষা করুন অথবা  
+Choose an Option...,একটি বিকল্প নির্বাচন করুন...
+Choose option...,বিকল্প নির্বাচন করুন...
+Clear All,সব মুছে ফেলুন 
+Clear All Items,সব আইটেম মুছে ফেলুন 
+Close Window,উইন্ডো বন্ধ করুন
+Collapse All,Collapse All
+comma separated,কমা দ্বারা আলাদাকৃত
+Comparable,তুল্য
+Comparable on Front-end,Comparable on Front-end
+Compare Items,আইটেম তুলনা করুন 
+Compare list successfully cleared,তুলনা লিস্ট খালি করা হয়েছে
+Compare,পণ্য তুলনা করুন 
+Add to Compare1,পণ্য তুলনা করুন 
+Compare Products (%d),পণ্যগুলো তুলনা করুন (%d)
+Compare Products - %d Items,পণ্যগুলো তুলনা করুন - %d আইটেমগুলো
+Compare Products List,পণ্য তালিকা তুলনা করুন
+Conditions Combination,Conditions Combination
+Configurable Product,কনফিগারযোগ্য পণ্য
+Configurable Product Settings,কনফিগারযোগ্য পণ্য সেটিংস
+Continue,এগিয়ে যান 
+Copy From Configurable,Copy From Configurable
+Country/State,রাষ্ট্র / রাজ্য
+Create,তৈরি করুন 
+Create (Upload),(আপলোড) তৈরি করুন
+Create Empty,Create Empty
+Create new category,নতুন ক্যাটাগরি তৈরি করুন
+Create new product,নতুন পণ্য তৈরি করুন
+Create Product Settings,পণ্য সেটিংস তৈরি করুন
+Create Simple Associated Product,সংশ্লিষ্ট পণ্য তৈরি করুন
+Cross-sells,Cross-sells
+Currently Shopping by,Currently Shopping by
+Custom Design,Custom Design
+Custom Options,Custom Options
+Customer Group,গ্রাহক গ্রুপ
+Customers for alert %s was successfuly added to queue,Customers for alert %s was successfuly added to queue
+Customers Reviews,গ্রাহকের পর্যালোচনা
+Customers Tagged Product,গ্রাহকের ট্যাগড পণ্য 
+Data Type for Saving in Database,Data Type for Saving in Database
+Date,তারিখ
+Date Subscribed,সাবস্ক্রাইবের তারিখ
+Datetime,তারিখ ও সময়
+Decimal,দশমিক
+Decimal Number,দশমিক সংখ্যা
+Declare attribute value saving scope,Declare attribute value saving scope
+Default price,ডিফল্ট মূল্য
+Default Qty,Default Qty
+Default value,ডিফল্ট মূল্য
+Default Values,Default Values
+Delete,মুছে ফেলুন 
+Delete Attribute,এট্রিবিউট মুছে ফেলুন 
+Delete Attribute Set,এট্রিবিউট সেট মুছে ফেলুন 
+Delete Category,ক্যাটাগরি মুছে ফেলুন 
+Delete category,ক্যাটাগরি মুছে ফেলুন 
+Delete Option,অপশন মুছে ফেলুন 
+Delete product,পণ্য মুছে ফেলুন 
+Delete Row,সারি মুছে ফেলুন 
+Delete Search,Delete Search
+Delete Selected Group,নির্দিষ্ট গ্রুপ মুছে ফেলুন 
+Design,ডিজাইন
+Disabled,Disabled
+Display in Suggested Terms,Display in Suggested Terms
+Double click on a group to rename it,Double click on a group to rename it
+Double click on above image to view full picture,Double click on above image to view full picture
+Downloadable Product,ডাউনলোডযোগ্য পণ্য
+Dropdown,Dropdown
+Duplicate,ডুপ্লিকেট 
+Duplicate website tier price customer group and quantity.,Duplicate website tier price customer group and quantity.
+"Duplicate website, country and state tax found.","Duplicate website, country and state tax found."
+each,প্রতি
+Edit,সম্পাদনা
+Edit Attribute Set '%s',Edit Attribute Set '%s'
+Edit Product Attribute,Edit Product Attribute
+"Edit Product Attribute ""%s""","Edit Product Attribute ""%s"""
+Edit Search,Edit Search
+Edit Search '%s',Edit Search '%s'
+Email,ইমেইল
+Email to Friend,বন্ধুকে ইমেইল করুন
+Empty,শূন্য 
+Enabled,সক্রিয়
+Error during retrieval of option value: %s,Error during retrieval of option value: %s
+Error while adding customers for %s alert. Message: %s,Error while adding customers for %s alert. Message: %s
+Error while saving this group. Group with the same name already exists.,Error while saving this group. Group with the same name already exists.
+Error while saving this group. Please try again later.,Error while saving this group. Please try again later.
+ex. http://domain.com,ex. http://domain.com
+Exclude,বাদ দিন
+Expand All,Expand All
+Failed,Failed
+Failed to move file: %s,%s ফাইলটি সরানো যায়নি
+Feature Products,বিশেষ পণ্যসমূহ
+File Extension,File Extension
+Filter model name must be declared,Filter model name must be declared
+Filter must be as object. Set correct filter please,Filter must be as object. Set correct filter please
+Filterable (no results),Filterable (no results)
+Filterable (with results),Filterable (with results)
+Filters must be as array,Filters must be as array
+First Name,নামের প্রথমাংশ
+Fixed,অপরিবর্তনীয়
+For internal use. Must be unique with no spaces,আন্ত ব্যবহারের জন্য। 
+For reindex enabled product(s) you need specify store or product,For reindex enabled product(s) you need specify store or product
+Frontend,Frontend
+Frontend Model,Frontend Model
+Frontend Properties,Frontend Properties
+Gallery,গ্যাল্যারি
+General Information,সাধারণ তথ্যাবলী
+Get special price,বিশেষ মূল্য
+Global,গ্লোবাল
+Globally Editable,Globally Editable
+Go to Home Page,মূল পেইজে যান 
+Grid,গ্রিড 
+Grouped Product,গোষ্ঠীবদ্ধকৃত পণ্য
+Groups,গ্রুপ
+Home,হোম
+ID,আইডি
+ID: %s,আইডি: %s
+If you do not specify an option value for a store then the default value will be used.,যদি আপনি কোন স্টোর উল্লেখ না করে থাকেন তাহলে ডিফল্ট স্টোর ব্যবহার করা হবে।
+Image,ছবি
+Image content is not valid base64 data.,Image content is not valid base64 data.
+Image file not found,ছবি পাওয়া যায়নি 
+Image not exists, ছবিটি নেই 
+Image not specified.,ছবি উল্লেখ করা হয়নি  
+Image Size,ছবির আকার
+Image type and information need to be specified for each store view.,প্রতিটি স্টোর দেখার জন্য ছবির প্রকার এবং তথ্য উল্লেখ করতে হবে।
+In Stock,স্টক আছে
+In stock,স্টক আছ
+In stock.,স্টক আছ।
+Incl. Tax,ট্যাক্স সহকারে
+Input Type,ইনপুট ধরন 
+Input Validation for Store Owner,স্টোর মালিকের জন্য ইনপুট নিশ্চিতকরন
+Integer,পূর্ণসংখ্যা 
+Integer Number,পূর্ণসংখ্যা
+"Invalid attribute option specified for attribute %s (%s), skipping the record","Invalid attribute option specified for attribute %s (%s), skipping the record"
+"Invalid attribute set specified, skipping the record","Invalid attribute set specified, skipping the record"
+Invalid block: %s,Invalid block: %s
+Invalid category,অকার্যকর ক্যাটাগরি 
+Invalid category IDs,Invalid category IDs
+Invalid image file type,ছবির অননুমোদিত ফাইল প্রকৃতি
+Invalid image type.,ছবির অননুমোদিত প্রকৃতি।
+"Invalid option id specified for %s (%s), skipping the record","Invalid option id specified for %s (%s), skipping the record"
+"Invalid product type specified, skipping the record","পণ্যের অননুমোদিত প্রকৃতি পাওয়া গেছে, তথ্যটি বাতিল করা হলো"
+Invalid store specified,অননুমোদিত দোকান নির্ধারন করা হয়েছে
+"Invalid store specified, skipping the record","অননুমোদিত দোকান নির্ধারন করা হয়েছে, তথ্যটি বাতিল করা হলো"
+Invalid Tier Prices,Invalid Tier Prices
+Inventory,ইনভেন্টরি
+Is Default,এটা ডিফল্ট
+Is Required,প্রয়োজনীয়
+Items %s to %s of %s total,Items %s to %s of %s total
+Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.,Items that you don't want to show in the catalog or search results should have status 'Disabled' in the desired store.
+Label,লেবেল
+Last Name,নামের শেষাংশ
+Last Notification,সর্বশেষ নোটিফিকেশন 
+Learn More,আরো জানুন
+Length of text is too long,এই টেক্সটটি অতিরিক্ত বড়
+Letters,অক্ষর
+Letters(a-zA-Z) or Numbers(0-9),Letters(a-zA-Z) or Numbers(0-9)
+"Line %d, Email: %s","Line %d, Email: %s"
+"Line %d, SKU: %s","Line %d, SKU: %s"
+"Link (Related, Up sell, Cross sell)","Link (Related, Up sell, Cross sell)"
+Link product not exists.,লিংকের পণ্যটি পাওয়া যায়নি।
+List,লিস্ট 
+List Mode,তালিকা মোড
+Manage Attribute Sets,এট্রিবিউট সেট পরিচালনা করুন 
+Manage Attributes,এট্রিবিউট পরিচালনা করুন 
+Manage Catalog Categories,ক্যাটালগ ক্যাটাগরি পরিচালনা করুন 
+Manage Categories,ক্যাটাগরি পরিচালনা করুন 
+Manage Label / Options,লেবেল/বিকল্প পরিচালনা করুন
+Manage Options (values of your attribute),বিকল্পগুলো (এট্রিবিউট গুলোর মান) পরিচালনা করুন
+Manage Product Attributes,পণ্যের এট্রিবিউটগুলো পরিচালনা করুন
+Manage Product Sets,পণ্যের সেটগুলো পরিচালনা করুন
+Manage Products,পণ্যগুলো পরিচালনা করুন
+Manage Stock,স্টক পরিচালনা করুন
+"Manage Titles (Size, Color, etc.)","শিরোনামগুলো (আকার, রং ইত্যাদি) পরিচালনা করুন"
+Max Characters,সর্বোচ্চ অক্ষরগুলো
+Maximal Depth,সর্বোচ্চ গভীরতা
+Maximum number of characters,সর্বোচ্চ সংখ্যক অক্ষর
+Maximum Qty Allowed in Shopping Cart,কার্টের সর্বোচ্চ পণ্য ধারন ক্ষমতা
+Media Image,Media Image
+Minimum Qty Allowed in Shopping Cart,কার্টের সর্বনিম্ন পণ্য ধারন ক্ষমতা
+Minimum Qty for Item's Status to be Out of Stock,Minimum Qty for Item's Status to be Out of Stock
+"Missing SKU, skipping the record","Missing SKU, skipping the record"
+More Views,আরো ছবি
+Move,সরান 
+Move category in tree,Move category in tree
+Multiple Select,একাধিক পছন্দ
+must be in the allowed values list,গ্রহনযোগ্য মানের তালিকায় অবশ্যই থাকতে হবে
+Name,নাম 
+Name In %s,%s এ নাম
+Name<br/>(For internal use),নাম<br/>(আন্ত ব্যবাহারের জন্য)
+New Category,নতুন ক্যাটাগরি 
+New Product,নতুন পণ্য 
+New Product Attribute,নতুন পণ্যর এট্রিবিউট  
+New Products,নতুন পণ্য 
+New Search,নতুন সার্চ 
+New Set Name,নতুন সেটের নাম
+Next,পরবর্তী
+No,না 
+No image,ছবি পাওয়া যায়নি
+No layout updates,No layout updates
+No options of this product are available.,No options of this product are available.
+No product collections found,No product collections found
+None,কোনটি নয়
+Not shared with other products,Not shared with other products
+Notify for Quantity Below,Notify for Quantity Below
+Notify Low Stock RSS,Notify Low Stock RSS
+Nowhere,কোথাও না
+Number of results<br/>(For last time placed),ফলাফল সংখ্যা<br/>(শেষ বারের জন্য)
+Number of Uses,যতবার ব্যবহার করা হয়েছে
+Old Price:,পুরনো মূল্য:
+Option:,বিকল্প:
+Options Control,বিকল্পগুলো নিয়ন্ত্রন
+Options is required,বিকল্প প্রয়োজন
+OR,অথবা
+Our customer service is available 24/7. Call us at (800) DEMO-NUMBER.,আমাদের গ্রাহক সেবা পাওয়া যায় 24/7. আর আমাদের কল করুন (800) 
+Out of Stock,স্টক শেষ
+Out of stock,স্টক শেষ
+Out of stock.,স্টক শেষ।
+Page Title Separator,Page Title Separator
+Page:,পাতা:
+Parent Category,প্যারেন্ট ক্যাটাগরি 
+Pending,সম্পন্ন হয়নি 
+Pending Reviews RSS,Pending Reviews RSS
+per page,পাতা প্রতি
+Percentage,শতকরা
+Please add rows to option.,Please add rows to option.
+Please be careful as once you click on the row it will load package data form the selected file and all unsaved form data will be lost.,Please be careful as once you click on the row it will load package data form the selected file and all unsaved form data will be lost.
+Please click on Close Window button if it won't be closed automatically,Please click on Close Window button if it won't be closed automatically
+Please enter a new group name,অনুগ্রহ করে নতুন গ্রুপের নাম অন্তর্ভুক্ত করুন 
+"Please refresh ""Catalog Rewrites"" and ""Layered Navigation Indices"" in System -> <a href=""%s"">Cache Management</a>","Please refresh ""Catalog Rewrites"" and ""Layered Navigation Indices"" in System -> <a href=""%s"">Cache Management</a>"
+Please select  items,আইটেম নির্বাচন করুন
+Please select one or more attributes.,এক বা একাধিক এট্রিবিউট নির্বাচন করুন.
+Please select product(s),পণ্য নির্বাচন করুন
+Please select products for attributes update,এট্রিবিউটস আপডেটের জন্য পণ্য নির্ধারণ করুন 
+Please select static block ...,Please select static block ...
+Please specify the product option(s),পণ্যের বিকল্পগুলো উল্লেখ করুন 
+Please specify the product required option(s),প্রয়োজনীয় পণ্য উল্লেখ করুন 
+Please specify the product(s) quantity,পণ্য পরিমাণ উল্লেখ করুন 
+Position,স্থান
+Position In Layered Navigation,Position In Layered Navigation
+Position of attribute in layered navigation block,Position of attribute in layered navigation block
+Prev,পূর্ববর্তী 
+Previous,পূর্ববর্তী 
+Price,মুল্য 
+Price Type,মূল্য প্রকার
+Price values for options should be specified in system base currency.,Price values for options should be specified in system base currency.
+Price:,মূল্য:
+Print This Page,এই পাতাটি প্রিন্ট করুন 
+"Problem saving the collection, aborting. Error: %s","Problem saving the collection, aborting. Error: %s"
+Product,পণ্য
+Product %s successfully added to compare list,পণ্যটি (গুলো) তুলনার লিস্টে যোগ করা হয়েছে
+Product %s successfully removed from compare list,পণ্যটি (গুলো) তুলনার লিস্ট থেকে মুছে ফেলা হয়েছে
+Product Alerts,Product Alerts
+Product API,পণ্য এপিআই 
+Product Attribute,পণ্য এট্রিবিউট
+Product attribute sets API,Product attribute sets API
+Product attribute was successfully deleted,পণ্য এট্রিবিউট সফলভাবে মুছে ফেলা হয়েছে 
+Product attribute was successfully saved,পণ্য এট্রিবিউট সফলভাবে সংরক্ষণ করা হয়েছে 
+Product Attributes,পণ্য এট্রিবিউট
+Product attributes API,পণ্য এট্রিবিউট এপিআই 
+Product Categories,পণ্য ক্যাটাগরি
+Product collection expected,Product collection expected
+Product deleted,পণ্য মুছে ফেলা হয়েছে 
+Product Description,পণ্যের বর্ণনা
+Product duplicated,পণ্যটি ইতিমধ্যেই বিদ্যমান
+Product has required options,Product has required options
+Product Image Placeholders,Product Image Placeholders
+Product Image Watermarks,Product Image Watermarks
+Product Images,পণ্যর ছবি 
+Product Images API,পণ্যর ছবি এপিআই 
+Product In Websites,Product In Websites
+Product Info Column,Product Info Column
+Product Information,পণ্য বিষয়ক তথ্য 
+"Product links API (related, cross sells, up sells)","Product links API (related, cross sells, up sells)"
+Product Name,পণ্যের নাম
+Product Reviews,পণ্য সংক্রান্ত রিভিউ 
+Product saving error.,পণ্য সংরক্ষন ইরর।
+Product saving error. ,পণ্য সংরক্ষন ইরর। 
+Product Tags,পণ্য সংক্রান্ত ট্যাগস 
+Product Tier Price API,Product Tier Price API
+Product Type,পণ্যের প্রকার
+Product types API,Product types API
+Product URL Suffix,Product URL Suffix
+Product was successfully created.,পণ্য সফলভাবে তৈরি হয়েছে.
+Product was successfully saved.,পণ্য সফলভাবে সংরক্ষিত হয়েছে.
+Product with this combination of attributes already associated to configurable.,Product with this combination of attributes already associated to configurable.
+Products,পণ্য
+products,পণ্য
+Products Information,পণ্য বিষয়ক তথ্য 
+Products only,
+Products per page on Grid allowed values,Products per page on Grid allowed values
+Products per Page on Grid default value,Products per Page on Grid default value
+Products per Page on List allowed values,Products per Page on List allowed values
+Products per Page on List default value,Products per Page on List default value
+Products Reviews,পণ্য সংক্রান্ত রিভিউ
+Products Sitemap,পণ্য সংক্রান্ত সাইটম্যাপ 
+Properties,বৈশিষ্ট্য
+Qty,পরিমান
+Qty for Item's Status to become Out of Stock,Qty for Item's Status to become Out of Stock
+Qty Uses Decimals,Qty Uses Decimals
+Quick Create,Quick Create
+Quick Overview,বিজ্ঞাপনদাতার তথ্য
+"Records for ""","Records for """
+Redirect,Redirect
+Redirect URL,Redirect URL
+Regular Price:,সাধারন মুল্য:
+Related Products,সম্পর্কিত পণ্যগুলো
+Remove,মুছে ফেলুন 
+Remove Product,পণ্য মুছে ফেলুন 
+Remove product assignment,Remove product assignment
+Remove Product From Websites,সাইট থেকে পণ্য মুছে ফেলুন 
+Remove product image,ছবি মুছে ফেলুন 
+Remove product link,পণ্যর লিঙ্ক মুছে ফেলুন  
+Remove This Item,এই আইটেমটি মুছে ফেলুন  
+Required,প্রয়োজনীয়
+Reset,রিসেট 
+Results,ফলাফল
+Retrieve attribute data,Retrieve attribute data
+Retrieve attribute list,Retrieve attribute list
+Retrieve attribute options,Retrieve attribute options
+Retrieve categories tree,Retrieve categories tree
+Retrieve category attributes,Retrieve category attributes
+Retrieve category data,Retrieve category data
+Retrieve hierarchical tree,Retrieve hierarchical tree
+Retrieve linked products,Retrieve linked products
+Retrieve list of assigned products,Retrieve list of assigned products
+Retrieve one level of categories by website/store view/parent category,Retrieve one level of categories by website/store view/parent category
+Retrieve product,Retrieve product
+Retrieve product attribute sets,Retrieve product attribute sets
+Retrieve product image,Retrieve product image
+Retrieve product image list,Retrieve product image list
+Retrieve product image types,Retrieve product image types
+Retrieve product link type attributes,Retrieve product link type attributes
+Retrieve product link types,Retrieve product link types
+Retrieve product tier prices,Retrieve product tier prices
+Retrieve product types,Retrieve product types
+Retrieve products data,Retrieve products data
+Retrieve products list by filters,Retrieve products list by filters
+Review successfully deleted,রিভিউ সফলভাবে মুছে ফেলা হয়েছে 
+Review was saved successfully,রিভিউ সফলভাবে সংরক্ষণ করা হয়েছে 
+Review was successfully saved,রিভিউ সফলভাবে সংরক্ষণ করা হয়েছে 
+Reviews,মতামতগুলো
+Roll Over for preview,Roll Over for preview
+Root,মুল
+Save,সংরক্ষণ 
+save,সংরক্ষণ 
+Save And Continue Edit,সংরক্ষণ করুন এবং সম্পাদনা করুন 
+Save Attribute,এট্রিবিউট সংরক্ষণ করুন 
+Save Attribute Set,এট্রিবিউট সেট সংরক্ষণ করুন 
+Save Category,ক্যাটাগরি সংরক্ষণ করুন 
+Save Search,অনুসন্ধানটি সংরক্ষন করুন
+Saved ,সংরক্ষিত 
+Scope,পরিধি
+Search,অনুসন্ধান
+Search Engine Optimizations,Search Engine Optimizations
+Search Information,অনুসন্ধান সংক্রান্ত তথ্য 
+Search Query,অনুসন্ধান ক্যোয়ারী
+Search Term was successfully saved,অনুসন্ধান করার শব্দগুলো সংরক্ষন করা হয়েছে
+Search Term with such search query already exist.,Search Term with such search query already exist.
+Search was successfully deleted,অনুসন্ধানটি মুছে ফেলা হয়েছে
+Searchable,অনুসন্ধান পাওয়ার যোগ্য
+select all,সবগুলো নির্বাচন করুন
+Select Configurable Attributes ,Select Configurable Attributes 
+Select type of option,বিকল্পের প্রকৃতি নির্ধারন করা হয়েছে
+Select type options required values rows.,Select type options required values rows.
+Selected configuration is not available.,Selected configuration is not available.
+Selected Product Types,নির্ধারিত পন্য প্রকৃতি
+Send Count,Send Count
+Set Ascending Direction,Set Ascending Direction
+Set Descending Direction,Set Descending Direction
+Set Name,Set Name
+Set Root Category For Store,Set Root Category For Store
+"Set root category for this store in the <a href=""%s"">configuration</a>","Set root category for this store in the <a href=""%s"">configuration</a>"
+Set special price,Set special price
+Set/Get current store view,Set/Get current store view
+Settings,সেটিংস
+Shop by,Shop by
+Shopping Options,কেনাকাটার অপশন 
+Show,দেখান
+Show Details,বিস্তারিত দেখান
+Show Tags,ট্যাগগুলো দেখান
+Simple Product,সাধারন পণ্য
+Site Map,সাইট ম্যাপ
+"Skip import row, is not valid value ""%s"" for field ""%s""","Skip import row, is not valid value ""%s"" for field ""%s"""
+"Skip import row, required field ""%s"" for new customer not defined","Skip import row, required field ""%s"" for new customer not defined"
+"Skip import row, required field ""%s"" for new products not defined","Skip import row, required field ""%s"" for new products not defined"
+"Skip import row, required field ""%s"" not defined","Skip import row, required field ""%s"" not defined"
+"Skip import row, store ""%s"" field not exists","Skip import row, store ""%s"" field not exists"
+SKU,SKU
+Sort by,Sort by
+Sort Order,Sort Order
+Source Model,Source Model
+Special Price:,বিশেষ মুল্য:
+Starting at:,Starting at:
+Static,Static
+Static block and products,Static block and products
+Static block only,Static block only
+Status,অবস্থা
+Stock Availability,স্টক
+Store,দোকান
+Store View,Store View
+Stretch,টানুন
+Subscribe to Feed,ফিড সাবস্ক্রাইব করুন 
+Subscribe to RSS Feed,আরএসএস  ফিড সাবস্ক্রাইব করুন 
+Super product attributes configuration,Super product attributes configuration
+Synonym For,Synonym For
+Synonym for,Synonym for
+System,সিস্টেম
+System Properties,System Properties
+Tag Name,Tag Name
+Tax,ট্যাক্স
+Text,টেক্সট
+Text Area,টেক্সট এরিয়া
+Text Field,টেক্সট ফিল্ড
+There are no %s available.,There are no %s available.
+There are no customers for this alert,There are no customers for this alert
+There are no products matching the selection.,There are no products matching the selection.
+There was an error while adding products to websites,There was an error while adding products to websites
+There was an error while cleared compare list,There was an error while cleared compare list
+There was an error while removing products from websites,There was an error while removing products from websites
+There was an error while updating product(s) attributes,There was an error while updating product(s) attributes
+There was an error while updating product(s) status,There was an error while updating product(s) status
+This attribute no longer exists,This attribute no longer exists
+"This group contains attributes, used in configurable products. Please move these attributes to another group and try again.","This group contains attributes, used in configurable products. Please move these attributes to another group and try again."
+This group contains system attributes. Please move system attributes to another group and try again.,This group contains system attributes. Please move system attributes to another group and try again.
+This search no longer exists,This search no longer exists
+Tier Pricing,Tier Pricing
+Tile,Tile
+Time,সময়
+Title,শিরোনাম
+Top/Left,উপরে/বামে
+Top/Right,উপরে/ডানে
+Total incl. Tax: %1$s,Total incl. Tax: %1$s
+Total of %d record(s) were successfully deleted,সর্বমোট %d টি তথ্য মোছা হয়েছে হয়েছে
+Total of %d record(s) were successfully updated,সর্বমোট %d টি তথ্য নবায়ন করা হয়েছে
+Total Qty Base Items,Total Qty Base Items
+Type,প্রকার
+Unable to complete request. Please try again later.,অনুরোধ সম্পন্ন করা সম্ভব হচ্ছেনা, অনুগ্রহ করে পরে চেষ্টা করুন .
+Unable to find a search term to delete,Unable to find a search term to delete
+Unable to find an attribute to delete,Unable to find an attribute to delete
+Unable to get product id.,পণ্যের আইডি পাওয়া যায়নি।
+Unassigned Attributes,Unassigned Attributes
+Unique Value,অদ্বিতীয় মান
+Unique Value (not shared with other products),অদ্বিতীয় মান (অন্য পণ্যের সাথে শেয়ার করা হয়নি)
+Unknown attribute: %s,অজানা এট্রিবিউট: %s
+unselect all,সবগুলো অনির্বাচন করুন
+Up-sells,Up-sells
+Update,হালনাগাদ করা
+Update assigned product,Update assigned product
+Update Attributes,এট্রিবিউটগুলো নবায়ন
+Update attributes,এট্রিবিউটগুলো নবায়ন
+Update category,ক্যাটাগরি নবায়ন
+Update product,পণ্য নবায়ন
+Update product image,পণ্যের ছবি নবায়ন করুন
+Update product link,পণ্যের লিংক নবায়ন করুন
+Update product tier prices,Update product tier prices
+Update Tier Price,Update Tier Price
+Upload new product image ,পণ্যের নতুন ছবি আপলোড করুন 
+Url,ইউআরএল
+Url rewrie save problem.,Url rewrie save problem.
+Url Rewrite Management,Url Rewrite Management
+Use categories path for product URLs,Use categories path for product URLs
+Use Config Settings,Use Config Settings
+Use Default Value,প্রাথমিক মান ব্যবহার করুন
+Use in advanced search,উন্নত অনুসন্ধানে ব্যবহার করুন
+Use In Layered Navigation,Use In Layered Navigation
+Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown'),Use In Layered Navigation<br/>(Can be used only with catalog input type 'Dropdown')
+Use in quick search,Use in quick search
+Use In Search Results Layered Navigation,Use In Search Results Layered Navigation
+Use To Create Configurable Product,Use To Create Configurable Product
+Values Required,মূল্য প্রয়োজনীয়
+Varchar,Varchar
+View as,এভাবে দেখুন 
+Virtual Product,ভার্চুয়াল পণ্য
+Visibility,দৃষ্টিপাত
+Visible,দৃশ্যমান
+Visible on Catalog Pages on Front-end,Visible on Catalog Pages on Front-end
+Watermark,জলছাপ
+Watermark Default Size,জলছাপের প্রকৃত আকার
+Watermark Position,জলছাপের স্থান
+We Also Recommend, আমরা আরো সুপারিশ করছি 
+Website,ওয়েবসাইট
+Websites,ওয়েব সাইটগুলো
+Yes,হ্যাঁ 
+Yes/No,হ্যাঁ / না
+You cannot delete this attribute,আপনি এই এট্রিবিউটটি মুছতে পারবেন না 
+You cannot edit this attribute,আপনি এই এট্রিবিউটটি সংশোধন করতে পারবেন না
+You cannot remove system attribute from this set.,আপনি এই সেট থেকে সিস্টেম এট্রিবিউট মুছতে পারবেন না।
+You cannot update this attribute,আপনি এই এট্রিবিউটটি নবায়ন করতে পারবেন না
+You have no items to compare.,আপনি কোন পণ্য তুলনা করছেন না।
+You may also be interested in the following product(s),এই পণ্য(গুলো) নিয়েও আপনি উৎসাহী হতে পারেন
+Zoom In,বড় করে দেখান
+Zoom Out,ছোট করে দেখান 
+[GLOBAL],[সার্বজনীন]
+Seller,বিক্রেতা
+Phone,ফোন
+Latest,সর্বশেষ
+Seller ID,বিক্রেতার আইডি
+Compare Products,পণ্য তুলনা করুন 

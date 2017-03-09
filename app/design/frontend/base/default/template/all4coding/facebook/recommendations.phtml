@@ -1,0 +1,25 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>
+<fb:recommendations 
+site="<?php echo Mage::getBaseUrl(); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/width'); ?>" 
+height="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/height'); ?>" 
+header="<?php echo (Mage::getStoreConfig('a4c_facebook/recommendations/header')) ? 'true' : 'false'; ?>" 
+colorscheme="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/colorscheme'); ?>" 
+linktarget="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/linktarget'); ?>"
+font="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/font'); ?>" 
+border_color="<?php echo Mage::getStoreConfig('a4c_facebook/recommendations/border_color'); ?>"></fb:recommendations>
+<?php endif; ?>
+

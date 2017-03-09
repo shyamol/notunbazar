@@ -1,0 +1,467 @@
+<?php
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+}
+Mage::getSingleton('checkout/session')->unsetData('isPromotion');
+//Mage::getSingleton('checkout/session')->unsetData('productId');
+Mage::getSingleton('checkout/session')->unsetData('adType');
+?>
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+<script>
+<?php
+$product = Mage::getModel('catalog/product')->load($id);
+
+$read = Mage::getSingleton('core/resource')->getConnection('core_read'); // To read from the database
+$promotionTable = Mage::getSingleton('core/resource')->getTableName('promotion'); //table name
+$query = "SELECT adtype FROM " . $promotionTable . " where product_id = :product_id ORDER BY promotion_id DESC LIMIT 1"; //select latest product id
+$binds = array(
+    'product_id' => $id
+);
+$res = $read->fetchOne($query, $binds);
+$id1 = (int) $res; //set sku as same as product id (entity_id)
+//$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+//$result1 = "SELECT adtype FROM ntnbzpromotion where product_id = $id ORDER BY promotion_id desc LIMIT 1";
+//$id1 = $connection->fetchRow($result1);
+//$id1 = $id1['adtype'];
+if ($id1 == 1) {
+    $assign_image = Mage::getStoreConfig('promotion/feature/photos', Mage::app()->getStore());
+} elseif ($id1 == 2) {
+    $assign_image = Mage::getStoreConfig('promotion/top/photos', Mage::app()->getStore());
+} else {
+    $assign_image = Mage::getStoreConfig('promotion/free/photos', Mage::app()->getStore());
+}
+$image_count = count($product['media_gallery']['images']);
+$j = $assign_image - $image_count;
+//$j = 2;
+for ($i = 0; $i < $j; $i++) {
+    echo "function addImage$i(input) {
+        var f = input.files[0]; 
+        if (input.files && input.files[0]) {
+            var name = input.files.item(0).name;
+           
+            if(name) {
+                var reader = new FileReader();
+            reader.onload = function(e) {
+                var img  = new Image();
+                img.onload = function() { 
+            
+                console.log('Finished reading Image');
+               
+                 };
+        
+                img.src = reader.result;
+                      var contents = e.target.result;
+            // alert( 'Got the file.n' 
+            //       +'name: ' + input.files[0].name + 'n'
+            //       +'type: ' + input.files[0].type + 'n'
+            //       +'size: ' + input.files[0].size + ' bytesn'
+            //       + 'starts with: '+ contents.substr(1, contents.indexOf('n'))
+            // ); 
+
+
+             
+
+                    var ext = name.split('.').pop().toLowerCase();
+                    
+                   
+                    console.log(name);
+                  console.log(f.size);
+                  console.log(img.width);
+                    
+                    if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+                        alert('invalid extension!');
+                       
+                      
+                        $('#image$i')
+                        .attr('src', '#')
+                        .attr('class', 'test');
+                        $('#x$i').attr('class', 'test');
+                        $('#radio$i').attr('class', 'test');
+                        $('#radio_text$i').attr('class', 'test');
+                    
+
+                    }
+                    else if(f.size > 5242880) {
+                        alert('Image size must be less then 5MB!');
+                     
+                        $('#image$i')
+                        .attr('src', '#')
+                        .attr('class', 'test');
+                        $('#x$i').attr('class', 'test');
+                        $('#radio$i').attr('class', 'test');
+                        $('#radio_text$i').attr('class', 'test');
+                    
+
+                    }
+                    else if(img.width > 700) {
+                        alert('Image width Must be less then 700px');
+                        input.value = '';
+                        $('#image$i')
+                        .attr('src', '#')
+                        .attr('class', 'test');
+                        $('#x$i').attr('class', 'test');
+                        $('#radio$i').attr('class', 'test');
+                        $('#radio_text$i').attr('class', 'test');
+                    
+
+                    }
+
+                   
+                    
+               // }
+                else {
+                    $('#image$i').attr('src', e.target.result).width(80).attr('class', 'test$i');
+                    $('#x$i').attr('class', 'test$i');
+                    $('#radio$i').attr('class', 'test$i');
+                    $('#radio_text$i').attr('class', 'test$i');
+                 
+
+                }
+              
+                
+
+                
+            };
+            reader.readAsDataURL(input.files[0]);
+
+
+
+            }
+
+            
+        }
+    }
+    function remove$i() {
+        $('#image$i')
+                .attr('src', '#')
+                .attr('class', 'test');
+        $('#x$i').attr('class', 'test');
+        $('#radio$i').attr('class', 'test');
+        $('#radio_text$i').attr('class', 'test');
+    }";
+}
+?>
+</script>
+<!--<script class="jsbin" src="http://boat-classified.dev/skin/frontend/boat/boat/js/jquery-1.11.1.min.js"></script>
+<script class="jsbin" src="http://boat-classified.dev/skin/frontend/boat/boat/js/jquery-ui.min.js"></script>-->
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.blockUI.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.form.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.js') ?>"></script>
+<script>jQuery.noConflict();</script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MetaData.js') ?>"></script>
+
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.MultiFile.pack.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSkinUrl('js/jquery.validate.js') ?>"></script>
+<div class="page-title">
+    <h1><?php echo $this->__('Add/Edit Photo') ?></h1>
+</div>
+<?php
+//$thumbnail_image = Mage::helper('catalog/image')->init($product, 'thumbnail')->resize(100);
+$customer = Mage::getSingleton('customer/session')->getCustomer();
+$sellerId_product = $product->getSellerid();
+$sellerId = $customer->getentity_id();
+if ($sellerId_product == $sellerId) {
+// do nothing
+} else {
+    Mage::app()->getFrontController()->getResponse()->setRedirect('/');
+}
+
+if (isset($_POST['delete_image'])):
+    $mediaApi = Mage::getModel("catalog/product_attribute_media_api");
+    if ($mediaApi->remove($id, $_POST['delete_image'])) {
+//        Mage::getSingleton('core/session')->addSuccess($this->__('Photo has been successfully deleted.'));
+        ?>        
+        <ul class="messages"><li class="success-msg"><ul><li><span>Photo has been successfully deleted.</span></li></ul></li></ul>
+        <?php
+    }
+endif;
+if (isset($_POST['photo_edit'])):
+    $product->setAttributeSetId(4);
+    //$product->setCategoryIds(array(4));
+    $product->setStoreID(0);
+    $ij = 0;
+    foreach ($_FILES["file"]["name"] as $name => $value) {
+        if ($_FILES["file"]["name"][$name] != "") {
+//print_r($_FILES);
+            $imagefile = "var/" . $_FILES["file"]["name"][$name];
+            move_uploaded_file($_FILES["file"]["tmp_name"][$name], $imagefile);
+            if ($_POST['default'] == $ij) {
+                $product->addImageToMediaGallery($imagefile, array('image', 'small_image', 'thumbnail'), false, false);
+            } else {
+                $product->addImageToMediaGallery($imagefile, null, false, false);
+            }
+            unlink($imagefile);
+        }
+        $ij = $ij + 1;
+    }
+    //Make default image
+    if (!is_numeric($_POST['default'])) {
+        $product->setSmallImage($_POST['default']); //newimage is filename you want to set
+        $product->setImage($_POST['default']);
+        $product->setThumbnail($_POST['default']);
+    }
+    $product->setStatus('3');
+    $product->setLiveSent('0');
+    if ($product->save()) {
+
+        $ad_id = $product->getentity_id();
+        $proName = $product->getName();
+        $proComment = $product->getComment();
+        $advertiser = $product->getSeller();
+        $advertiser_email = $product->getEmail();
+        $AdUrl = Mage::getModel('catalog/product')->load($ad_id)->getProductUrl();
+                          $templateId = 7;
+
+        // Define the sender, here we query Magento default email (in the configuration)
+        // For customer support email, use : 'trans_email/ident_support/...'
+         $sender = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                'email' => Mage::getStoreConfig('trans_email/ident_general/email'));
+
+         $receiver = Array('name' => Mage::getStoreConfig('trans_email/ident_general/name'),
+                'email' => Mage::getStoreConfig('contacts/email/recipient_email'));
+        // Set you store
+        // This information may be taken from the current logged in user
+           $store = Mage::app()->getStore();
+        // In this array, you set the variables you use in your template
+           $vars = Array(
+               'proName' => $proName,
+               'proComment' => $proComment,
+               'advertiser' => $advertiser,
+               'proUrl' => $AdUrl,
+               'logo_path' => 'http://notunbazar.com/skin/frontend/default/abac/images/logo.png'
+           );
+
+        // Send your email
+        $translate  = Mage::getSingleton('core/translate');
+
+        Mage::getModel('core/email_template')->sendTransactional($templateId,
+               $sender,
+               $advertiser_email,
+               $advertiser,
+              $vars,
+               $store->getId());
+               
+                      Mage::getModel('core/email_template')->sendTransactional($templateId,
+               $sender,
+               'contact@notunbazar.com',
+               'Notunbazar Admin',
+              $vars,
+               $store->getId());
+
+           $translate->setTranslateInline(true);
+        ?>
+        <?php Mage::getSingleton('checkout/session')->unsetData('productId');
+        Mage::getSingleton('core/session')->addSuccess('Thanks for your advertisement submission. Your advertisement would be aired shortly.');
+         ?>
+        <ul class="messages"><li class="success-msg"><ul><li><span>Images have been successfully updated.</span></li></ul></li>
+        </ul>
+        <?php
+    }
+endif;
+?>
+<!--<div class="main-body">star body
+    <div class="pro-dis">-->
+
+
+
+<div class="myad_editphoto"><!--Start details-->
+    <form method="post" name="sale_form" action="" class="sale_form MultiFile-intercepted" id="sale_form" enctype="multipart/form-data">
+        <div class="fieldset-ad-info">
+            <fieldset id="post-ad-info">
+                <legend><?php echo $this->__('Ad Information') ?></legend>                        
+                <div class="edit-image-container">                            
+
+                    <?php
+                    
+                    //$product = Mage::getModel('catalog/product')->load($id);
+                    $_images = $product->getMediaGalleryImages();
+                    $thumbnail_image = $product->getThumbnail();
+                    //$connection = Mage::getSingleton('core/resource')->getConnection('core_read');
+                    //$res = "SELECT adtype FROM ntnbzpromotion where product_id = $id ORDER BY promotion_id desc LIMIT 1";
+                    //$id1 = $read->fetchRow($result1);
+                    //$id1 = $id1['adtype'];
+                    $query = "SELECT adtype FROM " . $promotionTable . " where product_id = :product_id ORDER BY promotion_id DESC LIMIT 1"; //select latest product id
+                    $binds = array(
+                        'product_id' => $id
+                    );
+                    $res = $read->fetchOne($query, $binds);
+                    $id1 = (int) $res; //set sku as same as product id (entity_id)
+
+                    if ($id1 == 1) {
+                         $assign_image = $configDate = Mage::getStoreConfig('promotion/feature/photos', Mage::app()->getStore());
+
+                    } elseif ($id1 == 2) {
+                        $assign_image = $configDate = Mage::getStoreConfig('promotion/top/photos', Mage::app()->getStore());
+                    } else {
+                        $assign_image = $configDate = Mage::getStoreConfig('promotion/free/photos', Mage::app()->getStore());
+                    }
+                    $image_count = count($product['media_gallery']['images']);
+                    $j = $assign_image - $image_count;
+                    if ($image_count != 0) {
+                        ?>
+                        <label for="image" class="label-text  edit-image">&nbsp;&nbsp;<?php echo $this->__('Images') ?></label><br>
+
+                        <!--                            <input type="file" name="file[]" id='file' size="28" class="multi" accept="gif|jpg|png" maxlength="4" style="margin-left: 109px" />-->
+                        <div class="image-make-default">
+                            <?php
+                            $i = 0;
+                            foreach ($_images as $_image) {
+                                $i++;
+                                $image_url = $this->helper('catalog/image')->init($product, 'thumbnail', $_image->getFile());
+                                ?><div class="edit-image-content">
+                                    <input type="radio" name="default" value="<?php echo $_image->getFile(); ?>" <?php
+                        if ($thumbnail_image == $_image->getFile()) {
+                            echo "checked ";
+                        }
+                                ?>> Make default
+                                    <a href="#"><img src="<?php echo $image_url->resize(100, 80); ?>" width="100%" style="border: 1px #00E5EE solid;" alt="<?php echo $this->htmlEscape($_image->getLabel()); ?>" title="<?php echo $this->htmlEscape($_image->getLabel()); ?>" /></a>              
+                                    <button class="form-button" style="padding: 0 3px;" type="submit" name="delete_image" value="<?php echo $_image->getFile(); ?>">Remove</button>  
+                                </div>
+                                <?php
+                            }
+                            ?>
+                        </div>
+                    <?php } ?>
+                    <p class="clr">&nbsp;</p>
+                    <?php
+                    if ($j > 0) {
+                        ?>
+                        <label for="image" class="label-text edit-image">&nbsp;&nbsp;<?php echo $this->__('Add new Image') ?></label>
+                        <div class="image-add-remove">
+                            <?php for ($i = 0; $i < $j; $i++) { ?>
+                                <div class="photo-removed" id="image-remove<?php echo $i; ?>">
+
+                                    
+                                       
+
+                                    <input type="file" name="file[]" id='file' size="28" class="pimage<?php echo $i; ?> multi MultiFile-applied" style="float: left;" accept="gif|jpg|png" maxlength="4" onchange="addImage<?php echo $i; ?>(this);"/>   
+
+                                    <img  class="test" id="image<?php echo $i; ?>" src="" alt="Product Image" style="float: left;" />
+                                    <span class="test" id="x<?php echo $i; ?>" style="cursor:pointer;color:red; margin-left: 10px; margin-right: 10px;font-size: 18px; font-weight:bold;" onclick="remove<?php echo $i; ?>(this);
+                                                    return !(document.getElementById('image-remove<?php echo $i; ?>').innerHTML = document.getElementById('image-remove<?php echo $i; ?>').innerHTML);">X</span>
+                                    <input class="test" id="radio<?php echo $i; ?>" type="radio" name="default" value="<?php echo $i; ?>" <?php if ($image_count == 0 && $i == 0) {
+                                      echo "checked";
+                                  } ?>/>
+                                    <span class="test" id="radio_text<?php echo $i; ?>">Make default</span>
+                                </div>
+                                <?php
+                            }
+                            //}
+                            ?>
+                        </div>
+                        <ul class="note"><li>Allowed image types: jpg, png, gif | Max upload: 2 images | Max image size: 5MB | Max image width: 700px</li><li>Ads with multiple images get 3 times better responses than those without</li></ul> 
+                        <p class="clr">&nbsp;</p>
+                <?php }
+                    
+                     ?>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="fieldset-bottom-field">                                        
+            <div class="buttons-set">
+                <p class="back-link previous"><a href="/classified/myad/"><small>&laquo; </small><?php echo $this->__('My Advertisement') ?></a></p>
+                <button class="image-update" type="submit" title="Submit" name="photo_edit"><span><span><?php echo $this->__('Update') ?></span></span></button>                
+            </div>
+        </div>
+    </form>
+</div>
+<!--    </div>
+</div>-->
+<div class="clr">&nbsp;</div>
+<script type="text/javascript">
+//<![CDATA[
+    var dataForm = new VarienForm('sale_form', true);
+//]]>
+</script>
+<style type="text/css">
+    .sale_form input[type="text"]{border:1px solid #b6b6b6;}
+    .MultiFile-list {
+        clear: left;
+        margin-left: 181px;
+    }
+    .test{display:none}
+    #image-remove img{padding-top: 5px}
+</style>
+<script type="text/javascript">
+// jQuery(function ($) {
+//     $('#sale_form').validate({
+//       //  rules: {},
+//         messages: {},
+//         submitHandler: function () {
+//             return false
+//         }
+//     });
+//     $('input[name^="file"]').rules('add', {
+//        // required: true,
+//         accept: "image/jpeg, image/jpg, image/gif,image/png,"
+//     })
+// })
+$('.pimage1').change(function(){// above check
+   // var ext = this.value.match(/\.(.+)$/)[1];
+
+    var ext1 = $('.pimage1').val().split('.').pop().toLowerCase();
+if($.inArray(ext1, ['gif','png','jpg','jpeg']) == -1 || this.files[0].size > 5242880 ) {
+
+
+    this.value = '';
+   // $('#image0').src = '';
+    
+}
+});
+$('.pimage0').change(function(){// above check
+   // var ext = this.value.match(/\.(.+)$/)[1];
+//alert('This file size is: ' + this.files[0].size/1024/1024 + "MB");
+
+
+    var ext1 = $('.pimage0').val().split('.').pop().toLowerCase();
+if($.inArray(ext1, ['gif','png','jpg','jpeg']) == -1 || this.files[0].size > 5242880 ) {
+
+
+    this.value = '';
+
+}
+});
+$('.pimage2').change(function(){// above check
+   // var ext = this.value.match(/\.(.+)$/)[1];
+//alert('This file size is: ' + this.files[0].size/1024/1024 + "MB");
+
+
+    var ext1 = $('.pimage2').val().split('.').pop().toLowerCase();
+if($.inArray(ext1, ['gif','png','jpg','jpeg']) == -1 || this.files[0].size > 5242880 ) {
+
+
+    this.value = '';
+
+}
+});
+$('.pimage3').change(function(){// above check
+   // var ext = this.value.match(/\.(.+)$/)[1];
+//alert('This file size is: ' + this.files[0].size/1024/1024 + "MB");
+
+
+    var ext1 = $('.pimage3').val().split('.').pop().toLowerCase();
+if($.inArray(ext1, ['gif','png','jpg','jpeg']) == -1 || this.files[0].size > 5242880 ) {
+
+
+    this.value = '';
+
+}
+});
+$('.pimage4').change(function(){// above check
+   // var ext = this.value.match(/\.(.+)$/)[1];
+//alert('This file size is: ' + this.files[0].size/1024/1024 + "MB");
+
+
+    var ext1 = $('.pimage4').val().split('.').pop().toLowerCase();
+if($.inArray(ext1, ['gif','png','jpg','jpeg']) == -1 || this.files[0].size > 5242880 ) {
+
+
+    this.value = '';
+
+}
+});
+</script>

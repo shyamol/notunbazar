@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <MyOne_MyExtension>
+            <version>1.0.0</version>
+        </MyOne_MyExtension>
+    </modules>
+  <!--   <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <MyOne_MyExtension before="Mage_Adminhtml">MyOne_MyExtension_Catalog_ProductController</MyOne_MyExtension>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+    <config> -->
+
+
+<admin>
+    <routers>
+        <adminhtml>
+            <args>
+                <modules>
+                    <MyOne_MyExtension before="Mage_Adminhtml">MyOne_MyExtension</MyOne_MyExtension>
+                </modules>
+            </args>
+        </adminhtml>
+    </routers>
+</admin>
+</config>

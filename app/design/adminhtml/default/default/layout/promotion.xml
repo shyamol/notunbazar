@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <promotion_adminhtml_promotionbackend_index>
+	<reference name="content">
+	  <block type="promotion/adminhtml_promotionbackend" name="promotionbackend" template="promotion/promotionbackend.phtml"/>
+	</reference>
+  </promotion_adminhtml_promotionbackend_index>
+  <promotion_adminhtml_promotion_index>
+	<reference name="content">
+	  <block type="promotion/adminhtml_promotion" name="promotion" />
+	</reference>
+  </promotion_adminhtml_promotion_index>
+</layout>

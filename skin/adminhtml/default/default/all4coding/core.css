@@ -1,0 +1,25 @@
+span.gi {
+    color: #d7d7d7;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.grid table td.a4c_order span {
+    background-repeat: no-repeat;
+    float: left;
+    height: 13px;
+    text-align: center;
+    width: 20px;
+}
+
+.grid table td.a4c_order span.uparrow {
+    background-image: url("../images/all4coding/core/uparrow.png");
+}
+
+.grid table td.a4c_order span.downarrow {
+    background-image: url("../images/all4coding/core/downarrow.png");
+}
+
+.grid table td.a4c_order span.text {
+    display: none;
+}

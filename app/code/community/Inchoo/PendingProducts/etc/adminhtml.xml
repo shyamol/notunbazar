@@ -1,0 +1,55 @@
+<config>
+    <!--
+    /**
+     * @category     Inchoo
+     * @package     Inchoo Featured Products
+     * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+     * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+     */
+    -->
+    <menu>
+        <catalog>
+            <children>
+                <inchoo_pendingproducts translate="title">
+                    <title>Pending Products</title>
+                    <sort_order>1</sort_order>
+                    <action>adminhtml/pending/index</action>
+                </inchoo_pendingproducts>
+
+            </children>
+        </catalog>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <inchoo_pendingproducts translate="title" module="inchoo_pendingproducts">
+                                        <title>Featured Products Settings</title>
+                                        <sort_order>50</sort_order>
+                                    </inchoo_pendingproducts>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                </children>
+            </admin>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <inchoo_pendingproducts translate="title" module="inchoo_pendingproducts">
+                                <title>Pending Products Data</title>
+                                <sort_order>60</sort_order>
+                            </inchoo_pendingproducts>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

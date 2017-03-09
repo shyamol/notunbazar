@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <name>all4coding/core.css</name>
+            </action>
+            <action method="addJs">
+                <script>all4coding/adminhtml/core.js</script>
+            </action>
+        </reference>
+    </default>
+</layout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <!--
+    /**
+     * @category     Inchoo
+     * @package     Inchoo pending Products
+     * @author        Domagoj Potkoc, Inchoo Team <web@inchoo.net>
+     * @modified    Mladen Lotar <mladen.lotar@surgeworks.com>, Vedran Subotic <vedran.subotic@surgeworks.com>
+     */
+    -->
+    <modules>
+        <Inchoo_PendingProducts>
+            <version>2.0.0</version>
+        </Inchoo_PendingProducts>
+    </modules>
+
+    <global>
+        <models>
+            <inchoo_pendingproducts>
+                <class>Inchoo_PendingProducts_Model</class>
+            </inchoo_pendingproducts>
+        </models>
+        <resources>
+            <inchoo_pendingproducts_setup>
+                <setup>
+                    <module>Inchoo_PendingProducts</module>
+                </setup>
+
+                
+            </inchoo_pendingproducts_setup>
+
+            
+        </resources>
+        <blocks>
+            <inchoo_pendingproducts>
+                <class>Inchoo_PendingProducts_Block</class>
+            </inchoo_pendingproducts>
+        </blocks>
+
+        <helpers>
+            <inchoo_pendingproducts>
+                <class>Inchoo_PendingProducts_Helper</class>
+            </inchoo_pendingproducts>
+        </helpers>
+
+        
+
+        
+    </global>
+
+    
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <inchoo_pendingproducts before="Mage_Adminhtml">Inchoo_PendingProducts_Adminhtml</inchoo_pendingproducts>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>

@@ -1,0 +1,79 @@
+<style type="text/css">
+    a:link {color: #0C83D3; text-decoration: none; }
+    a:hover {color: #0C83D3; text-decoration: none; }
+    .profile{border: 1px solid #DBD9D9; overflow: hidden; width: 100%;}
+</style>
+
+<?php
+  //echo $this->getMessagesBlock()->getGroupedHtml();
+  $profileShort = $this->htmlEscape($this->getCustomer()->getShortprofile());
+  $gender = $this->htmlEscape(ucwords($this->getCustomer()->getGender()));
+    $username = $this->htmlEscape($this->getCustomer()->getNickname());
+    $user_id = $this->htmlEscape($this->getCustomer()->getId());
+
+/*if(Mage::getSingleton('customer/session')->isLoggedIn()) {
+     $customer = Mage::getSingleton('customer/session')->getCustomer();
+    $customerData = Mage::getModel('customer/customer')->load($customer->getId())->getData();
+    print_r($customerData);
+}     */
+$customerData = Mage::getModel('customer/customer')->load($user_id);
+//print_r($customerData);
+$fname=$customerData->getFirstname();
+$lname=$customerData->getLastname();
+$email=$customerData->getEmail();
+
+$custAddressId = $customerData->getDefaultBilling();
+if ($custAddressId){
+    $address = Mage::getModel('customer/address')->load($custAddressId);
+    $street = $address->getData('street');
+    $city = $address->getData('city');
+    $countryCode = $address->getData('country_id');
+    $postcode = $address->getData('postcode');
+    $phone = $address->getData('telephone');
+
+    $country = Mage::getModel('directory/country')->loadByCode($countryCode);
+    $countryName= $country->getName();
+
+}
+  //$reviews = $this->getReviews();
+?>
+
+        <div class="profile">
+                   <div>
+                       <p class="fe-text"><?php echo $fname.' '.$lname;?></p>
+                   </div>
+                   <!-- Slider #1 (images of slider #1 reversed) -->
+                   <div class="cat">
+                       <div style="text-align: center">
+                           <div class="prof-pic">
+                               <?php echo $this->getAvatar( $this->getCustomer()->getId() ); ?>
+                           </div>
+                       </div>
+                       <div class="prof-det">
+
+
+                           <div>
+                               <p style="float:left; color:#000000;">Username</p><p style="margin:10px 0 0 100px;  color:#000000;"><?php echo $username; ?></p>
+                           </div>
+                           <div>
+                               <p style="float:left;  color:#000000;">Email</p><p style="margin:10px 0 0 100px;   color:#000000;"><?php echo $email; ?></p>
+                           </div>
+                           <div>
+                               <p style="float:left; color:#000000;">Phone Number</p><p style="margin:10px 0 0 100px;  color:#000000;"><?php echo $phone; ?></p>
+                           </div>
+                           <div>
+                               <p style="float:left; color:#000000;">Address</p><p style="margin:10px 0 0 100px;  color:#000000;"><?php echo $street; ?><br/><?php echo $city.' '.$postcode; ?><br/><?php echo $countryName; ?><br/></p>
+                               <br>
+                           </div>
+                       </div>
+
+                   </div>
+
+               </div>
+
+                <br><br>
+                <h1>Advertisements</h1>
+                <br>
+
+
+

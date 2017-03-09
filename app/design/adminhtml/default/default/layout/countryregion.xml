@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <countryregion_adminhtml_countryregionbackend_index>
+	<reference name="content">
+	  <block type="countryregion/adminhtml_countryregionbackend" name="countryregionbackend" template="countryregion/countryregionbackend.phtml"/>
+	</reference>
+  </countryregion_adminhtml_countryregionbackend_index>
+  <countryregion_adminhtml_model_index>
+	<reference name="content">
+	  <block type="countryregion/adminhtml_model" name="model" />
+	</reference>
+  </countryregion_adminhtml_model_index>
+</layout>

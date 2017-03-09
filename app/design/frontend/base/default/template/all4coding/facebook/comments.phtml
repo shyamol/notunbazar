@@ -1,0 +1,20 @@
+<?php 
+/**
+ * All For Coding
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 All For Coding. (http://www.all4coding.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/* @var $this Mage_Core_Block_Template */
+
+?>
+<?php if (Mage::getStoreConfig('a4c_facebook/general/enabled')) : ?>   
+<fb:comments 
+href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" 
+num_posts="<?php echo Mage::getStoreConfig('a4c_facebook/comments/num_posts'); ?>" 
+width="<?php echo Mage::getStoreConfig('a4c_facebook/comments/width'); ?>"
+colorscheme="<?php echo Mage::getStoreConfig('a4c_facebook/comments/colorscheme'); ?>"></fb:comments>
+<?php endif; ?>

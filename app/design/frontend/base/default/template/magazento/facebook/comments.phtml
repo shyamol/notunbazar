@@ -1,0 +1,6 @@
+<?php if (Mage::getStoreConfig('facebook/general/enabled')) : ?>   
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/<?php echo (Mage::getStoreConfig('facebook/general/locale') == 'auto') ? Mage::app()->getLocale()->getDefaultLocale() : Mage::getStoreConfig('facebook/general/locale'); ?>/all.js#xfbml=1"></script>
+    <fb:comments href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" num_posts="<?php echo Mage::getStoreConfig('facebook/comments/num_posts'); ?>" width="<?php echo Mage::getStoreConfig('facebook/comments/width'); ?>"></fb:comments>
+<?php endif; ?>
+<div class="fb-comments" data-href="<?php echo $this->helper('core/url')->getCurrentUrl();?>" data-width="600" data-numposts="5" data-colorscheme="light"></div>

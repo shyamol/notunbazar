@@ -1,0 +1,17 @@
+"General Settings","General Settings"
+
+"General","General"
+"Load jQuery?","Load jQuery?"
+
+"%s: Invalid date","%s: Invalid date"
+"URL key contains capital letters or disallowed symbols.","URL key contains capital letters or disallowed symbols."
+"URL key cannot consist only of numbers.","URL key cannot consist only of numbers."
+
+"Move Up","Move Up"
+"Move Down","Move Down"
+"%s: :getNode Failed","%s: :getNode Failed"
+"%s: :move Failed - Cannot move the node to be a child of itself","%s: :move Failed - Cannot move the node to be a child of itself"
+"Invalid reference Node","Invalid reference Node"
+"Invalid main node width","Invalid main node width"
+"Root node not found","Root node not found"
+"Invalid Parent ID","Invalid Parent ID"
