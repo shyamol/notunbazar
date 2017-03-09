@@ -95,20 +95,14 @@ class Inchoo_PendingProducts_Block_Adminhtml_Edit_Grid extends Mage_Adminhtml_Bl
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
             ));
-        $this->addColumn('created_at', array(
-             'header'    => Mage::helper('customer')->__('Created at'),
-             'type'      => 'date',  // <-- change to date
-             //'format'    => 'Y.m.d',
-             'index'     => 'created_at',
-        ));
 
-        // $this->addColumn('visibility', array(
-        //     'header' => Mage::helper('catalog')->__('Visibility'),
-        //     'width' => '140',
-        //     'index' => 'visibility',
-        //     'filter' => false,
-        //     //'renderer' => 'pendingproducts/adminhtml_edit_renderer_visibility',
-        // ));
+        $this->addColumn('visibility', array(
+            'header' => Mage::helper('catalog')->__('Visibility'),
+            'width' => '140',
+            'index' => 'visibility',
+            'filter' => false,
+            //'renderer' => 'pendingproducts/adminhtml_edit_renderer_visibility',
+        ));
 
         if (!Mage::app()->isSingleStoreMode()) {
             $this->addColumn('websites', array(

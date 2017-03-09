@@ -41,9 +41,9 @@
             <default_setup>
                 <connection>
                     <host><![CDATA[localhost]]></host>
-                    <username><![CDATA[notundea_dev]]></username>
-                    <password><![CDATA[dev123456]]></password>
-                    <dbname><![CDATA[notundea_notunbazar-161026]]></dbname>
+                    <username><![CDATA[root]]></username>
+                    <password><![CDATA[]]></password>
+                    <dbname><![CDATA[notunbazar_live_promotion3]]></dbname>
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <model><![CDATA[mysql4]]></model>
                     <type><![CDATA[pdo_mysql]]></type>
@@ -58,7 +58,7 @@
         <routers>
             <adminhtml>
                 <args>
-                    <frontName><![CDATA[adminloginpath]]></frontName>
+                    <frontName><![CDATA[admin]]></frontName>
                 </args>
             </adminhtml>
         </routers>

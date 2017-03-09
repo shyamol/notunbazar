@@ -41,19 +41,25 @@ class Inchoo_FeaturedProducts_Block_Listing extends Mage_Catalog_Block_Product_A
 
         $attributes = Mage::getSingleton('catalog/config')
                 ->getProductAttributes();
+               $collection = Mage::getModel('catalog/product')->getCollection();
 
-        $collection->addAttributeToSelect($attributes)
-                ->addMinimalPrice()
-                ->addFinalPrice()
-                ->addTaxPercents()
-                ->addAttributeToFilter('inchoo_featured_product', 1, 'left')
-                ->addStoreFilter()
-                ->getSelect()->order($this->getSortBy())->limit($this->getLimit());
+                $promotionTable = Mage::getSingleton('core/resource')->getTableName('promotion');
 
-        Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
-        Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+         $collection->addAttributeToSelect($attributes)
+         ->addFieldToFilter('status', Mage_Catalog_Model_Product_Status::STATUS_ENABLED);
+      
+        
+        $collection->getSelect()->join(
+            array('abc' => $promotionTable), "e.entity_id = abc.product_id", array('abc.*')
+            )
+        ->where("abc.order_status = 3 AND abc.adtype = 1" );
 
-        $this->_productCollection = $collection;
+
+         Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($collection);
+         Mage::getSingleton('catalog/product_visibility')->addVisibleInCatalogFilterToCollection($collection);
+        
+
+         $this->_productCollection = $collection;
 
         $this->setProductCollection($collection);
         return parent::_beforeToHtml();
