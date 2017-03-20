@@ -31,12 +31,14 @@ $location= $_newProduct->getLocation();
 $phone= $_newProduct->getPhone();
 
 if(isset($_POST) && !empty($_POST['request_flag'])):
-    require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+     
+    require_once('/home/notundea/public_html/www.notunbazar.com/media/captcha/recaptchalib.php');
     $privatekey = "6LeUAN0SAAAAAE8P1hgByZtNBqhsB2o2L_0b0ecZ";
     $resp = recaptcha_check_answer ($privatekey,
         $_SERVER["REMOTE_ADDR"],
         $_POST["recaptcha_challenge_field"],
         $_POST["recaptcha_response_field"]);
+ 
 
     if (!$resp->is_valid && !$this->helper('customer')->isLoggedIn()) {
 
@@ -254,14 +256,14 @@ endif;
     </div>
     <?php if (!$this->helper('customer')->isLoggedIn()): ?>
     <?php
-    require_once('/home/hiddenc3/public_html/notunbazar.com/media/captcha/recaptchalib.php');
+    require_once('/home/notundea/public_html/www.notunbazar.com/media/captcha/recaptchalib.php');
     $publickey = "6LeUAN0SAAAAAHT6ucaF6EO6HfXz6_lglp35toIo"; // you got this from the signup page
     echo recaptcha_get_html($publickey);
     ?>
     <?php endif; ?>
     <div class="buttons-set">
         <p class="back-link"><a href="#" onclick="history.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
-        <button type="submit" class="button" disabled="disabled"><span><span><?php echo $this->__('Send') ?></span></span></button>
+        <button type="submit" class="button"><span><span><?php echo $this->__('Send') ?></span></span></button>
     </div>
 
     <input type="hidden" name="request_flag" value="1"/>
