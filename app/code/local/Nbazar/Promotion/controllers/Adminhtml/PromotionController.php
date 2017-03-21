@@ -10,7 +10,6 @@ class Nbazar_Promotion_Adminhtml_PromotionController extends Mage_Adminhtml_Cont
     public function indexAction() {
         $this->_title($this->__("Promotion"));
         $this->_title($this->__("Manager Promotion"));
-
         $this->_initAction();
         $this->renderLayout();
     }
@@ -68,24 +67,23 @@ class Nbazar_Promotion_Adminhtml_PromotionController extends Mage_Adminhtml_Cont
     }
 
     public function saveAction() {
-
         $post_data = $this->getRequest()->getPost();
-
-
+        // print_r($post_data);
+        //echo $post_data['status'];
+        // exit();
         if ($post_data) {
-
             try {
-
-
-
                 $model = Mage::getModel("promotion/promotion")
                         ->addData($post_data)
                         ->setId($this->getRequest()->getParam("id"))
                         ->save();
-
+                $product = Mage::getModel('catalog/product')->load($post_data['product_id']);
+                // echo $product->getStatus();
+                //  exit();
+                $product->setStatus($post_data['status']);
+                $product->save();
                 Mage::getSingleton("adminhtml/session")->addSuccess(Mage::helper("adminhtml")->__("Promotion was successfully saved"));
                 Mage::getSingleton("adminhtml/session")->setPromotionData(false);
-
                 if ($this->getRequest()->getParam("back")) {
                     $this->_redirect("*/*/edit", array("id" => $model->getId()));
                     return;
