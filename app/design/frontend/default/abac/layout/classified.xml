@@ -11,17 +11,14 @@
         <block type="cms/block" name="safety_tips" before="-">
           <action method="setBlockId"><block_id>safety_tips</block_id></action>
         </block>
-                <block type="cms/block" name="sponsored_ad" before="-">
-                    <action method="setBlockId"><block_id>sponsored_ad</block_id></action>
-                </block>
-				
 				<block type="cms/block" name="post_successful_ad" before="-">
-                    <action method="setBlockId"><block_id>post_successful_ad</block_id></action>
-                </block>
-				
-				
-                <block type="directory/currency" name="currency" before="catalog.leftnav" template="directory/currency.phtml"/>
-            </reference>   
+            <action method="setBlockId"><block_id>post_successful_ad</block_id></action>
+        </block>
+        <block type="cms/block" name="sponsored_ad" before="-">
+            <action method="setBlockId"><block_id>sponsored_ad</block_id></action>
+        </block>
+        <block type="directory/currency" name="currency" before="catalog.leftnav" template="directory/currency.phtml"/>
+    </reference>   
   </classified_index_index>   
   
    <classified_send_index translate="label">

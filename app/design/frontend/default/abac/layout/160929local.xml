@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<layout version="0.1.0">
-    <default>
-        <reference name="header">
-            <block type="directory/currency" name="custom_currency_selector" template="currency/currency.phtml"/>
-        </reference>
-    </default>
-</layout>
