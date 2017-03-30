@@ -38,9 +38,13 @@ class Belvg_FacebookFree_CustomerController extends Mage_Core_Controller_Front_A
         $me = null;
 
         $cookie = $this->get_facebook_cookie(Mage::getStoreConfig('facebookfree/settings/appid'), Mage::getStoreConfig('facebookfree/settings/secret'));
-
+        
         $me = json_decode($this->getFbData('https://graph.facebook.com/me?access_token=' . $cookie['access_token']));
 
+        //$me = json_decode($this->getFbData('https://graph.facebook.com/me?access_token=519371411410452|abb5f7f085c722a07d20dc0956efa3ae'));
+        //   print_r($cookie);
+        // echo $me->email;
+        //   exit();
         if (!is_null($me)) {
 			$me = (array)$me;
             $session = Mage::getSingleton('customer/session');
@@ -49,7 +53,7 @@ class Belvg_FacebookFree_CustomerController extends Mage_Core_Controller_Front_A
             $tablePrefix = (string) Mage::getConfig()->getTablePrefix();
             $sql = 'SELECT `customer_id`
 					FROM `' . $tablePrefix . 'belvg_facebook_customer`
-					WHERE `fb_id` = ' . $me['id'] . '
+					WHERE `fb_id` = ' . $cookie['uid'] . '
 					LIMIT 1';
             $data = $db_read->fetchRow($sql);
 
@@ -67,7 +71,7 @@ class Belvg_FacebookFree_CustomerController extends Mage_Core_Controller_Front_A
                 if ($r) {
                     $db_write = Mage::getSingleton('core/resource')->getConnection('facebookfree_write');
                     $sql = 'INSERT INTO `' . $tablePrefix . 'belvg_facebook_customer`
-                                                    VALUES (' . $r['entity_id'] . ', ' . $me['id'] . ')';
+                                                    VALUES (' . $r['entity_id'] . ', ' . $cookie['uid'] . ')';
                     $db_write->query($sql);
                     $session->loginById($r['entity_id']);
                 } else {
@@ -204,14 +208,23 @@ class Belvg_FacebookFree_CustomerController extends Mage_Core_Controller_Front_A
         $signed_request = $this->parse_signed_request($_COOKIE['fbsr_' . $app_id], $app_secret);
         // $signed_request should now have most of the old elements
         $signed_request['uid'] = $signed_request['user_id']; // for compatibility 
-        if (!is_null($signed_request)) {
+        
+        //if (!is_null($signed_request['uid'])) {
+           $code = $signed_request['code'];
+          
             // the cookie is valid/signed correctly
             // lets change "code" into an "access_token"
-			$access_token_response = $this->getFbData("https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=&client_secret=$app_secret&code=$signed_request[code]");
-			parse_str($access_token_response);
-			$signed_request['access_token'] = $access_token;
-			$signed_request['expires'] = time() + $expires;
-        }
+			$access_token_response = $this->getFbData("https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=&client_secret=$app_secret&code=$code");
+			//$access_token = parse_str($access_token_response);
+             //print_r($access_token_response); 
+             $access_token_response = json_decode($access_token_response);
+        //      print_r($me);
+        // exit();
+        //expires_in
+			$signed_request['access_token'] = $access_token_response->access_token;
+             
+			$signed_request['expires'] = time() + $access_token_response->expires_in;
+       // }
 
         return $signed_request;
     }
@@ -256,6 +269,7 @@ class Belvg_FacebookFree_CustomerController extends Mage_Core_Controller_Front_A
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			$data = curl_exec($ch);
 		}
+        
 		return $data;
 	}
 
