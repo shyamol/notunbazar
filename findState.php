@@ -15,7 +15,7 @@ if (!$con) {
 mysql_select_db($db);
 
 //$query="SELECT id,statename FROM state WHERE countryid='$country'";
-$query = "SELECT t1.state_id as id, t2.value as statename FROM " . $table_prefix . "country_region as t1 INNER JOIN " . $table_prefix . "eav_attribute_option_value as t2 where t1.country_id = " . $country . " and t2.store_id = 0 and t1.state_id = t2.option_id ORDER BY statename ASC";
+$query = "SELECT t1.state_id as id, t2.value as statename FROM " . $table_prefix . "country_region as t1 INNER JOIN " . $table_prefix . "eav_attribute_option_value as t2 where t1.country_id = " . $country . " and t2.store_id = 0 and t1.state_id = t2.option_id GROUP BY id ORDER BY statename ASC";
 $result = mysql_query($query);
 ?>
 <select name="state_district" id="state_district" onchange="getCity(<?php echo $country ?>, this.value)" class="cate-se validate-select">

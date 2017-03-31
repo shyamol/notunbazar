@@ -3,12 +3,40 @@
 </div>
 <?php
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+  $id = $_GET['id'];
+
 }
 
 $product = Mage::getModel('catalog/product')->load($id);
+
 $cateid = $product->getCategoryIds();
 $cateid = $cateid[0];
+
+$productModel = Mage::getModel('catalog/product');
+$str_attr_label = "country";  //or "size", etc...
+$int_attr_id = 146; // or any given id.
+$int_attr_value = 21; // or any given attribute value id.
+
+//if ($byId){
+//    echo $attr = Mage::getModel('catalog/resource_eav_attribute')->load($int_attr_id);
+// //}
+
+// // Chose either
+// //if ($byLabel){
+//    echo $attr = $productModel->getResource()->getAttribute($str_attr_label);
+// //}
+// echo $product->getData(146);
+// echo $product->getData(147);
+// echo $product->getData(148);
+// echo $country = $product->getShortDescription();
+// echo "string";
+ $country = $product->getCounrtry();
+//echo $country = 17;
+                
+                 $state = $product->getStateDistrict();
+                 $city = $product->getRegionCity();
+             
+
 
 
 if (isset($_POST) && !empty($_POST['request_flag'])):
@@ -145,6 +173,7 @@ endif;
                 <h2 class="legend"><?php echo $this->__('Ad Information') ?></h2>
                 <label for="ad-category" class="label-text required"><?php echo $this->__('Select Category') ?> <span class="red">*</span></label>
                 <?php
+
                 $_helper = Mage::helper('catalog/category');
                 $_categories = $_helper->getStoreCategories();
                 if (count($_categories) > 0):
@@ -192,28 +221,42 @@ endif;
                 </ul>
                 <p class="clr">&nbsp;</p>
 
+
                 <?php
+
                 $read = Mage::getSingleton('core/resource')->getConnection('core_read');
-                $country = $product->getCountry();
-                $state = $product->getStateDistrict();
-                $city = $product->getRegionCity();
+                 
                 $table_country_region = Mage::getSingleton('core/resource')->getTableName('country_region');
                 $table_eav_attribute_option = Mage::getSingleton('core/resource')->getTableName('eav_attribute_option');
                 $table_eav_attribute_option_value = Mage::getSingleton('core/resource')->getTableName('eav_attribute_option_value');
-                $resultCountry = $read->query("SELECT DISTINCT t1.option_id as id, t2.value as country FROM " . $table_eav_attribute_option . " as t1 INNER JOIN " . $table_eav_attribute_option_value . " as t2 where t1.attribute_id = 147 and t1.option_id = t2.option_id ORDER BY country ASC");
+               
+
+                $resultCountry = $read->query("SELECT DISTINCT t1.option_id as id, t2.value as country FROM " . $table_eav_attribute_option . " as t1 INNER JOIN " . $table_eav_attribute_option_value . " as t2 where t1.attribute_id = 146 and t1.option_id = t2.option_id ORDER BY country ASC");
+
                 ?>
+          
                 <label for="country" class="label-text"><?php echo $this->__('Country') ?></label>                            
                 <select name="country" id="country" onChange="getState(this.value)" class="cate-se validate-select">
                     <option value>Country</option>
                     <?php while ($rowCountry = $resultCountry->fetch(PDO::FETCH_ASSOC)) { ?>
                         <option value="<?php echo $rowCountry['id'] ?>" <?php if ($rowCountry['id'] == $country): ?>selected="selected"<?php endif; ?>><?php echo $rowCountry['country'] ?></option>
 
-                    <?php } ?>
+                    <?php } 
+
+                    ?>
                 </select>
                 <p class="clr">&nbsp;</p>
+
                 
-                <div id="state_city" style="display:none">
-                    <?php $resultState = $read->query("SELECT t1.state_id as id, t2.value as statename FROM " . $table_country_region . " as t1 INNER JOIN  " . $table_eav_attribute_option_value . "  as t2 where t1.country_id = " . $country . " and t2.store_id = 0 and t1.state_id = t2.option_id ORDER BY statename ASC"); ?>
+                <!-- <div id="state_city" style="display:none"> -->
+                <div id="state_city">
+                    <?php 
+                    
+                    $resultState = $read->query("SELECT DISTINCT t1.state_id as id, t2.value as statename FROM " . $table_country_region . " as t1 INNER JOIN  " . $table_eav_attribute_option_value . "  as t2 where t1.country_id = " . $country . " and t2.store_id = 0 and t1.state_id = t2.option_id ORDER BY statename ASC");
+
+                
+               
+                     ?>
                     <label for="state_district" class="label-text"><?php echo $this->__('State/District') ?>
                         <span class="red">*</span>
                     </label>
@@ -227,7 +270,7 @@ endif;
                     </div>
                     <p class="clr">&nbsp;</p>
                     <?php
-                    $resultCity = $read->query("SELECT t1.region_id as id, t2.value as regionname FROM " . $table_country_region . " as t1 INNER JOIN " . $table_eav_attribute_option_value . " as t2 where t1.country_id = " . $country . " and  t1.state_id = " . $state . " and t2.store_id = 0 and t1.region_id = t2.option_id ORDER BY regionname ASC");
+                    $resultCity = $read->query("SELECT DISTINCT t1.region_id as id, t2.value as regionname FROM " . $table_country_region . " as t1 INNER JOIN " . $table_eav_attribute_option_value . " as t2 where t1.country_id = " . $country . " and  t1.state_id = " . $state . " and t2.store_id = 0 and t1.region_id = t2.option_id ORDER BY regionname ASC");
                     ?>
                     <label for="region_city" class="label-text"><?php echo $this->__('Region/City') ?></label>
                     <div id="citydiv">
@@ -241,6 +284,8 @@ endif;
                     <p class="clr">&nbsp;</p>
                 </div>
             </div>
+
+
 
 
             <div class="fieldset">
@@ -260,6 +305,7 @@ endif;
         </div>
     </div>
     <input type="hidden" name="request_flag" value="1"/>
+
 </form>
 <script type="text/javascript">
     jQuery(document).ready(function () {
