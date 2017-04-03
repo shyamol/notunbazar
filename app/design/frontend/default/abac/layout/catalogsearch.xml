@@ -32,16 +32,16 @@
         <reference name="header">
             <block type="core/template" name="top.search" as="topSearch" template="catalogsearch/form.mini.phtml"/>
         </reference>
-        <reference name="footer_links">
+        <reference name="footer_links">            
            <action method="addLink" translate="label title" module="catalogsearch" ifconfig="catalog/seo/search_terms"> 
-           <!--masum       <label>Search Terms</label>
+                <label>Search Terms</label>
                 <url helper="catalogsearch/getSearchTermUrl" />
-                <title>Search Terms</title> -->
+                <title>Search Terms</title>
             </action>
-		<action method="addLink" translate="label title" module="catalogsearch"> 
-          <!--      <label>Advanced Search</label>
+            <action method="addLink" translate="label title" module="catalogsearch"> 
+                <label>Advanced Search</label>
                 <url helper="catalogsearch/getAdvancedSearchUrl" />
-                <title>Advanced Search</title> -->
+                <title>Advanced Search</title> 
             </action>
         </reference>
     </default>
@@ -70,6 +70,7 @@
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
+                 <action method="setDefaultDirection"><dir>desc</dir></action>
             </block>
         </reference>
     </catalogsearch_result_index>
@@ -78,7 +79,7 @@
         <label>Advanced Search Form</label>
         <!-- Mage_Catalogsearch -->
         <reference name="root">
-            <action method="setTemplate"><template>page/2columns-right.phtml</template></action>
+            <action method="setTemplate"><template>page/2columns-left.phtml</template></action>
         </reference>
         <reference name="head">
             <action method="setTitle" translate="title" module="catalogsearch"><title>Advanced Search</title></action>
@@ -87,8 +88,27 @@
             <action method="addItem"><type>js</type><name>calendar/calendar-setup.js</name><!--<params/><if/><condition>can_load_calendar_js</condition>--></action>
         </reference>
         <reference name="content">
-            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="catalogsearch/advanced/form.phtml"/>
+            <block type="catalogsearch/advanced_form" name="catalogsearch_advanced_form" template="catalogsearch/advanced/form1.phtml"/>
             <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml"/>
+        </reference>
+        <reference name="left">
+            
+            <block type="cms/block" name="sponsored_ad" before="-">
+                <action method="setBlockId"><block_id>sponsored_ad</block_id></action>
+              <block type="directory/currency" name="currency" before="catalog.leftnav" template="directory/currency.phtml"/> 
+            </block>
+
+            <block type="cms/block" name="Featured Advertisement">
+            <action method="setBlockId"><block_id>advertisement_2</block_id></action>
+            </block>
+            <block type="cms/block" name="Advertisement">
+            <action method="setBlockId"><block_id>advertisement_1</block_id></action>
+            </block>
+            <block type="cms/block" name="Featured Advertisement">
+            <action method="setBlockId"><block_id>advertisement_3</block_id></action>
+            </block>
+            <action method="unsetChild"><alias>catalog.compare.sidebar</alias></action>
+             <action method="unsetChild"><name>mostpopular.home.left</name></action>
         </reference>
     </catalogsearch_advanced_index>
 
@@ -119,6 +139,7 @@ Advanced search results
                 <action method="setListOrders"/>
                 <action method="setListModes"/>
                 <action method="setListCollection"/>
+                <action method="setDefaultDirection"><dir>desc</dir></action>
             </block>
         </reference>
         <reference name="left">
