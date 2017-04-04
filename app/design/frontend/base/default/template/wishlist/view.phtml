@@ -33,6 +33,19 @@
             <?php endif; ?>
             <h1><?php echo $this->getTitle(); ?></h1>
         </div>
+        <div style="text-align: center; margin-bottom: 10px;">
+            <!-- G&R_468x60 -->
+            <script id="GNR28636">
+            (function (i,g,b,d,c) {
+            i[g]=i[g]||function(){(i[g].q=i[g].q||[]).push(arguments)};
+            var s=d.createElement(b);s.async=true;s.src=c;
+            var x=d.getElementsByTagName(b)[0];
+            x.parentNode.insertBefore(s, x);
+            })(window,'gandrad','script',document,'//content.green-red.com/lib/display.js');
+            gandrad({siteid:1203,slot:28636});
+            </script>
+            <!-- End of G&R_468x60 -->
+        </div>
         <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
 
         <form id="wishlist-view-form" action="<?php echo $this->getUrl('*/*/update', array('wishlist_id' => $this->getWishlistInstance()->getId())) ?>" method="post">
