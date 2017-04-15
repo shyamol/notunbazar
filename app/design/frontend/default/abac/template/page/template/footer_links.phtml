@@ -66,38 +66,9 @@
 
 <ul class="links"<?php if($this->getName()): ?> id="<?php echo $this->getName() ?>"<?php endif;?>>
 
-    <li>
+    
 
-        <a href="<?php echo $this->getUrl('post-free-ads') ?>">
-
-            <img src="<?php echo $this->getSkinUrl('images/Sticker.png') ?>" alt="Post FREE Ads" style="margin-left: -6.9pc; position: absolute; "/>
-
-    <?php if(Mage::app()->getStore()->getCode()=='default'): ?>
-
-    <object><h1 class="postade" style="font-size: 17px;
-    margin-left: -5.99pc;
-    margin-top: 21px;
-    position: absolute;
-    text-align: center;
-    width: 6%;" vocab="http://schema.org/" typeof="Website" property="www.notunbazar.com" href="http://www.notunbazar.com/" ><?php echo $this->__('Post FREE Ads')?></h1></object>
-
-    <?php else: ?>
-
-    <object><h1 class="postadb" vocab="http://schema.org/" typeof="Website" property="www.notunbazar.com" href="http://www.notunbazar.com/" ><?php echo $this->__('Post FREE Ads')?></h1></object>	
-
-    <?php endif; ?>
-
-    </a></li>
-
-    <?php if (Mage::getBlockSingleton('page/html_header')->getIsHomePage()): ?>
-
-
-
-                <?php else: ?>
-
-                    <li><a href="<?php echo $this->getUrl() ?>"><?php echo $this->__('Home')?></a></li>
-
-                <?php endif ?>
+   
 
                 <?php if (!$this->helper('customer')->isLoggedIn()): ?>
 

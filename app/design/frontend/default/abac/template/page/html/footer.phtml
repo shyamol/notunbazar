@@ -24,9 +24,26 @@
  * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  */
 ?>
+<style type="text/css">
+.foot-ab-mobile {
+		display: none;
+	}
+@media only screen and (max-width : 375px) {
+
+	.foot-ab-mobile {
+		display: block;
+	}
+	.menu-log {
+		display: none;
+	}
+}
+</style>
 	<div class="footer"><!--star footer-->
 		<div class="menu-footer">
 			<div class="foot-ab">
+				<div class="foot-ab-mobile">
+					<?php echo $this->getChildHtml('topLinksFooter') ?>
+				</div>
 				<ul>
 					<?php /*echo $this->getChildHtml('footer_links') */ ?>  
 				<li><a href="<?php echo $this->getUrl('') ?>"><?php echo $this->__('Home')?></a></li>	
