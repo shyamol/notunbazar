@@ -121,6 +121,40 @@ var jQuery_1_10_2 = $.noConflict(true);
 
 <script type="text/javascript">
 
+jQuery(window).resize(function() {
+  if (jQuery(window).width() < 480) {
+     jQuery('ul#nav').find('li:has(ul)').children('a').addClass('mobile');
+      
+
+       // $html.removeClass('mobile');
+     // jQuery('ul#nav').find('li:has(ul)').children('a').removeAttr('href');
+  }
+ else {
+    jQuery('ul#nav').find('li:has(ul)').children('a').removeClass('mobile');
+      
+   // alert('More than 960');
+ }
+});
+ jQuery(document).ready(function(){
+    //jQuery('a').removeAttr('href');
+
+if (jQuery(window).width() < 480) {
+     jQuery('ul#nav').find('li:has(ul)').children('a').addClass('mobile');
+      
+
+       // $html.removeClass('mobile');
+     // jQuery('ul#nav').find('li:has(ul)').children('a').removeAttr('href');
+  }
+ else {
+    jQuery('ul#nav').find('li:has(ul)').children('a').removeClass('mobile');
+      
+   // alert('More than 960');
+ }
+ jQuery('ul#nav').find('li:has(ul)').children('a.mobile').removeAttr('href');
+    
+   });
+
+
 jQuery_1_10_2(document).ready(function(){
   jQuery_1_10_2("#menu-button").click(function(){
     jQuery_1_10_2("#main-menu-n-mon-n-lang").toggle();
